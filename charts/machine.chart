@@ -1,0 +1,46 @@
+{
+	# naof-thread-sequences
+	"nts" => {
+		"sign" => [15, 49],
+		"mod-type" => "sign"
+	},
+
+	# stay-to
+	"st" => {
+		"mod-type" => "mproc",
+		"conditional-codes" =>  ["equal", "not-equal", "equal-less", "above", "signed", "always", "below", "signed-equal-below", "signed-equal-above", "signed-above", "not-signed", "overflow", "equal-above", "signed-less", "parity", "always", "bond-not-signed"],
+		"conditional-signs" => [[15, 132], [15, 133], [15, 134], [15, 135], [15, 136], [233], [15, 130], [15, 142], [15, 141], [15, 143], [15, 137], [15, 128], [15, 131], [15, 140], [15, 138], [233], [242, 15, 137]],
+		"proc" => lambda do |stay_site, destination|
+			motion = destination - stay_site
+			#puts "motion | #{motion}"
+			secs_aof(motion, 4).reverse
+		end
+	},
+
+	# register-to-rack
+	"reg-to-rack" => {
+		"mod-type" => "rsign",
+		"signs" => {"r8"=>[65, 80], "r9"=>[65, 81], "r10"=>[65, 82], "r11"=>[65, 83], "r12"=>[65, 84], "r13"=>[65, 85], "r14"=>[65, 86], "r15"=>[65, 87], "rax"=>[80], "rbx"=>[83], "rcx"=>[81], "rdx"=>[82], "rdi"=>[87], "rsi"=>[86], "rsp"=>[84], "rbp"=>[85]}			
+	},
+
+	# rack-to-register
+	"rack-to-reg" => {
+		"mod-type" => "rsign",
+		"signs" => {"r8"=>["41", "58"], "r9"=>["41", "59"], "r10"=>["41", "5a"], "r11"=>["41", "5b"], "r12"=>["41", "5c"], "r13"=>["41", "5d"], "r14"=>["41", "5e"], "r15"=>["41", "5f"], "rax"=>["58"], "rbx"=>["5b"], "rcx"=>["59"], "rdx"=>["5a"], "rdi"=>["5f"], "rsi"=>["5e"], "rsp"=>["5c"], "rbp"=>["5d"]}
+	},
+
+	# dynamic-call-to
+	"dct" => {
+		"mod-type" => "rsign",
+		"signs" => {"r8"=>[65, 255, 208], "r9"=>[65, 255, 209], "r10"=>[65, 255, 210], "r11"=>[65, 255, 211], "r12"=>[65, 255, 212], "r13"=>[65, 255, 213], "r14"=>[65, 255, 214], "r15"=>[65, 255, 215], "rax"=>[255, 208], "rbx"=>[255, 211], "rcx"=>[255, 209], "rdx"=>[255, 210], "rdi"=>[255, 215], "rsi"=>[255, 214], "rsp"=>[255, 212], "rbp"=>[255, 213]}
+	},
+
+	# set
+	"s" => {
+		"mod-type" => "rproc",
+		"signs" => {"r8"=>[73, 184], "r9"=>[73, 185], "r10"=>[73, 186], "r11"=>[73, 187], "r12"=>[73, 188], "r13"=>[73, 189], "r14"=>[73, 190], "r15"=>[73, 191], "rax"=>[72, 184], "rbx"=>[72, 187], "rcx"=>[72, 185], "rdx"=>[72, 186], "rdi"=>[72, 191], "rsi"=>[72, 190], "rsp"=>[72, 188], "rbp"=>[72, 189]},
+		"proc" => lambda do |quad|
+			secs_aof(quad, 8).reverse
+		end
+	}
+}
