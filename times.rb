@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require "./core.rb"
+require "./sat.rb"
 
 # set-with-if vs set-if-non
 init_time = Time.now.to_f
@@ -84,3 +85,85 @@ puts "inject-sum | #{inject_sum}"
 puts "while-sum  | #{while_sum}"
 puts "inject | #{tyrany_elapsed}"
 puts "while  | #{wade_elapsed}"
+
+# droid-select vs while
+vecter = (0...1000000).to_a.map{|e| {"a" => e}}
+init_time = Time.now.to_f
+sites = droid_select(vecter, lambda{|e| e["a"] == 111})
+com_time = Time.now.to_f
+droid_select_elapsed = com_time - init_time
+puts "sites | #{sites}"
+init_time = Time.now.to_f
+naof_elements = vecter.length
+sites = []
+site = 0
+while true
+	if site == naof_elements
+		break
+	end
+	element = vecter[site]
+	if element["a"] == 111
+		sites += [site]
+	end
+	site += 1
+end
+com_time = Time.now.to_f
+while_elapsed = com_time - init_time
+puts "sites | #{sites}"
+log_heading("droid-select vs while")
+puts "droid-select | #{droid_select_elapsed}"
+puts "while  | #{wade_elapsed}"
+
+# droid-select vs select
+vecter = (0...1000000).to_a.map{|e| {"a" => e}}
+init_time = Time.now.to_f
+sites = droid_select(vecter, lambda{|e| e["a"] == 111})
+com_time = Time.now.to_f
+droid_select_elapsed = com_time - init_time
+puts "sites | #{sites}"
+init_time = Time.now.to_f
+sites = []
+site = 0
+vecter.select do |e|
+	cmp = e["a"] == 111
+	if cmp
+		sites += [site]
+	end
+	site += 1
+	cmp
+end
+com_time = Time.now.to_f
+select_elapsed = com_time - init_time
+puts "sites | #{sites}"
+log_heading("select vs while")
+puts "droid-select | #{droid_select_elapsed}"
+puts "select  | #{select_elapsed}"
+
+# each vs while
+vecter = (0...1000000).to_a
+init_time = Time.now.to_f
+sum = 0
+vecter.each do |element|
+	sum += element
+end
+com_time = Time.now.to_f
+each_elapsed = com_time - init_time
+puts "sum | #{sum}"
+init_time = Time.now.to_f
+sum = 0
+site = 0
+while true
+	if site == 1000000
+		break
+	end
+	element = vecter[site]
+	sum += element
+	site += 1
+end
+com_time = Time.now.to_f
+while_elapsed = com_time - init_time
+puts "sum | #{sum}"
+puts "sites | #{sites}"
+log_heading("each vs while")
+puts "each | #{droid_select_elapsed}"
+puts "while  | #{select_elapsed}"

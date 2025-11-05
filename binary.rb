@@ -8,9 +8,11 @@ class BinaryConstants
 	Register32Names = ["r8d", "r9d", "r10d", "r11d", "r12d", "r13d", "r14d", "r15d", "eax", "ebx", "ecx", "edx", "edi", "esi", "esp", "ebp"]
 	Register16Names = ["r8w", "r9w", "r10w", "r11w", "r12w", "r13w", "r14w", "r15w", "ax", "bx", "cx", "dx", "di", "si", "sp", "bp"]
 	Register8Names = ["r8b", "r9b", "r10b", "r11b", "r12b", "r13b", "r14b", "r15b", "al", "bl", "cl", "dl", "dil", "sil", "spl", "bpl"]
+	NaofRegisters = BinaryConstants::Register64Names.length
 	SegmentHeadings = ["ELF Header", "Section Headers", "Program Headers", "Dynamic section at", "Relocation section '.rela.dyn'", "Relocation section '.rela.plt'", "Symbol table '.dynsym'", "Symbol table '.symtab'", "Version symbols section", "Version needs section", "Version definition section"]
   SegmentSources = ["binary", "sections", "loads", "dynamic", "rela-dyn", "rela-plt", "dynsym", "symtab", "version-symbols", "version-needs", "version-definitions"]
 	FromInit = ["vdso.so.1", "linux-vdso.so.1"]
+	SampleageFileExtensionsFilter = ["files-meta"]
 	class << self
 		def register64_name(register_name)
 			r64_site = Register64Names.index(register_name)
@@ -452,8 +454,11 @@ def get_asm_meta(binary_name)
 			next_is_aux = false
 			site += 1
 			next
+		else
+			is_aux_secs = false
 		end
 		nsegment = segments[site + 1]
+		#puts "nsegment | #{nsegment}"
 		if nsegment && nsegment.index(":")
 			components = nsegment.split(" ")
 			naof_components = components.length
@@ -488,6 +493,9 @@ def get_asm_meta(binary_name)
 		if segment == ""
 			next
 		end
+		#if segment.index("15709b:") == nil
+			#next
+		#end
 		#puts "segment-name | #{segment_name}"
 		#puts "section-name | #{section_name}"
 		#puts "segment | #{segment}"
@@ -512,8 +520,9 @@ def get_asm_meta(binary_name)
 		if segment_name == nil || section_name == nil
 			next
 		end
+		#break
 
-		bs = components[0].to_i(16)
+		bs = components[0][0..-2].to_i(16)
 		secs = []
 		csite = 1
 		while true
@@ -579,7 +588,7 @@ def get_asm_meta(binary_name)
 		meta["from-tos"] += [ft]
 
 		#view_one(asm)
-		#if segment.index("f3a:")
+		#if segment.index("2107b:")
 			#break
 		#end
 		meta["asms"] += [asm]
@@ -710,6 +719,7 @@ def from_to(asm)
 				is_noom = true
 				ssite = 0
 				noom_names = ["register", "naof-register", "naof-secs"]
+				#puts
 				while true
 					segment_site = psec.index(",")
 					if segment_site
@@ -718,8 +728,10 @@ def from_to(asm)
 					else
 						segment = psec
 					end
-					if ssite < 2
-						segment = segment[1..-1]
+					#puts "segment | #{segment}"
+					register_sign_site = segment.index("%")
+					if register_sign_site
+						segment = segment[(register_sign_site + 1)..-1]
 					else
 						segment = segment.to_i
 					end
@@ -729,8 +741,7 @@ def from_to(asm)
 						record[noom_name] = record[noom_name][0..-2]
 					end
 					if ssite < 2
-						#puts "segment | #{segment}"
-						rname = record[noom_name][1..-1]
+						rname = record[noom_name]
 						#puts "rname | #{rname}"
 						r64_name = BinaryConstants::register64_name(rname)
 						if r64_name
@@ -746,11 +757,12 @@ def from_to(asm)
 				end
 			else
 				#puts "psec | #{psec}"
+				is_register_init = psec[0] == "%"
 				rname = psec[1..-1]
 				r64_name = BinaryConstants::register64_name(rname)
 				if r64_name
 					record["register"] = r64_name
-				else
+				elsif is_register_init
 					record["register"] = rname
 				end
 			end

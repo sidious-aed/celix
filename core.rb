@@ -210,10 +210,6 @@ def manafest_at(node, is_nodes=false)
 	if node[-1] != "/"
 		node += "/"
 	end
-	wd = Dir.getwd
-	et_wd = wd.split("/")[0..-2].join("/")
-	node = node.gsub("..", et_wd)
-	node = node.gsub(".", wd)
 	names = Dir::glob("#{node}**/**", File::FNM_DOTMATCH)
 	naof_names = names.length
 	manafest = []
@@ -223,10 +219,14 @@ def manafest_at(node, is_nodes=false)
 			break
 		end
 		name = names[site]
+		site += 1
+		components = name.split("/")
+		if components[-1] == ".." || components[-1] == "."
+			next
+		end
 		if File::directory?(name) == is_nodes
 			manafest += [name]
 		end
-		site += 1
 	end
 	manafest
 end
@@ -402,12 +402,78 @@ def unlink_file(name)
 	system(comand)
 end
 
+def filtered_segments(source, filter)
+  segments = []
+  file = File::open(source)
+  site = 0
+  while(true)
+    file.seek(site)
+    space = file.read(661727)
+    if space == nil
+      break
+    end
+    segment_distance = space.index("\n")
+    segment = space[0...(segment_distance)]
+    site += (segment_distance + 1)
+    if segment =~ filter
+      segments += [segment]
+    end
+  end
+  file.close
+  segments
+end
+
+def view_hash(hash)
+	#puts "i sim."
+	naof_secs = 0
+	names = hash.keys
+	naof_names = names.length
+	site = 0
+	while true
+		if site == naof_names
+			break
+		end
+		name = names[site]
+		naof_name_secs = name.length
+		if naof_name_secs > naof_secs
+			naof_secs = naof_name_secs
+		end
+		site += 1
+	end
+	site = 0
+	while true
+		if site == naof_names
+			break
+		end
+		#puts "site | #{site}"
+		name = names[site]
+		naof_name_secs = name.length
+		naof_space_secs = naof_secs - naof_name_secs
+		spaces = " " * naof_space_secs
+		apreciation = ""
+		#puts "class | #{hash[name].class}"
+		if hash[name].class == Integer
+			#puts "integer"
+			appreciation = "#{hash[name].to_s(16)}"
+		else
+			appreciation = "#{hash[name]}"
+		end
+		entree = "#{name}#{spaces} | #{appreciation}"
+		puts "#{entree}"
+		site += 1
+	end
+	true
+end
+
 class ClerkConstants
 	HerQueLimit = 10
 end
 
 # is recursive from node givin
 def clear_bin(node, throw_extensions)
+	if node[-1] != "/"
+		node += "/"
+	end
 	throw_binaries = throw_extensions.index("")
 	if throw_binaries
 		puts "<--> | caution safty. comence throw of binaries in bin #{node} (afirmative|no)"
@@ -419,7 +485,8 @@ def clear_bin(node, throw_extensions)
 	end
 	to_throws = []
 	to_throw = []
-	manafest = manafest_at(node)
+	#manafest = manafest_at(node)
+	manafest = Dir::entries(node)[2..-1]
 	naof_files = manafest.length
 	site = 0
 	while true
@@ -431,16 +498,13 @@ def clear_bin(node, throw_extensions)
 			end
 			break
 		end
-		name = manafest[site].split("/")[-1]
+		#name = manafest[site].split("/")[-1]
+		name = manafest[site]
 		if name.index(".")
 			extension = name.split(".")[-1]
 			if throw_extensions.index(extension)
-				to_throw += [manafest[site]]
-				naof_que_throws += 1
-			end
-		else
-			if throw_binaries
-				to_throw += [manafest[site]]
+				name = "#{node}#{name}"
+				to_throw += [name]
 				naof_que_throws += 1
 			end
 		end

@@ -159,6 +159,8 @@ class BinaryClerk
 	def inject(secs_name, binary_name, bs)
 		obs = bs
 		@osbs = nil
+		slot_init = self.slots[binary_name]["slot"]
+		slot_com = slot_init + self.slots[binary_name]["slot-distance"]
 		naof_proc_secs = File::size(secs_name)
 		@slot = @slots[binary_name]["slot"]
 		islot = @slot
@@ -174,12 +176,17 @@ class BinaryClerk
 		ameta = @ametas[binary_name]
 		cque = [bs]
 		que = [bs]
+		see_site = 0
 		while true
 			bs = que[0]
 			if bs == nil
 				break
 			end
+			#if see_site == 4
+				#break
+			#end
 			que = que[1..-1]
+			puts "que | #{que}"
 			self.gather_for_segment_stay_to(binary_name, bs)
 			asms = @segments[-1]
 			naof_asms = asms.length
@@ -199,6 +206,10 @@ class BinaryClerk
 							break
 						end
 						rasm = poly_clone(self.get_asm(binary_name, regards[rsite]))
+						rsite += 1
+						if rasm["bs"] >= slot_init && rasm["bs"] < slot_com
+							next
+						end
 						if cque.index(rasm["bs"]) == nil
 							if rasm["naof-secs"] < 5
 								que += [rasm["bs"]]
@@ -207,11 +218,11 @@ class BinaryClerk
 								motions += [poly_clone(rasm)]
 							end
 						end
-						rsite += 1
 					end
 				end
 				asite += 1
 			end
+			see_site += 1
 		end
 		naof_segments = @segments.length
 		site = 0
@@ -329,11 +340,11 @@ class BinaryClerk
 				break
 			end
 			asm = motions[msite]
-			#view_one(asm.clone)
+			view_one(asm.clone)
 			puts "asm | #{asm}"
 			s1, s2 = self.segment_sites(asm["destination"])
 			sasm = @segments[s1][s2]
-			#view_one(sasm.clone)
+			view_one(sasm.clone)
 			puts "sasm | #{sasm}"
 			motion = asm["destination"] - asm["completion"]
 			motion_secs = secs_aof(motion, 4).reverse
@@ -359,35 +370,6 @@ class BinaryClerk
 			naof_nops = 0
 			naof_port_secs = 0
 			segment = @segments[site]
-			segment_secs = []
-			naof_asms = segment.length
-			asite = 0
-			while true
-				if asite == naof_asms
-					break
-				end
-				asm = segment[asite]
-				if asm["is-fvirt"]
-					s1, s2 = self.segment_sites(asm["bs"])
-					@segments[s1][s2]["no-nops"] = true
-				end
-				asite += 1
-			end
-			site += 1
-		end
-		site = 0
-		while true
-			if site == naof_segments
-				break
-			end
-			nopso = nil
-			naof_nops = 0
-			naof_port_secs = 0
-			segment = @segments[site]
-			if segment[0]["no-nops"]
-				site += 1
-				next
-			end
 			log_heading("nops segment-#{site}")
 			naof_segment_secs = 0
 			naof_asms = segment.length

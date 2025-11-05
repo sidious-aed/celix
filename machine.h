@@ -2634,42 +2634,26 @@ static const sec naoify_rsp[3] = {72, 49, 228};
 static const sec naoify_rbp[3] = {72, 49, 237};
 static const source naoify_signs[naof_clerical_registers] = {naoify_r8, naoify_r9, naoify_r10, naoify_r11, naoify_r12, naoify_r13, naoify_r14, naoify_r15, naoify_rax, naoify_rbx, naoify_rcx, naoify_rdx, naoify_rdi, naoify_rsi, naoify_rsp, naoify_rbp};
 
-#define naof_mm_registers 16
-static const sec rack_to_mm0[5] = {197, 254, 111, 4, 60};
-static const sec rack_to_mm1[5] = {197, 254, 111, 12, 60};
-static const sec rack_to_mm2[5] = {197, 254, 111, 20, 60};
-static const sec rack_to_mm3[5] = {197, 254, 111, 28, 60};
-static const sec rack_to_mm4[5] = {197, 254, 111, 36, 60};
-static const sec rack_to_mm5[5] = {197, 254, 111, 44, 60};
-static const sec rack_to_mm6[5] = {197, 254, 111, 52, 60};
-static const sec rack_to_mm7[5] = {197, 254, 111, 60, 60};
-static const sec rack_to_mm8[5] = {197, 126, 111, 4, 60};
-static const sec rack_to_mm9[5] = {197, 126, 111, 12, 60};
-static const sec rack_to_mm10[5] = {197, 126, 111, 20, 60};
-static const sec rack_to_mm11[5] = {197, 126, 111, 28, 60};
-static const sec rack_to_mm12[5] = {197, 126, 111, 36, 60};
-static const sec rack_to_mm13[5] = {197, 126, 111, 44, 60};
-static const sec rack_to_mm14[5] = {197, 126, 111, 52, 60};
-static const sec rack_to_mm15[5] = {197, 126, 111, 60, 60};
-static const source rack_to_mm_signs[naof_mm_registers] = {rack_to_mm0, rack_to_mm1, rack_to_mm2, rack_to_mm3, rack_to_mm4, rack_to_mm5, rack_to_mm6, rack_to_mm7, rack_to_mm8, rack_to_mm9, rack_to_mm10, rack_to_mm11, rack_to_mm12, rack_to_mm13, rack_to_mm14, rack_to_mm15};
+#define naof_mm_registers 8
+static const sec rack_to_mm0[5] = {197, 253, 111, 4, 62};
+static const sec rack_to_mm1[5] = {197, 253, 111, 12, 62};
+static const sec rack_to_mm2[5] = {197, 253, 111, 20, 62};
+static const sec rack_to_mm3[5] = {197, 253, 111, 28, 62};
+static const sec rack_to_mm4[5] = {197, 253, 111, 36, 62};
+static const sec rack_to_mm5[5] = {197, 253, 111, 44, 62};
+static const sec rack_to_mm6[5] = {197, 253, 111, 52, 62};
+static const sec rack_to_mm7[5] = {197, 253, 111, 60, 62};
+static const source rack_to_mm_signs[naof_mm_registers] = {rack_to_mm0, rack_to_mm1, rack_to_mm2, rack_to_mm3, rack_to_mm4, rack_to_mm5, rack_to_mm6, rack_to_mm7};
 
-static const sec mm0_to_rack[5] = {197, 252, 17, 4, 60};
-static const sec mm1_to_rack[5] = {197, 252, 17, 12, 60};
-static const sec mm2_to_rack[5] = {197, 252, 17, 20, 60};
-static const sec mm3_to_rack[5] = {197, 252, 17, 28, 60};
-static const sec mm4_to_rack[5] = {197, 252, 17, 36, 60};
-static const sec mm5_to_rack[5] = {197, 252, 17, 44, 60};
-static const sec mm6_to_rack[5] = {197, 252, 17, 52, 60};
-static const sec mm7_to_rack[5] = {197, 252, 17, 60, 60};
-static const sec mm8_to_rack[5] = {197, 124, 17, 4, 60};
-static const sec mm9_to_rack[5] = {197, 124, 17, 12, 60};
-static const sec mm10_to_rack[5] = {197, 124, 17, 20, 60};
-static const sec mm11_to_rack[5] = {197, 124, 17, 28, 60};
-static const sec mm12_to_rack[5] = {197, 124, 17, 36, 60};
-static const sec mm13_to_rack[5] = {197, 124, 17, 44, 60};
-static const sec mm14_to_rack[5] = {197, 124, 17, 52, 60};
-static const sec mm15_to_rack[5] = {197, 124, 17, 60, 60};
-static const source mm_to_rack_signs[naof_mm_registers] = {mm0_to_rack, mm1_to_rack, mm2_to_rack, mm3_to_rack, mm4_to_rack, mm5_to_rack, mm6_to_rack, mm7_to_rack, mm8_to_rack, mm9_to_rack, mm10_to_rack, mm11_to_rack, mm12_to_rack, mm13_to_rack, mm14_to_rack, mm15_to_rack};
+static const sec mm0_to_rack[5] = {197, 253, 127, 4, 60};
+static const sec mm1_to_rack[5] = {197, 253, 127, 12, 60};
+static const sec mm2_to_rack[5] = {197, 253, 127, 20, 60};
+static const sec mm3_to_rack[5] = {197, 253, 127, 28, 60};
+static const sec mm4_to_rack[5] = {197, 253, 127, 36, 60};
+static const sec mm5_to_rack[5] = {197, 253, 127, 44, 60};
+static const sec mm6_to_rack[5] = {197, 253, 127, 52, 60};
+static const sec mm7_to_rack[5] = {197, 253, 127, 60, 60};
+static const source mm_to_rack_signs[naof_mm_registers] = {mm0_to_rack, mm1_to_rack, mm2_to_rack, mm3_to_rack, mm4_to_rack, mm5_to_rack, mm6_to_rack, mm7_to_rack};
 
 static const sec add_to_stack_sign[3] = {73, 129, 128};
 #endif
