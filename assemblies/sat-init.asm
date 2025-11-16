@@ -40,6 +40,7 @@ syscall
 ##########################################################################################################
 
 auto-quad-source conditional-code
+move 80 rsp rax
 restore-state
 stay-to is-conditional-et $1
 set aedaed r9

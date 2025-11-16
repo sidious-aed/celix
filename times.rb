@@ -21,7 +21,7 @@ com_time = Time.now.to_f
 set_if_non_elapsed = com_time - init_time
 log_heading("set-with-if vs set-if-non")
 puts "set-with-if   | #{set_with_if_elapsed}"
-puts "set-if-non | #{set_if_non_elapsed}"
+puts "set-if-non    | #{set_if_non_elapsed}"
 
 # nil? vs == nil
 init_time = Time.now.to_f
@@ -112,7 +112,7 @@ while_elapsed = com_time - init_time
 puts "sites | #{sites}"
 log_heading("droid-select vs while")
 puts "droid-select | #{droid_select_elapsed}"
-puts "while  | #{wade_elapsed}"
+puts "while        | #{wade_elapsed}"
 
 # droid-select vs select
 vecter = (0...1000000).to_a.map{|e| {"a" => e}}
@@ -137,7 +137,7 @@ select_elapsed = com_time - init_time
 puts "sites | #{sites}"
 log_heading("select vs while")
 puts "droid-select | #{droid_select_elapsed}"
-puts "select  | #{select_elapsed}"
+puts "select       | #{select_elapsed}"
 
 # each vs while
 vecter = (0...1000000).to_a
@@ -165,5 +165,146 @@ while_elapsed = com_time - init_time
 puts "sum | #{sum}"
 puts "sites | #{sites}"
 log_heading("each vs while")
-puts "each | #{droid_select_elapsed}"
+puts "each   | #{droid_select_elapsed}"
 puts "while  | #{select_elapsed}"
+
+# flatten vs while
+vecter = (0...1000).to_a.map{|e| (0...100).to_a}
+init_time = Time.now.to_f
+vecter = vecter.flatten
+com_time = Time.now.to_f
+flatten_elapsed = com_time - init_time
+#puts "vecter | #{vecter}"
+site = 0
+vecter = (0...1000).to_a.map{|e| (0...100).to_a}
+init_time = Time.now.to_f
+while true
+	if site == 1000
+		break
+	end
+	vecter += vecter[site]
+	site += 1
+end
+vecter = vecter[1000..-1]
+com_time = Time.now.to_f
+while_elapsed = com_time - init_time
+#puts "vecter | #{vecter}"
+log_heading("flatten vs while")
+puts "flatten | #{flatten_elapsed}"
+puts "while   | #{while_elapsed}"
+
+# while vs access
+vecter = (0...1000).to_a.map{|e| {"name" => "#{e}", "number" => rand(1000)}}
+vecter += (0...1000).to_a.map{|e| {"name" => "#{e}", "number" => rand(1000)}}
+vecter += (0...1000).to_a.map{|e| {"name" => "#{e}", "number" => rand(1000)}}
+hash = {}
+naof_elements = vecter.length
+site = 0
+while true
+	if site == naof_elements
+		break
+	end
+	element = vecter[site]
+	hash[element["name"]] ||= []
+	hash[element["name"]] += [element["number"]]
+	site += 1
+end
+sources = hash.keys.uniq
+naof_sources = sources.length
+naof_elements = vecter.length
+init_time = Time.now.to_f
+site = 0
+while true
+	if site == naof_sources
+		break
+	end
+	name = sources[site]
+	sum = 0
+	esite = 0
+	while true
+		if esite == naof_elements
+			break
+		end
+		element = vecter[esite]
+		if element["name"] == name
+			sum += element["number"]
+		end
+		esite += 1
+	end
+	site += 1
+end
+com_time = Time.now.to_f
+while_elapsed = com_time - init_time
+#puts "vecter | #{vecter}"
+init_time = Time.now.to_f
+site = 0
+while true
+	if site == naof_elements
+		break
+	end
+	element = vecter[site]
+	hash[element["name"]] ||= []
+	hash[element["name"]] += [element["number"]]
+	site += 1
+end
+sources = hash.keys.uniq
+site = 0
+while true
+	if site == naof_sources
+		break
+	end
+	name = sources[site]
+	sum = 0
+	elements = hash[name]
+	#puts "elements | #{elements}"
+	naof_elements = elements.length
+	esite = 0
+	while true
+		if esite == naof_elements
+			break
+		end
+		element = elements[esite]
+		sum += element
+		esite += 1
+	end
+	site += 1
+end
+vecter = vecter[1000..-1]
+com_time = Time.now.to_f
+access_elapsed = com_time - init_time
+#puts "vecter | #{vecter}"
+log_heading("flatten vs while")
+puts "while    | #{while_elapsed}"
+puts "access   | #{access_elapsed}"
+
+# asign vs explicit-method
+vecter = (0...1000).to_a.map{|e| (0...100).to_a.map{|e| rand(256)}}
+naof_elements = vecter.length
+init_time = Time.now.to_f
+site = 0
+while true
+	if site == naof_elements
+		break
+	end
+	vecter[site] = vecter[site].sort{|a,b| a <=> b}
+	site += 1
+end
+com_time = Time.now.to_f
+asign_elapsed = com_time - init_time
+vecter = (0...1000).to_a.map{|e| (0...100).to_a.map{|e| rand(256)}}
+naof_elements = vecter.length
+init_time = Time.now.to_f
+site = 0
+while true
+	if site == naof_elements
+		break
+	end
+	vecter[site].sort!{|a,b| a <=> b}
+	site += 1
+end
+com_time = Time.now.to_f
+explicit_method_elapsed = com_time - init_time
+#puts "vecter | #{vecter}"
+log_heading("asign vs explicit-method")
+puts "asign             | #{asign_elapsed}"
+puts "explicit-method   | #{explicit_method_elapsed}"

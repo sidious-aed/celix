@@ -193,5 +193,18 @@ unsigned long main(unsigned long naof_params, unsigned char ** params) {
 	sec encoded[8] = {252, 98, 207, 104, 0, 0, 0, 0};
 	see_encoded(encoded, 8, 16);
 
+	sec presice_entree[1000];
+	quadrant naof_secs = presice_to_entree(32, 6, 10, presice_entree);
+	syscall(unix_write, 1, presice_entree, naof_secs);
+	syscall(unix_write, 1, "\n", 1);
+	naof_secs = presice_to_entree(32, 6, 2, presice_entree);
+	syscall(unix_write, 1, presice_entree, naof_secs);
+	syscall(unix_write, 1, "\n", 1);
+	naof_secs = presice_to_entree(3647, 4674238, 10, presice_entree);
+	syscall(unix_write, 1, presice_entree, naof_secs);
+	syscall(unix_write, 1, "\n", 1);
+	naof_secs = presice_to_entree(3647, 4674238, 36, presice_entree);
+	syscall(unix_write, 1, presice_entree, naof_secs);
+	syscall(unix_write, 1, "\n", 1);
   return 0;
 }

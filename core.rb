@@ -231,6 +231,18 @@ def manafest_at(node, is_nodes=false)
 	manafest
 end
 
+def filter_node_nodes(sources)
+	node_node_site = sources.index(".")
+	if node_node_site
+		sources = sources[0...node_node_site] + sources[(node_node_site + 1)..-1]
+	end
+	node_node_site = sources.index("..")
+	if node_node_site
+		sources = sources[0...node_node_site] + sources[(node_node_site + 1)..-1]
+	end
+	sources # alias for names
+end
+
 # remady for upper case and bricks halls proclaim; that it must mean their cense
 # of ownership, is the sense of positive gain
 def seed62(naof_secs)
@@ -486,7 +498,7 @@ def clear_bin(node, throw_extensions)
 	to_throws = []
 	to_throw = []
 	#manafest = manafest_at(node)
-	manafest = Dir::entries(node)[2..-1]
+	manafest = filter_node_nodes(Dir::entries(node))
 	naof_files = manafest.length
 	site = 0
 	while true
@@ -504,6 +516,7 @@ def clear_bin(node, throw_extensions)
 			extension = name.split(".")[-1]
 			if throw_extensions.index(extension)
 				name = "#{node}#{name}"
+				puts "name | #{name}"
 				to_throw += [name]
 				naof_que_throws += 1
 			end
@@ -526,4 +539,5 @@ def clear_bin(node, throw_extensions)
 		system(comand)
 		site += 1
 	end
+	#$stdin.gets
 end

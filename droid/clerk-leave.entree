@@ -1,0 +1,18 @@
+562155c29000-562155c2c000 r-xp 00000000 08:01 47870380                   /home/tyrel/celix/pcgt
+562155e2b000-562155e2c000 r--p 00002000 08:01 47870380                   /home/tyrel/celix/pcgt
+562155e2c000-562155e2d000 rw-p 00003000 08:01 47870380                   /home/tyrel/celix/pcgt
+7fb2e389d000-7fb2e3a84000 r-xp 00000000 08:01 47870244                   /home/tyrel/celix/libc.so.6
+7fb2e3a84000-7fb2e3c84000 ---p 001e7000 08:01 47870244                   /home/tyrel/celix/libc.so.6
+7fb2e3c84000-7fb2e3c88000 r--p 001e7000 08:01 47870244                   /home/tyrel/celix/libc.so.6
+7fb2e3c88000-7fb2e3c8a000 rw-p 001eb000 08:01 47870244                   /home/tyrel/celix/libc.so.6
+7fb2e3c8a000-7fb2e3c8e000 rw-p 00000000 00:00 0 
+7fb2e3c8e000-7fb2e3cb7000 r-xp 00000000 08:01 36962320                   /lib/x86_64-linux-gnu/ld-2.27.so
+7fb2e3eb5000-7fb2e3eb7000 rw-p 00000000 00:00 0 
+7fb2e3eb7000-7fb2e3eb8000 r--p 00029000 08:01 36962320                   /lib/x86_64-linux-gnu/ld-2.27.so
+7fb2e3eb8000-7fb2e3eb9000 rw-p 0002a000 08:01 36962320                   /lib/x86_64-linux-gnu/ld-2.27.so
+7fb2e3eb9000-7fb2e3eba000 rw-p 00000000 00:00 0 
+7ffe2974f000-7ffe29770000 rw-p 00000000 00:00 0                          [stack]
+7ffe297dc000-7ffe297df000 r--p 00000000 00:00 0                          [vvar]
+7ffe297df000-7ffe297e1000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+ffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]

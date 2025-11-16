@@ -24,5 +24,10 @@ if File::exists?(samples_node) == false
 	system(comand)
 end
 aux_spaces = params[4]
+puts "initialising binary-clerk"
 bc = BinaryClerk.new(binary_name)
+puts "complete"
+puts "sampling"
+#return
 sample_asm(bc, binary_name, binary_site, binary_comand, samples_node, aux_spaces)
+puts "complete"

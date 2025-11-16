@@ -60,6 +60,8 @@
 #define map_stayable 4
 #define clerk_descreet 2
 #define map_as_space 32
+//#define clerk_presision 42 // reveals base-2 third-bar facter more
+#define clerk_presision 21
 
 // standard
 typedef unsigned long * reader;

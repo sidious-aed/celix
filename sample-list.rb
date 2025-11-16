@@ -28,7 +28,9 @@ if File::exists?(samples_node) == false
 	puts "comand | #{comand}"
 	system(comand)
 end
+puts "initialising binary-clerk"
 bc = BinaryClerk.new(binary_name)
+puts "complete"
 site = 0
 while true
 	if site == naof_asms

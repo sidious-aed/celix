@@ -1,4 +1,4 @@
-require "./core.rb"
+require "/home/tyrel/celix/core.rb"
 class SequencesClerk
 	attr_accessor :signs, :modules
 	def initialize

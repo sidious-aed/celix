@@ -1,4 +1,4 @@
-require "./charts.rb"
+require "/home/tyrel/celix/charts.rb"
 
 class BinaryConstants
 	StayToAluModules = ["bnd callq", "bnd jmpq", "bnd jns", "callq", "ja", "jae", "jb", "jbe", "je", "jg", "jge", "jl", "jle", "jmp", "jmpq", "jne", "jns", "jo", "jp", "jrcxz", "js"]

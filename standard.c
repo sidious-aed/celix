@@ -329,6 +329,55 @@ quadrant number_to_entree(quadrant number, source entree, quadrant base) {
   return entree_site;
 }
 
+quadrant presice_to_entree(quadrant height, quadrant bar, quadrant base, source entree) {
+	//printf("\n");
+	//printf("init-height | %lu\n", height);
+	//printf("init-bar | %lu\n", bar);
+	//printf("init-base | %lu\n", base);
+	quadrant number = height / bar;
+	//printf("number | %lu\n", number);
+	quadrant naof_secs = number_to_entree(number, entree, base);
+	height -= (number * bar);
+	//printf("data-com-height | %lu\n", height);
+	if(height > 0) {
+		entree[naof_secs] = '.';
+		naof_secs += 1;
+		quadrant naof_presice_secs = 0;
+		while(true) {
+			sec digit;
+			while(true) {
+				//printf("----------\n");
+				height *= base;
+				//printf("height | %lu\n", height);
+				digit = height / bar;
+				//printf("digit | %lu\n", digit);
+				if(digit != 0) {
+					break;
+				}
+				entree[naof_secs] = '0';
+				naof_secs += 1;
+				naof_presice_secs += 1;
+				if(naof_presice_secs == clerk_presision) {
+					break;
+				}
+			}
+			if(naof_presice_secs == clerk_presision) {
+				break;
+			}
+			//printf("digit | %lu\n", digit);
+			//printf("base | %lu\n", base);
+			//printf("height | %lu\n", height);
+			height -= (digit * bar);
+			naof_secs += number_to_entree(digit, (entree + naof_secs), base);
+			naof_presice_secs += 1;
+			if(height == 0 || naof_presice_secs == clerk_presision) {
+				break;
+			}
+		}
+	}
+	return naof_secs;
+}
+
 quadrant entree_to_number(source entree, quadrant entree_distance, quadrant base, quadrant_reference number) {
   number[0] = 0;
   quadrant focus = 1;

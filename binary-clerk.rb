@@ -1,5 +1,5 @@
-require "./binary.rb"
-require "./machine.rb"
+require "/home/tyrel/celix/binary.rb"
+require "/home/tyrel/celix/machine.rb"
 
 class BinaryClerk
 	attr_accessor :metas, :ametas, :slots, :segments, :writes
@@ -27,6 +27,7 @@ class BinaryClerk
 		naof_dls = meta["dls"].length
 		dl_site = 0
 		while true
+			break
 			if dl_site == naof_dls
 				break
 			end

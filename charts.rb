@@ -1,6 +1,6 @@
 # a simple charts ruby object to build our clerk tools with. to ironically seek for duel-stay-object-init in the linux binaries, a different cents of object.
 	# <--> you could of course vasterise at good ombwie this fine charts object for other things.
-require "./core.rb"
+require "/home/tyrel/celix/core.rb"
 
 # <--> at inner shell in ideaology, it feels right to establish all lower for not being ownavating. later up case for gain feels quite right.
 NaofSegmentSecs = 50
@@ -160,6 +160,47 @@ class Chart
 			end
 			ssite += 1
 		end
+		puts "#{@header}"
+	end
+	def view_sites(sites)
+		if @view_attributes == nil
+			self.set_view_attributes(@attributes.keys)
+		else
+			self.set_view_attributes(@view_attributes)
+		end
+		# we are moving to less confound and gaining space.
+		naof_sites = sites.length
+		segment = ""
+		rsite = 0
+		while true
+			if rsite == naof_sites
+				break
+			end
+			#puts "rsite | #{rsite}"
+			record_site = sites[rsite]
+			record = @records[record_site]
+			segment += "| "
+			asite = 0
+			while true
+				if asite == @naof_view_attributes
+					break
+				end
+				attribute = @view_attributes[asite]
+				naof_secs = @attributes[attribute]
+				attribute = "#{record[attribute]}"
+				segment += "#{attribute}"
+				naof_spaces = naof_secs - attribute.length
+				segment += " " * naof_spaces
+				if asite != @attr_et
+					segment += " | "
+				end
+				asite += 1
+			end
+			segment += " |\n"
+			rsite += 1
+		end
+		print @full_header
+		print segment
 		puts "#{@header}"
 	end
 end

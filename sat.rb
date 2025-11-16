@@ -1,4 +1,4 @@
-require "./binary-clerk.rb"
+require "/home/tyrel/celix/binary-clerk.rb"
 
 def maps_manafest(maps_entree, zero_stay=nil)
 	segments = maps_entree.split("\n")
@@ -280,6 +280,7 @@ def sample_asm(bc, binary_name, binary_site, binary_comand, samples_node, aux_sp
 	# init and engage
 	clear_bin("droid", ["files-meta", "try-meta", "maps-meta", "secs-meta", "stat-meta", "sched-meta", "schedstat-meta"])
 	puts "samples-inner-node | #{samples_inner_node}"
+	#$stdin.gets
 	clear_bin(samples_inner_node, ["sample-meta"])
 	bc.engage_slots
 	slotb16 = bc.slots[binary_name]["slot"].to_s(16)
@@ -313,6 +314,7 @@ def sample_asm(bc, binary_name, binary_site, binary_comand, samples_node, aux_sp
 	system(comand)
 	droid_entrees = Dir::entries("droid")
 	naof_entrees = droid_entrees.length
+	is_conditional = BinaryConstants::ConditionalAluModules.index(asm["mod"]) != nil
 	site = 0
 	naof_samples = 0
 	while true
@@ -470,6 +472,23 @@ def sample_asm(bc, binary_name, binary_site, binary_comand, samples_node, aux_sp
 				view_one(poly_clone(sample["stay-to"]))
 			end
 			#view_vecter(poly_clone(sample["spaces"]))
+			if is_conditional
+				comand = "./sequences assemblies/micro-conditional.asm secs/micro-conditional.secs 0 #{site} #{clericall_conditional_name(asm["mod"])}"
+				puts "comand | #{comand}"
+				system(comand)
+				bc.engage_slots
+				bc.inject("secs/micro-conditional.secs", binary_name, binary_site)
+				bc.write(binary_name)
+				comand = binary_comand
+				puts "comand | #{comand}"
+				system(comand)
+				if File::exists?("droid/micro.secs")
+					quad = number_aof(File::open("droid/micro.secs").read.bytes.reverse)
+					sample["is-conditional"] = quad == 0xaed
+				else
+					puts "<--> | seems micro-conditional did not run."
+				end
+			end
 			sample_name = "#{samples_inner_node}#{components[0..-2].join(".")}.sample-meta"
 			chart = File::open(sample_name, "w")
 			chart.write(sample)
@@ -490,6 +509,38 @@ def sample_asm(bc, binary_name, binary_site, binary_comand, samples_node, aux_sp
 		chart.write(asm)
 		chart.close
 	end
+end
+
+def view_sample(sample, site=nil)
+	vsample = poly_clone(sample)
+	heading = "sample"
+	if site
+		heading = "ocurance | #{site.to_s(16)}"
+	end
+	log_heading(heading)
+	view_hash(vsample["meta"])
+	log_heading("registers")
+	view_vecter(vsample["registers"])
+	log_heading("maps")
+	view_vecter(vsample["maps"])
+	naof_spaces = vsample["spaces"].length
+	if naof_spaces > 0
+		log_heading("spaces")
+		ssite = 0
+		while true
+			if ssite == naof_spaces
+				break
+			end
+			space = vsample["spaces"][ssite]
+			puts "#{space["name"]} | #{space["secs"]}"
+			if space["stack-site"]
+				view_one(space["stack-site"])
+			end
+			puts
+			ssite += 1
+		end
+	end
+	puts "is-conditional | #{sample["is-conditional"]}"
 end
 
 def time_bar_from_gt(gt_name)

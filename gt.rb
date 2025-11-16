@@ -1,43 +1,81 @@
 #!/usr/bin/env ruby
-require "./sat.rb"
-naof_params, params, env, iat, symbols = init()
+require "./core.rb"
 
-if naof_params != 4
-  puts "params | 4"
-  puts "1 | binary-name"
-	puts "2 | binary-site-1 (base-16)"
-	puts "3 | binary-site-2 (base-16)"
-	puts "4 | binary-comand"
-  return
+zeta = ["0", "1", "^", "+", "-", "*", "/", "\\", "@", "oo", "|", "a", "b", "c", "d", "e"]
+naof_zeta_secs = zeta.length
+naof_rows, naof_collums = $stdin.winsize
+naof_rows -= 1
+center_site = (naof_rows / 2) + 1
+vission_site = naof_collums / 2
+#puts "naof-collumns | #{naof_collums}"
+#puts "naof-rows | #{naof_rows}"
+comand = "./pcgt a"
+time = `#{comand}`.strip
+naof_secs = time.length
+#puts "center-site | #{center_site}"
+naof_spaces = (naof_collums - naof_secs) / 2
+et_aof_spaces = naof_secs + naof_spaces - 1
+cet = naof_collums - 1
+time_site = 0
+edge_facter = 0.33
+oo_facter = 0.27132
+rsite = 0
+entree = ""
+while true
+	#if rsite > center_site
+		#break
+	#end
+	if rsite == naof_rows
+		break
+	end
+	if rsite < center_site
+		rvsite = rsite
+	else
+		rvsite = (naof_rows - 1) - rsite
+	end
+	row = ""
+	csite = 0
+	while true
+		if csite == naof_collums
+			break
+		end
+		if csite < vission_site
+			cvsite = csite
+		else
+			cvsite = (naof_collums - 1) - csite
+		end
+		is_edge = (cvsite < 3) || (rvsite < 2)
+		if is_edge
+			is_edge = rand < edge_facter
+		end
+		if rsite == center_site && (csite > naof_spaces) && (csite < et_aof_spaces)
+			row += time[time_site]
+			time_site += 1
+		#elsif csite == 0
+			#row += "#{rsite}"
+		else
+			if is_edge
+				while true
+					if rand > oo_facter
+						sec = zeta[rand(naof_zeta_secs)]
+					else
+						sec = "oo"
+					end
+					if sec != "oo" || csite < cet
+						break
+					end
+				end
+				if sec == "oo"
+					csite += 1
+				end
+				row += sec
+			else
+				row += " "
+			end
+		end
+		csite += 1
+	end
+	entree += row
+	rsite += 1
 end
-binary_name = params[0]
-binary_site_1 = params[1].to_i(16)
-binary_site_2 = params[2].to_i(16)
-binary_comand = params[3]
-time_1_name = "droid/time-1.quads"
-bc = BinaryClerk.new(binary_name)
-bc.engage_slots
-comand = "./sequences assemblies/gt.asm secs/gt.secs 0 #{time_1_name}"
-puts "comand | #{comand}"
-system(comand)
-bc.inject("secs/gt.secs", binary_name, binary_site_1)
-time_2_name = "droid/time-2.quads"
-comand = "./sequences assemblies/gt.asm secs/gt.secs 0 #{time_2_name}"
-puts "comand | #{comand}"
-system(comand)
-bc.inject("secs/gt.secs", binary_name, binary_site_1)
-bc.write(binary_name)
-comand = binary_comand
-puts "comand | #{comand}"
-system(comand)
-bar1 = time_bar_from_gt(time_1_name)
-bar2 = time_bar_from_gt(time_2_name)
-if bar1 >= bar2
-	puts "order | #{binary_site_1.to_s(16)} <--> #{binary_site_2.to_s(16)}"
-	diff = bar1 - bar2
-	puts "elapsed | #{diff}"
-else
-	puts "order | #{binary_site_2.to_s(16)} <--> #{binary_site_1.to_s(16)}"
-	diff = bar2 - bar1
-	puts "elapsed | #{diff}"
-end
+puts entree

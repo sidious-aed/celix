@@ -1,0 +1,18 @@
+55ee42171000-55ee42172000 r-xp 00000000 08:01 47870721                   /home/tyrel/celix/shell-do
+55ee42371000-55ee42373000 rw-p 00000000 08:01 47870721                   /home/tyrel/celix/shell-do
+7fa36e276000-7fa36e45d000 r-xp 00000000 08:01 47841668                   /home/tyrel/celix/libc.do.6
+7fa36e45d000-7fa36e65d000 ---p 001e7000 08:01 47841668                   /home/tyrel/celix/libc.do.6
+7fa36e65d000-7fa36e663000 rw-p 001e7000 08:01 47841668                   /home/tyrel/celix/libc.do.6
+7fa36e663000-7fa36e667000 rw-p 00000000 00:00 0 
+7fa36e667000-7fa36e690000 r-xp 00000000 08:01 47870248                   /home/tyrel/celix/io.do.9
+7fa36e795000-7fa36e88a000 rwxp 00000000 00:00 0 
+7fa36e88a000-7fa36e88b000 rwxp 00000000 08:01 47877599                   /home/tyrel/celix/secs/equations.secs
+7fa36e88b000-7fa36e88c000 rwxp 00000000 08:01 48007597                   /home/tyrel/celix/charts/entrees/core.rack
+7fa36e88c000-7fa36e88e000 rwxp 00000000 08:01 47877017                   /home/tyrel/celix/secs/sat-drive.secs
+7fa36e88e000-7fa36e890000 rw-p 00000000 00:00 0 
+7fa36e890000-7fa36e892000 rw-p 00029000 08:01 47870248                   /home/tyrel/celix/io.do.9
+7fa36e892000-7fa36e893000 rw-p 00000000 00:00 0 
+7ffed037e000-7ffed0579000 rw-p 00000000 00:00 0                          [stack]
+7ffed05da000-7ffed05dd000 r--p 00000000 00:00 0                          [vvar]
+7ffed05dd000-7ffed05df000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
