@@ -54,23 +54,23 @@ static const source clerical_motion_alus[naof_standard_motion_alus] = {"equal", 
 static const quadrant clerical_motion_alus_distances[naof_standard_motion_alus] = {5, 9, 10, 5, 6, 6, 5, 18, 18, 12, 10, 8, 11, 11, 6};
 
 #define naof_set_conditionals 14
-static const source set_conditionals[naof_set_conditionals] = {"je", "jne", "jbe", "ja", "js", "jb", "jle", "jge", "jg", "jns", "jo", "jae", "jl", "jp"};
-static const quadrant set_conditional_distances[naof_set_conditionals] = {2, 3, 3, 2, 2, 2, 3, 3, 2, 3, 2, 3, 2, 2};
-static const sec set_conditional_signs_je[4] = {15, 148, 132, 36};
-static const sec set_conditional_signs_jne[4] = {15, 149, 132, 36};
-static const sec set_conditional_signs_jbe[4] = {15, 150, 132, 36};
-static const sec set_conditional_signs_ja[4] = {15, 151, 132, 36};
-static const sec set_conditional_signs_js[4] = {15, 152, 132, 36};
-static const sec set_conditional_signs_jb[4] = {15, 146, 132, 36};
-static const sec set_conditional_signs_jle[4] = {15, 158, 132, 36};
-static const sec set_conditional_signs_jge[4] = {15, 157, 132, 36};
-static const sec set_conditional_signs_jg[4] = {15, 159, 132, 36};
-static const sec set_conditional_signs_jns[4] = {15, 153, 132, 36};
-static const sec set_conditional_signs_jo[4] = {15, 144, 132, 36};
-static const sec set_conditional_signs_jae[4] = {15, 147, 132, 36};
-static const sec set_conditional_signs_jl[4] = {15, 156, 132, 36};
-static const sec set_conditional_signs_jp[4] = {15, 154, 132, 36};
-static const source set_conditional_alus[naof_set_conditionals] = {set_conditional_signs_je, set_conditional_signs_jne, set_conditional_signs_jbe, set_conditional_signs_ja, set_conditional_signs_js, set_conditional_signs_jb, set_conditional_signs_jle, set_conditional_signs_jge, set_conditional_signs_jg, set_conditional_signs_jns, set_conditional_signs_jo, set_conditional_signs_jae, set_conditional_signs_jl, set_conditional_signs_jp};
+static const source set_conditionals[naof_set_conditionals] = {"ja", "jae", "jb", "jbe", "je", "jg", "jge", "jl", "jle", "jne", "jns", "jo", "jp", "js"};
+static const quadrant set_conditional_distances[naof_set_conditionals] = {2, 3, 2, 3, 2, 2, 3, 2, 3, 3, 3, 2, 2, 2};
+static const sec set_conditional_signs_ja[4] = {65, 15, 151, 192};
+static const sec set_conditional_signs_jae[4] = {65, 15, 147, 192};
+static const sec set_conditional_signs_jb[4] = {65, 15, 146, 192};
+static const sec set_conditional_signs_jbe[4] = {65, 15, 150, 192};
+static const sec set_conditional_signs_je[4] = {65, 15, 148, 192};
+static const sec set_conditional_signs_jg[4] = {65, 15, 159, 192};
+static const sec set_conditional_signs_jge[4] = {65, 15, 157, 192};
+static const sec set_conditional_signs_jl[4] = {65, 15, 156, 192};
+static const sec set_conditional_signs_jle[4] = {65, 15, 158, 192};
+static const sec set_conditional_signs_jne[4] = {65, 15, 149, 192};
+static const sec set_conditional_signs_jns[4] = {65, 15, 153, 192};
+static const sec set_conditional_signs_jo[4] = {65, 15, 144, 192};
+static const sec set_conditional_signs_jp[4] = {65, 15, 154, 192};
+static const sec set_conditional_signs_js[4] = {65, 15, 152, 192};
+static const source set_conditional_alus[naof_set_conditionals] = {set_conditional_signs_ja, set_conditional_signs_jae, set_conditional_signs_jb, set_conditional_signs_jbe, set_conditional_signs_je, set_conditional_signs_jg, set_conditional_signs_jge, set_conditional_signs_jl, set_conditional_signs_jle, set_conditional_signs_jne, set_conditional_signs_jns, set_conditional_signs_jo, set_conditional_signs_jp, set_conditional_signs_js};
 
 #define naof_general_registers 16
 static const sec r8_to_rack_sign[2] = {65, 80};
@@ -2635,24 +2635,24 @@ static const sec naoify_rbp[3] = {72, 49, 237};
 static const source naoify_signs[naof_clerical_registers] = {naoify_r8, naoify_r9, naoify_r10, naoify_r11, naoify_r12, naoify_r13, naoify_r14, naoify_r15, naoify_rax, naoify_rbx, naoify_rcx, naoify_rdx, naoify_rdi, naoify_rsi, naoify_rsp, naoify_rbp};
 
 #define naof_mm_registers 8
-static const sec rack_to_mm0[5] = {197, 253, 111, 4, 62};
-static const sec rack_to_mm1[5] = {197, 253, 111, 12, 62};
-static const sec rack_to_mm2[5] = {197, 253, 111, 20, 62};
-static const sec rack_to_mm3[5] = {197, 253, 111, 28, 62};
-static const sec rack_to_mm4[5] = {197, 253, 111, 36, 62};
-static const sec rack_to_mm5[5] = {197, 253, 111, 44, 62};
-static const sec rack_to_mm6[5] = {197, 253, 111, 52, 62};
-static const sec rack_to_mm7[5] = {197, 253, 111, 60, 62};
+static const sec rack_to_mm0[5] = {197, 252, 16, 4, 60};
+static const sec rack_to_mm1[5] = {197, 252, 16, 12, 60};
+static const sec rack_to_mm2[5] = {197, 252, 16, 20, 60};
+static const sec rack_to_mm3[5] = {197, 252, 16, 28, 60};
+static const sec rack_to_mm4[5] = {197, 252, 16, 36, 60};
+static const sec rack_to_mm5[5] = {197, 252, 16, 44, 60};
+static const sec rack_to_mm6[5] = {197, 252, 16, 52, 60};
+static const sec rack_to_mm7[5] = {197, 252, 16, 60, 60};
 static const source rack_to_mm_signs[naof_mm_registers] = {rack_to_mm0, rack_to_mm1, rack_to_mm2, rack_to_mm3, rack_to_mm4, rack_to_mm5, rack_to_mm6, rack_to_mm7};
 
-static const sec mm0_to_rack[5] = {197, 253, 127, 4, 60};
-static const sec mm1_to_rack[5] = {197, 253, 127, 12, 60};
-static const sec mm2_to_rack[5] = {197, 253, 127, 20, 60};
-static const sec mm3_to_rack[5] = {197, 253, 127, 28, 60};
-static const sec mm4_to_rack[5] = {197, 253, 127, 36, 60};
-static const sec mm5_to_rack[5] = {197, 253, 127, 44, 60};
-static const sec mm6_to_rack[5] = {197, 253, 127, 52, 60};
-static const sec mm7_to_rack[5] = {197, 253, 127, 60, 60};
+static const sec mm0_to_rack[5] = {197, 252, 17, 4, 60};
+static const sec mm1_to_rack[5] = {197, 252, 17, 12, 60};
+static const sec mm2_to_rack[5] = {197, 252, 17, 20, 60};
+static const sec mm3_to_rack[5] = {197, 252, 17, 28, 60};
+static const sec mm4_to_rack[5] = {197, 252, 17, 36, 60};
+static const sec mm5_to_rack[5] = {197, 252, 17, 44, 60};
+static const sec mm6_to_rack[5] = {197, 252, 17, 52, 60};
+static const sec mm7_to_rack[5] = {197, 252, 17, 60, 60};
 static const source mm_to_rack_signs[naof_mm_registers] = {mm0_to_rack, mm1_to_rack, mm2_to_rack, mm3_to_rack, mm4_to_rack, mm5_to_rack, mm6_to_rack, mm7_to_rack};
 
 static const sec add_to_stack_sign[3] = {73, 129, 128};

@@ -2,20 +2,25 @@
 require "./binary-clerk.rb"
 naof_params, params, env, iat, symbols = init()
 
-if naof_params != 3
-  puts "params | 3"
+if naof_params < 3
+  puts "params | 3-4"
   puts "1 | binary-name"
 	puts "2 | binary-comand"
 	puts "3 | et-bs (base-16)"
+	puts "4 | init-bs (base-16)"
   return
 end
 binary_name = params[0]
 binary_comand = params[1]
 et_bs = params[2].to_i(16)
+init_bs = nil
+if params[3]
+	init_bs = params[3].to_i(16)
+end
 bc = BinaryClerk.new(binary_name)
 stays_chart_name = "charts/i-sim/#{binary_name}-stays.chart"
 alerts_chart_name = "charts/i-sim/#{binary_name}-alerts.chart"
-asm_bss = bc.ametas[binary_name]["asms-index"].keys
+asm_bss = bc.asm_metas["asms-index"].keys
 naof_asms = asm_bss.length
 stays = []
 alerts = []
@@ -25,14 +30,20 @@ while true
 		break
 	end
 	bs = asm_bss[site]
+	site += 1
 	if bs > et_bs
 		break
+	end
+	if init_bs
+		if bs < init_bs
+			next
+		end
 	end
 	log_heading("#{bs.to_s(16)} init")
 	puts "bs | #{bs.to_s(16)}"
 	bc.engage_slots
-	bc.inject("secs/i-sim.secs", binary_name, bs)
-	bc.write(binary_name)
+	bc.inject("secs/i-sim.secs", bs)
+	bc.write()
 	comand = binary_comand
 	puts "comand | #{comand}"
 	result = `#{comand}`
@@ -55,7 +66,6 @@ while true
 	end
 	log_heading("#{bs.to_s(16)} com")
 	puts
-	site += 1
 end
 naof_stays = stays.length
 if naof_stays > 0

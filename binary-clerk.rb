@@ -2,425 +2,555 @@ require "/home/tyrel/celix/binary.rb"
 require "/home/tyrel/celix/machine.rb"
 
 class BinaryClerk
-	attr_accessor :metas, :ametas, :slots, :segments, :writes
+	attr_accessor :meta, :asm_metas, :slot, :asms, :asms_index, :regards, :moves
 	def initialize(binary_name)
-		meta_name = "charts/binary-meta/#{binary_name}.chart"
-		asm_meta_name = "charts/asms-meta/#{binary_name}.chart"
-		slots_meta_name = "charts/slots/#{binary_name}.chart"
-		if File::exists?(meta_name) == false || File::exists?(asm_meta_name) == false
-			puts "<--> | need meta and asm-meta charts generated for #{binary_name}"
-			return false
-		end
-		@metas = {}
-		@back_ametas = {}
-		@back_slots = {}
-		meta = eval(File::open(meta_name).read)
-		@metas[binary_name] = meta
-		ameta = eval(File::open(asm_meta_name).read)
-		@ametas = {}
-		@ametas[binary_name] = ameta
-		smeta = eval(File::open(slots_meta_name).read)
-		@back_slots[binary_name] = smeta
-		@slots = {}
-		@segments = []
-		@sq = SequencesClerk.new
-		naof_dls = meta["dls"].length
-		dl_site = 0
+		@meta_name = "charts/binary-meta/#{binary_name}.chart"
+		@asm_meta_name = "charts/asms-meta/#{binary_name}.chart"
+		@slots_meta_name = "charts/slots/#{binary_name}.chart"
+		meta_names = [@meta_name, @asm_meta_name, @slots_meta_name]
+		naof_meta_names = meta_names.length
+		msite = 0
 		while true
-			break
-			if dl_site == naof_dls
+			if msite == naof_meta_names
 				break
 			end
-			#puts "dsite | #{dl_site}"
-			dl = meta["dls"][dl_site]
-			#view_one(dl)
-			dl_site += 1
-			if dl["category"] == "mmap-synced"
-				#view_one(dl)
-				dl_name = dl["name"]
-				meta_name = "charts/binary-meta/#{dl_name}.chart"
-				asm_meta_name = "charts/asms-meta/#{dl_name}.chart"
-				slots_meta_name = "charts/slots/#{dl_name}.chart"
-				if File::exists?(meta_name) == false || File::exists?(asm_meta_name) == false || File::exists?(slots_meta_name) == false
-					puts "<--> | need meta and asm-meta charts generated for #{dl_name}"
-					return false
-					#next
-				end
-				bmeta = eval(File::open(meta_name).read)
-				ameta = eval(File::open(asm_meta_name).read)
-				cmeta = eval(File::open(slots_meta_name).read)
-				@metas[dl_name] = bmeta
-				@ametas[dl_name] = ameta
-				@back_slots[dl_name] = smeta
+			meta_name = meta_names[msite]
+			puts "meta-name | #{meta_name}"
+			if File::exists?(meta_name) == false
+				puts "<--> | need meta and asm-meta charts generated for #{binary_name}"
+				return false
 			end
+			msite += 1
 		end
-		#self.engage_slots
+		@binary_name = binary_name
+		@meta = eval(File::open(@meta_name).read)
+		@asm_metas = eval(File::open(@asm_meta_name).read)
+		@back_slot = eval(File::open(@slots_meta_name).read)["slot"]
+		@sc = SequencesClerk.new("charts/machine.chart")
+		@charts_zap = 0
+		#puts "slots | #{@back_slot_meta}"
 	end
 	def engage_slots
 		#@ametas = @back_ametas
-		@slots = poly_clone(@back_slots)
+		@slot = @back_slot
+		#@asms = clone_vecter(@asm_metas["asms"])
+		#@regards = clone_vecter(@asm_metas["regards"])
+		#@asms = clerk_clone(@asm_metas["asms"])
+		#@regards = clerk_clone(@asm_metas["regards"])
+		@do_clerk_nine = false
+		if @charts_zap == 0
+			@asms = @asm_metas["asms"]
+			@regards = @asm_metas["regards"]
+			@charts_zap += 1
+		elsif @charts_zap == 1
+			@asm_metas = eval(File::open(@asm_meta_name).read)
+			@back_slot = eval(File::open(@slots_meta_name).read)["slot"]
+			@do_clerk_nine = true
+		else
+			@do_clerk_nine = true
+		end
+		if @do_clerk_nine
+			@asms = clerk_clone(@asm_metas["asms"])
+			@regards = @asm_metas["regards"]
+		end
+		#@asms_index = clerk_clone(@asm_metas["asms-index"])
 		@writes = []
+		@nops = []
+		@moves = {}
+		self.index_asms
 	end
-	def segment_sites(bs)
-		puts "segment-site | #{bs.to_s(16)}"
-		naof_segments = @segments.length
-		site = 0
-		while true
-			if site == naof_segments
-				site = nil
-				break
-			end
-			segment = @segments[site]
-			naof_asms = segment.length
-			asite = 0
-			while true
-				if asite == naof_asms
-					asite = nil
-					break
-				end
-				asm = segment[asite]
-				puts "sasm | #{asm["bs"].to_s(16)}"
-				if asm["bs"] == bs
-					break
-				end
-				asite += 1
-			end
-			if asite
-				break
-			end
-			site += 1
-		end
-		[site, asite]
-	end
-	def gather_for_segment_stay_to(binary_name, bs)
-		obs = bs
-		oslot = @slot
-		naof_segments = @segments.length
-		asms = []
-		ameta = @ametas[binary_name]
-		naof_secs_gathered = 0
-		naof_segment_secs = 0
-		while true
-			puts "bs | #{bs.to_s(16)}"
-			asm = ameta["asms"][ameta["asms-index"][bs]]
-			if asm == nil
-				return false
-			end
-			view_one(poly_clone(asm))
-			casm = poly_clone(asm)
-			casm["odest"] = casm["destination"]
-			already_virtual = @segment_ports.index(bs)
-			if already_virtual
-				naof_asm_secs = 5
-				casm["is-fvirt"] = true
-				casm["naof-slot-secs"] = 5
+	def asm_category(asm)
+		if (asm["mod"] == "jmp" || asm["mod"] == "jmpq" || BinaryConstants::ConditionalAluModules.index(asm["mod"])) && asm["params"][0] != "*"
+			if asm["naof-secs"] == 2 
+				"expansion"
 			else
-				nasm = ameta["asms"][(asm["site"] + 1)]
-				#view_one(nasm.clone)
-				if nasm
-					naof_asm_secs = nasm["bs"] - asm["bs"]
-				else
-					naof_asm_secs = asm["naof-secs"]
-				end
-				if asm["destination"] && naof_asm_secs < 5
-					if BinaryConstants::StayToAluModules.index(asm["mod"]) == nil
-						view_one(asm)
-						puts "<--> | we need to cover the case of the asm above in regards to asm-move-secs-expansion"
-						return false
-					end
-					mod_name = clericall_conditional_name(asm["mod"])
-					sequence = @sq.sequences("st 0 0 #{mod_name}")
-					casm["naof-slot-secs"] = sequence.length
-					casm["expansion"] = mod_name
-				end
+				"motion"
 			end
-			naof_secs_gathered += naof_asm_secs
-			casm["splice-port"] = obs
-			casm["segment-site"] = naof_segments
-			casm["naof-slot-secs"] ||= casm["naof-secs"]
-			casm["sbs"] = @slot
-			view_one(poly_clone(casm))
-			@osbs ||= @slot
-			asms += [casm]
-			@slot += casm["naof-slot-secs"]
-			bs = asm["bs"] + naof_asm_secs
-			if naof_secs_gathered >= 5
-				break
-			end
+		elsif asm["destination"]
+			"motion"
+		else
+			"just"
 		end
-		@segments += [asms]
-		@segment_ports += [obs]
-		#sequence = @sq.sequences("st #{(obs + 5).to_s(16)} #{@slot.to_s(16)}")
-		#ameta["asms"][ameta["asms-index"][obs]]["alu-module"] = "jmpq"
-		#ameta["asms"][ameta["asms-index"][obs]]["virtual-mode"] = "splice-port"
-		#ameta["asms"][ameta["asms-index"][obs]]["slot-destination"] = oslot
-		@slot += 5
-		puts
 	end
-	def inject(secs_name, binary_name, bs)
-		obs = bs
-		@osbs = nil
-		slot_init = self.slots[binary_name]["slot"]
-		slot_com = slot_init + self.slots[binary_name]["slot-distance"]
-		naof_proc_secs = File::size(secs_name)
-		@slot = @slots[binary_name]["slot"]
-		islot = @slot
-		@writes += [{
-			"sbs" => @slot,
-			"secs" => File::open(secs_name).read.bytes
-		}]
-		@slot += naof_proc_secs
+	def get_motion_site(asm)
+		motion = asm["destination"] - asm["completion"]
+		motion_secs = secs_aof(motion, 4).reverse
+		puts "motion-secs | #{motion_secs}"
+		if asm["bs"] == 0xe836
+			view_vecter([asm])
+			puts "<--> | motion | #{motion.to_s(16)}"
+			#$stdin.gets
+		end
+		motion_site = sites_aof(motion_secs, asm["secs"])[0]
+		puts "motion-site | #{motion_site}"
+		if motion_site == nil
+			motion_secs = secs_aof(motion, 1).reverse
+			puts "motion-secs | #{motion_secs}"
+			motion_site = sites_aof(motion_secs, asm["secs"])[0]
+		end
+		motion_site
+	end
+	def expand_asm(asm)
+		asm["secs"]
+	end
+	def inject(secs_name, bs)
+		if @moves[bs]
+			bs = @moves[bs]
+		end
+		#puts "bs | #{bs.to_s(16)}"
 		oslot = @slot
-		motions = []
-		@segments = []
-		@segment_ports = []
-		ameta = @ametas[binary_name]
-		cque = [bs]
-		que = [bs]
-		see_site = 0
+		naof_secs = File::size(secs_name)
+		secs_file = File::open(secs_name)
+		@writes += [{
+			"bs" => @slot,
+			"secs" => secs_file.read.bytes
+		}]
+		@slot += naof_secs
+		section_ports = [bs]
+		regard_motions = []
+		sections = []
+		section_pbs = [] # pbs | port-backs
+		section_pts = [] # pbs | port-tos
+		asms_to_place = []
+		moves_que = []
+		section_site = 0
 		while true
-			bs = que[0]
-			if bs == nil
+			#puts "section-ports | #{section_ports}"
+			pobs = section_ports[0]
+			section = []
+			if pobs == nil
 				break
 			end
-			#if see_site == 4
-				#break
-			#end
-			que = que[1..-1]
-			puts "que | #{que}"
-			self.gather_for_segment_stay_to(binary_name, bs)
-			asms = @segments[-1]
-			naof_asms = asms.length
+			#puts "pobs | #{pobs.to_s(16)}"
+			pbs = nil
+			bpbs = nil # bpbs | back-port-binary-site
+			pt = nil
+			combs = nil
+			naof_secs = 0
 			asite = 0
 			while true
-				if asite == naof_asms
+				if naof_secs >= 5
 					break
 				end
-				asm = asms[asite]
-				#view_one(asm)
-				regards = ameta["regards"][asm["bs"]]
+				asm = get_asm(bs)
+				if asm == nil
+					bs += 1
+					naof_secs -= 1
+					next
+				end
+				view_vecter([asm])
+				aobs = asm["bs"]
+				bpbs = asm["completion"]
+				combs = asm["completion"]
+				#puts "section-site | #{section_site}"
+				if pt == nil && section_site == 0
+					pt = [(asm["bs"]), oslot]
+				elsif pt == nil
+					pt = [(asm["bs"]), @slot]
+				end
+				#puts "pt | #{pt.map{|e| e.to_s(16)}}"
+				if asm == nil
+					bs += 1
+					naof_secs += 1
+				end
+				bs = asm["completion"]
+				pbs = bs
+				naof_secs += asm["naof-secs"]
+				regards = @regards[asm["bs"]]
+				#if regards
+					#puts "<--> | regards | #{regards}"
+					#$stdin.gets
+				#end
+				type = asm_category(asm)
+				#puts "type | #{type}"
+				if type == "motion"
+					asm["motion-site"] = get_motion_site(asm)
+				end
+				if type == "expansion"
+					asm["motion-site"] = 1
+					conditional_code = clericall_conditional_name(asm["mod"])
+					asm["secs"] = @sc.sequences("st 0 0 #{conditional_code}")
+					asm["naof-secs"] = asm["secs"].length
+				end
+				asm["obs"] = asm["bs"]
+				asm["bs"] = @slot
+				asm["completion"] = @slot + asm["naof-secs"]
+				@slot += asm["naof-secs"]
+				section += [asm]
 				if regards
 					naof_regards = regards.length
+					puts "naof-regards | #{naof_regards}"
+					puts "regards | #{regards.map{|e| e.to_s(16)}}"
 					rsite = 0
 					while true
 						if rsite == naof_regards
 							break
 						end
-						rasm = poly_clone(self.get_asm(binary_name, regards[rsite]))
-						rsite += 1
-						if rasm["bs"] >= slot_init && rasm["bs"] < slot_com
-							next
+						puts "rsite | #{rsite}"
+						regard = regards[rsite]
+						puts "regard | #{regard.to_s(16)}"
+						rasm = self.get_asm(regard)
+						puts "<--> | rasm | #{rasm}"
+						type = self.asm_category(rasm)
+						puts "type | #{type}"
+						if type == "motion"
+							rasm["motion-site"] = get_motion_site(rasm)
 						end
-						if cque.index(rasm["bs"]) == nil
-							if rasm["naof-secs"] < 5
-								que += [rasm["bs"]]
-								cque += [rasm["bs"]]
+						if rasm["destination"]
+							puts "rasm[\"destination\"] | #{rasm["destination"].to_s(16)}"
+							if asite == 0 && section_site == 0
+									rasm["destination"] = oslot
 							else
-								motions += [poly_clone(rasm)]
+								rasm["destination"] = asm["bs"]
 							end
+							puts "rasm[\"destination\"] | #{rasm["destination"].to_s(16)}"
 						end
-					end
-				end
-				asite += 1
-			end
-			see_site += 1
-		end
-		naof_segments = @segments.length
-		site = 0
-		while true
-			if site == naof_segments
-				break
-			end
-			segment = @segments[site]
-			segment_secs = []
-			naof_asms = segment.length
-			asite = 0
-			while true
-				if asite == naof_asms
-					break
-				end
-				asm = segment[asite]
-				if asm["destination"]
-					s1, s2 = self.segment_sites(asm["destination"])
-					if s1
-						port_bs =  @segments[s1][s2]["sbs"]
-						if port_bs == @osbs
-							port_bs = islot
+						if type == "expansion"
+							section_ports += [rasm["bs"]]
+						else
+							regard_motions += [rasm]
 						end
-						@segments[site][asite]["destination"] = port_bs
+						rsite += 1
 					end
 				end
 				asite += 1
 			end
-			site += 1
-		end
-		naof_motions = motions.length
-		# <--> | rubys dup and clone are not quite to their discription.
-			# <-->\^ | thats we we will make poly_clone
-		log_heading("segments")
-		view_vecters(poly_clone(@segments))
-		if naof_motions > 0
-			log_heading("motions")
-			view_vecter(poly_clone(motions))
-		end
-		log_heading("com")
-		#@slot = oslot
-		@slots[binary_name]["slot"] = @slot
-		#log_heading("writing")
-		site = 0
-		while true
-			if site == naof_segments
-				break
-			end
-			segment = @segments[site]
-			segment_secs = []
-			naof_asms = segment.length
-			asite = 0
-			while true
-				if asite == naof_asms
-					break
-				end
-				asm = segment[asite]
-				#view_one(asm.clone)
-				if asm["is-fvirt"]
-					s1, s2 = self.segment_sites(asm["bs"])
-					tasm = @segments[s1][s2]
-					#log_heading("double-splice-port")
-					#view_one(tasm.clone)
-					port_bs = tasm["sbs"]
-					if tasm["bs"] == obs
-						port_bs = islot
+			naof_nops = naof_secs - 5
+			#puts "naof-nops | #{naof_nops}"
+			if naof_nops > 0
+				nops = [0x90] * naof_nops
+				bs = (combs - naof_nops);
+				write = {
+					"bs" => (bs),
+					"secs" => nops
+				}
+				#puts "write | #{write}"
+				@writes += [write]
+				nsite = 0
+				while true
+					if nsite == naof_nops
+						break
 					end
-					sequence = @sq.sequences("st #{(asm["sbs"] + asm["naof-slot-secs"]).to_s(16)} #{port_bs.to_s(16)} always")
-					segment_secs += sequence
-				elsif asm["expansion"]
-					sequence = @sq.sequences("st #{(asm["sbs"] + asm["naof-slot-secs"]).to_s(16)} #{asm["destination"].to_s(16)} #{asm["expansion"]}")
-					segment_secs += sequence
-				elsif asm["destination"]
-					view_one(poly_clone(asm))
-					motion = asm["odest"] - asm["completion"]
-					puts "motion | #{motion.to_s(16)}"
-					motion_secs = secs_aof(motion, 4).reverse
-					motion_site = sites_aof(motion_secs, asm["secs"])[0]
-					puts "motion-site | #{motion_site}"
-					motion = asm["destination"] - (asm["sbs"] + asm["naof-slot-secs"])
-					motion_secs = secs_aof(motion, 4).reverse
-					place(motion_secs, asm["secs"], motion_site)
-					segment_secs += asm["secs"]
-				else
-					segment_secs += asm["secs"]
+					asm = ::WideSequences::nop(bs)
+					#puts "<--> | #{bs.to_s(16)}"
+					#puts "<--> | #{asm}"
+					#view_vecter([asm])
+					#$stdin.gets
+					bs += 1
+					nsite += 1
 				end
-				asite += 1
 			end
-			puts "segment[0] | #{segment[0]}"
-			if site == 0
-				port_bs = islot
-			else
-				port_bs = segment[0]["sbs"]
-			end
-			sequence = @sq.sequences("st #{(segment[0]["splice-port"] + 5).to_s(16)} #{port_bs.to_s(16)} always")
-			@writes += [{
-				"sbs" => segment[0]["splice-port"],
-				"secs" => sequence
-			}]
-			port_bs = segment[-1]["sbs"] + segment[-1]["naof-slot-secs"]
-			sequence = @sq.sequences("st #{(port_bs + 5).to_s(16)} #{(segment[0]["splice-port"] + 5).to_s(16)} always")
-			@writes += [{
-				"sbs" => port_bs,
-				"secs" => sequence
-			}]
-			@writes += [{
-				"sbs" => segment[0]["sbs"],
-				"secs" => segment_secs
-			}]
-			site += 1
+			section_pts += [pt]
+			com = @slot + 5
+			asm = {"bs" => @slot, "completion" => (com), "mod" => "jmpq", "params" => bpbs.to_s(16), "destination" => bpbs, "motion-site" => 1}
+			asm["secs"] = @sc.sequences("st #{com.to_s(16)} #{bpbs.to_s(16)} always")
+			asm["naof-secs"] = asm["secs"].length
+			puts "<--> | #{asm}"
+			#if asm["naof-secs"].class == Vecter
+				#$stdin.gets
+			#end
+			@slot += 5
+			section += [asm]
+			sections += [section]
+			section_pbs += [pbs]
+			section_ports = section_ports[1..-1]
+			section_site += 1
 		end
+		naof_moves = moves_que.length
 		msite = 0
 		while true
-			if msite == naof_motions
+			if msite == naof_moves
 				break
 			end
-			asm = motions[msite]
-			view_one(asm.clone)
-			puts "asm | #{asm}"
-			s1, s2 = self.segment_sites(asm["destination"])
-			sasm = @segments[s1][s2]
-			view_one(sasm.clone)
-			puts "sasm | #{sasm}"
-			motion = asm["destination"] - asm["completion"]
-			motion_secs = secs_aof(motion, 4).reverse
-			motion_site = sites_aof(motion_secs, asm["secs"])[0]
-			if sasm["bs"] == obs
-				motion = islot - asm["completion"]
-			else
-				motion = sasm["sbs"] - asm["completion"]
-			end
-			motion_secs = secs_aof(motion, 4).reverse
-			@writes += [{
-				"sbs" => (asm["bs"] + motion_site),
-				"secs" => motion_secs
-			}]
+			@moves[moves_que[0]] = moves_que[1]
 			msite += 1
 		end
+		naof_sections = sections.length
 		site = 0
 		while true
-			if site == naof_segments
+			if site == naof_sections
 				break
 			end
-			nopso = nil
-			naof_nops = 0
-			naof_port_secs = 0
-			segment = @segments[site]
-			log_heading("nops segment-#{site}")
-			naof_segment_secs = 0
-			naof_asms = segment.length
+			section = sections[site]
+			naof_asms = section.length
+			log_heading("section | #{site}")
+			view_vecter(section)
+			#puts "naof-asms | #{naof_asms}"
+			#puts
+			naof_asms = section.length
+			pb_bs = section_pbs[site] # pb-bs | port-back-binary-site
+			pt_bs = section_pts[site] # pt-bs | port-to-binary-site
+			#puts "port-to | #{pt_bs.map{|e| e.to_s(16)}}"
+			write = {
+				"bs" => nil,
+				"secs" => []
+			}
 			asite = 0
 			while true
 				if asite == naof_asms
 					break
 				end
-				asm = segment[asite]
-				if asm["is-fvirt"]
-					naof_segment_secs += 5
-				else
-					naof_segment_secs += asm["naof-secs"]
+				asm = section[asite]
+				#view_vecter([asm])
+				if asite == 0
+					write["bs"] = asm["bs"]
 				end
+				type = asm_category(asm)
+				#puts "<--> | #{type}"
+				#puts "<--> | #{asm}"
+				#$stdin.gets
+				if type == "expansion"
+					asm["secs"] = @sc.sequences("st #{asm["completion"].to_s(16)} #{asm["destination"].to_s(16)} #{conditional_code}")
+				elsif type == "motion"
+					motion = asm["destination"] - asm["completion"]
+					motion_secs = secs_aof(motion, 4).reverse
+					#puts "motion-secs | #{motion_secs}"
+					place(motion_secs, asm["secs"], asm["motion-site"])
+				else
+				end
+				write["secs"] += asm["secs"]
 				asite += 1
 			end
-			puts "naof-segment-secs | #{naof_segment_secs}"
-			naof_nops = naof_segment_secs - 5
-			if naof_nops > 0
-				@writes += [{
-					"sbs" => (segment[0]["bs"] + 5),
-					"secs" => ([0x90] * naof_nops)
-				}]
-			end
+			#puts "write | #{write}"
+			@writes += [write]
+			asms_to_place += [asm]
+			com = (pt_bs[0] + 5)
+			destination = pt_bs[1]
+			pb = @sc.sequences("st #{(com).to_s(16)} #{destination.to_s(16)} always")
+			write = {
+				"bs" => pt_bs[0],
+				"secs" => pb
+			}
+			#puts "write | #{write}"
+			@writes += [write]
+			asm = ::WideSequences::jmpq(com, destination)
+			#puts "<--> | asm | #{asm}"
+			#self.place_asm(asm)
+			asms_to_place += [asm]
 			site += 1
 		end
-	end
-	def write(binary_name)
-		placed_name = binary_name.gsub(".so.", ".do.")
-		placed_name = placed_name.gsub("-do", "-steel")
-		comand = "./sf #{binary_name} #{placed_name}"
-		puts "comand | #{comand}"
-		system(comand)
-		naof_writes = @writes.length
-		site = 0
+		naof_asms_to_place = asms_to_place.length
+		log_heading("regard-motions")
+		#view_vecter(regard_motions)
+		#$stdin.gets
+		naof_regards = regard_motions.length
+		rsite = 0
 		while true
-			if site == naof_writes
+			if rsite == naof_regards
 				break
 			end
-			write = @writes[site]
-			buz_place(write["secs"], placed_name, write["sbs"])
+			asm = regard_motions[rsite]
+			motion = asm["destination"] - asm["completion"]
+			motion_secs = secs_aof(motion, 4).reverse
+			#puts "<--> | asm | #{asm}"
+			type = asm_category(asm)
+			#puts "type | #{type}"
+			place(motion_secs, asm["secs"], asm["motion-site"])
+			write = {
+				"bs" => asm["bs"],
+				"secs" => asm["secs"]
+			}
+			#puts "write | #{write}"
+			@writes += [write]
+			#view_vecter([rasm])
+			#puts "rasm | <--> | #{rasm}"
+			#$stdin.gets
+			#self.place_asm(rasm)
+			asms_to_place += [rasm]
+			rsite += 1
+		end
+		site = 0
+		while true
+			if site == naof_asms_to_place
+				break
+			end
+			#self.place_asm(asm)
 			site += 1
 		end
 	end
-	def get_asm(binary_name, bs, vecter_name="asms")
-		asite = @ametas[binary_name]["asms-index"][bs]
+	def write()
+		place_name = @binary_name.gsub(".so.", ".do.").gsub("-do", "-steel")
+		comand = "./sf #{@binary_name} #{place_name}"
+		#puts "comand | #{comand}"
+		system(comand)
+		write_sites = []
+		naof_writes = @writes.length
+		write_secs = []
+		write_site = 0
+		wsite = 0
+		while true
+			if wsite == naof_writes
+				break
+			end
+			write = @writes[wsite]
+			write_secs += write["secs"]
+			naof_secs = write["secs"].length
+			write_sites += [[write_site, naof_secs, write["bs"]]]
+			write_site += naof_secs
+			wsite += 1
+		end
+		#puts "write-secs | #{write_secs}"
+		#puts "write-sites | #{write_sites}"
+		writes_name = "#{seed62(7)}.writes"
+		#puts "writes-name | #{writes_name}"
+		writes_file = File::open(writes_name, "w")
+		writes_file.write(write_secs.pack("c*"))
+		writes_file.close
+		wsite = 0
+		while true
+			if wsite == naof_writes
+				break
+			end
+			sites = write_sites[wsite]
+			comand = "./place-sites #{writes_name} #{sites[0].to_s(16)} #{sites[1].to_s(16)} #{place_name} #{sites[2].to_s(16)}"
+			#puts "comand | #{comand}"
+			system(comand)
+			wsite += 1
+		end
+		#unlink_file(writes_name)
+	end
+	def get_asm(bs)
+		asm = nil
+		asite = @asms_index[bs]
 		if asite
-			@ametas[binary_name][vecter_name][asite]
+			asm = @asms[asite].clone
 		else
 			nil
 		end
+	end
+	def next_bs(asm_bs)
+		asite = @asms_index[asm_bs]
+		asm = @asms[asite + 1]
+		if asm
+			asm["bs"]
+		else
+			nil
+		end
+	end
+	def asm_site_for_bs(bs)
+		while true
+			asm_index = @asms_index[bs]
+			if asm_index
+				break
+			else
+				bs -= 1
+				if bs == 0
+					asm_index = nil
+					break
+				end
+			end
+		end
+		asm_index
+	end
+	def index_asms
+		@asms.sort!{|a,b| a["bs"] <=> b["bs"]}
+		@asms_index = {}
+		naof_asms = @asms.length
+		asite = 0
+		while true
+			if asite == naof_asms
+				break
+			end
+			asm = @asms[asite]
+			asm["site"] = asite
+			bs = asm["bs"]
+			@asms_index[bs] = asite
+			asite += 1
+		end
+	end
+	def place_asm(asm)
+		#view_vecter([asm])
+		#if asm["bs"] == 0x2ac9
+			#view_vecter([asm])
+			#$stdin.gets
+		#end
+		que = []
+		#self.view_asms(0x1090, 0x109b)
+		bs = asm["bs"]
+		rack_nops = []
+		naof_secs = asm["naof-secs"]
+		unlink_sites = []
+		while true
+			#puts "<--> | bs | #{bs.to_s(16)}"
+			aasm = self.get_asm(bs)
+			if aasm == nil
+				break
+			end
+			bs = aasm["completion"]
+			naof_special_nao = 0
+			while true
+				next_asm = self.get_asm(bs)
+				if next_asm
+					break
+				end
+				bs += 1
+				naof_special_nao += 1
+			end
+			naof_secs -= aasm["naof-secs"] + naof_special_nao
+			unlink_sites += [aasm["bs"]]
+			#puts "<--> | #{aasm}"
+			#puts "unlink-sites | #{unlink_sites.map{|e| e.to_s(16)}}"
+			#$stdin.gets
+			if naof_secs <= 0
+				break
+			end
+		end
+		#puts "naof-secs | #{naof_secs}"
+		#puts "bs | #{bs.to_s(16)}"
+		unlink_sites.sort!{|a,b| b <=> a}
+		#puts "unlink-sites | #{unlink_sites.map{|e| e.to_s(16)}}"
+		#$stdin.gets
+		naof_unlinks = unlink_sites.length
+		ulsite = 0
+		while true
+			if ulsite == naof_unlinks
+				break
+			end
+			bs = unlink_sites[ulsite]
+			ulsite += 1
+			aasm = self.get_asm(bs)
+			if aasm == nil
+				next
+			end
+			#asite = asm_site_for_bs(bs)
+			#puts "asite | #{asite.to_s(16)}"
+			#puts "bs | #{bs.to_s(16)}"
+			#puts "<--> | #{asm}"
+			#if aasm["bs"] == 0x1090
+				#view_vecter([asm])
+				#$stdin.gets
+			#end
+			@asms = unlink(@asms, aasm["site"])
+		end
+		@asms += [asm]
+		puts "place-asm | <--> | #{asm}"
+		#if asm["bs"] == 0x1090
+			#view_vecter([asm])
+			#$stdin.gets
+		#end
+		puts
+		self.index_asms
+	end
+	def view_asms(origin=nil, completion=nil)
+		if origin && completion
+			asms = []
+			naof_asms = @asms.length
+			site = 0
+			while true
+				if site == naof_asms
+					break
+				end
+				asm = @asms[site]
+				bs = asm["bs"]
+				if (bs >= origin) && (bs <= completion)
+					asms += [asm]
+				end
+				site += 1
+			end
+		else
+			asms = @asms
+		end
+		asms.sort!{|a,b| a["bs"] <=> b["bs"]}
+		view_vecter(asms)
 	end
 end

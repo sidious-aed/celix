@@ -206,5 +206,11 @@ unsigned long main(unsigned long naof_params, unsigned char ** params) {
 	naof_secs = presice_to_entree(3647, 4674238, 36, presice_entree);
 	syscall(unix_write, 1, presice_entree, naof_secs);
 	syscall(unix_write, 1, "\n", 1);
+	naof_secs = presice_to_entree(4674238, 3647, 10, presice_entree);
+	syscall(unix_write, 1, presice_entree, naof_secs);
+	syscall(unix_write, 1, "\n", 1);
+	naof_secs = presice_to_entree(4674238, 3647, 36, presice_entree);
+	syscall(unix_write, 1, presice_entree, naof_secs);
+	syscall(unix_write, 1, "\n", 1);
   return 0;
 }

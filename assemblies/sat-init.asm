@@ -59,7 +59,7 @@ leeve-from 0 rip r8
 move-quad r8 zero-stay
 
 ##########################################################################################################
-# begin load, init, and stay droid-drive.
+# begin load, init, and stay sat-drive.
 ##########################################################################################################
 
 entree drive-name | secs/sat-drive.secs

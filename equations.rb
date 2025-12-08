@@ -4,12 +4,16 @@ naof_params, params, env, iat, symbols = init()
 
 if naof_params != 1
   puts "params | 1"
-  puts "1 | root-node"
+  puts "1 | node"
   return
 end
 
 procedure_extensions = ["rb", "c"]
-manafest = manafest_at(params[0])
+node = params[0]
+if node[-1] != "/"
+	node += "/"
+end
+manafest = filter_node_nodes(Dir::entries(node))
 #puts "manafest | #{manafest}"
 naof_files = manafest.length
 # clerk note | nice, the tamber of while compaired to each in the basis of ruby
@@ -23,6 +27,7 @@ while true
 		break
 	end
 	file = manafest[fsite]
+	file = "#{node}#{file}"
   #puts "file | #{file}"
   extension = file.split("/")[-1].split(".")[-1]
   if procedure_extensions.index(extension)
@@ -43,9 +48,10 @@ while true
         puts "#{file}"
         puts "#{"-" * file.length}"
         chart.each_with_index do |segment, segment_site|
-					if segment.strip[0...3] == "def"
+					segment.strip!
+					if segment[0...3] == "def"
             site_distance = "#{segment_site + 1}".length
-            puts "#{segment_site + 1}#{" " * (et_site_distance - site_distance)} | #{segment[4..-1]}"
+						puts "#{segment_site + 1}#{" " * (et_site_distance - site_distance)} | #{segment.strip[4..-1]}"
           end
         end
         puts

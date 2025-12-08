@@ -2,8 +2,13 @@ require "/home/tyrel/celix/charts.rb"
 
 class BinaryConstants
 	StayToAluModules = ["bnd callq", "bnd jmpq", "bnd jns", "callq", "ja", "jae", "jb", "jbe", "je", "jg", "jge", "jl", "jle", "jmp", "jmpq", "jne", "jns", "jo", "jp", "jrcxz", "js"]
+	CallModules = ["bnd callq", "callq"]
+	DuelModules = ["bnd callq", "callq", "syscall"]
 	ConditionalAluModules = ["bnd jns", "ja", "jae", "jb", "jbe", "je", "jg", "jge", "jl", "jle", "jne", "jns", "jo", "jp", "jrcxz", "js"]
 	SequencesDslStayToAluModules = ["je", "jne", "jbe", "ja", "js", "jmpq", "jb", "jle", "jge", "jg", "jns", "jo", "jae", "jl", "jp", "jmp"]
+	SetConditionalModules = ["ja", "jae", "jb", "jbe", "je", "jg", "jge", "jl", "jle", "jne", "jns", "jo", "jp", "js"]
+	ReturnAluModules = ["retq", "repz retq", "bnd retq"]
+	NopAluModules = ["nop", "nopw", "nopl"]
 	Register64Names = ["r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15", "rax", "rbx", "rcx", "rdx", "rdi", "rsi", "rsp", "rbp"]
 	Register32Names = ["r8d", "r9d", "r10d", "r11d", "r12d", "r13d", "r14d", "r15d", "eax", "ebx", "ecx", "edx", "edi", "esi", "esp", "ebp"]
 	Register16Names = ["r8w", "r9w", "r10w", "r11w", "r12w", "r13w", "r14w", "r15w", "ax", "bx", "cx", "dx", "di", "si", "sp", "bp"]
@@ -50,12 +55,15 @@ def binary_dls(path)
   if (path[0] != ".") && (path[0] != "/")
     path = "./#{path}"
   end
+	binary_name = path.split("/")[-1]
+	#puts "binary-name | #{binary_name}"
 	dls = []
 	from_her = `LD_TRACE_LOADED_OBJECTS=1 ./io.so.9 #{path}`.split("\n")
 	naof_segments = from_her.length
 	if naof_segments == 1
 		dls += [{"name" => "io.so.9", "category" => "mmap-synced"}]
 	end
+	added_binary_name = false
 	site = 0
 	while true
 		if site == naof_segments
@@ -67,6 +75,9 @@ def binary_dls(path)
 			next
 		end
 		naof_sections = sections.length
+		if sections[0] == binary_name
+			added_binary_name = true
+		end
 		if naof_sections == 2
 			dl = {"name" => sections[0]}
 		else
@@ -79,6 +90,12 @@ def binary_dls(path)
 			dl["category"] = "mmap-synced"
 		end
 		dls += [dl]
+	end
+	if added_binary_name == false
+		dls += [{
+			"name" => binary_name,
+			"category" => "from-init"
+		}]
 	end
   dls
 end
@@ -386,6 +403,18 @@ def get_binary_meta(name)
     section["binary-completion"] = (section["binary-node"] + section["naof-secs"])
     site += 1
   end
+  naof_loads = meta["loads"].length
+  site = 0
+  while true
+    if site == naof_loads
+      break
+    end
+    record = meta["loads"][site]
+		#puts "recrod | #{record}"
+    record["binary-completion"] = (record["binary-site"] + record["naof-secs"])
+    record["stack-completion"] = (record["stack-site"] + record["naof-stack-secs"])
+    site += 1
+  end
 	meta["dynsym"] = meta["dynsym"].sort{|a,b| a["stay-site"] <=> b["stay-site"]}
   meta
 end
@@ -587,12 +616,13 @@ def get_asm_meta(binary_name)
 		ft = from_to(asm)
 		meta["from-tos"] += [ft]
 
-		#view_one(asm)
-		#if segment.index("2107b:")
-			#break
-		#end
 		meta["asms"] += [asm]
 		meta["asms-index"][asm["bs"]] = asite
+		#if segment.index("e836:")
+			#view_vecter([asm])
+			#puts "asms-index[0xe836] | #{meta["asms-index"][asm["bs"]]}"
+			#break
+		#end
 		asite += 1
 	end
 	#view_vecter(meta["asms"])

@@ -1,8 +1,29 @@
 require "/home/tyrel/celix/core.rb"
+class WideSequences
+	StandardNop = {"mod" => "nop", "params" => "", "naof-secs" => 1, "destination" => nil, "source" => nil}
+	StandardJmpq = {"mod" => "jmpq", "naof-secs" => 5}
+	class << self
+		def nop(bs)
+			com = bs + 1
+			secs = [0x90]
+			asm = {"bs" => bs, "completion" => com, "mod" => "nop", "params" => "", "secs" => secs, "naof-secs" => 1, "destination" => nil, "source" => nil}
+			asm
+		end
+		def jmpq(com, destination)
+			motion = destination - com
+			motion_secs = secs_aof(motion, 4).reverse
+			secs = [0x9] + motion_secs
+			bs = com - 5
+			jmpq = {"bs" => bs, "completion" => com, "mod" => "jmpq", "secs" => secs, "naof-secs" => 5, "params" => destination.to_s(16), "destination" => destination}
+			#puts "jmpq | #{jmpq}"
+			jmpq
+		end
+	end
+end
 class SequencesClerk
 	attr_accessor :signs, :modules
-	def initialize
-		@signs = eval(File::open("charts/machine.chart").read)
+	def initialize(chart_name)
+		@signs = eval(File::open(chart_name).read)
 	end
 
 	def sequences(dsl_entree)

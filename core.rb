@@ -62,16 +62,24 @@ def filter_by_sites_vecter(sites, vecter)
 end
 
 def place(origin, destination, site)
-  distance = origin.length
-  song_site = 0
-  while true
-    if song_site == distance
-      break
-    end
-    destination[site + song_site] = origin[song_site]
-    song_site = song_site + 1
-  end
-  true
+	naof_secs = origin.length
+	osite = 0
+	com = site + naof_secs
+	while true
+		#puts "osite | #{osite}"
+		destination[site] = origin[osite]
+		osite += 1
+		site += 1
+		if site == com
+			break
+		end
+	end
+end
+
+def slash_place(origin, destination, site)
+	naof_secs = origin.length
+	vecter = destination[0...site] + origin + destination[(site + naof_secs)..-1]
+	vecter
 end
 
 def insert(origin, destination, site)
@@ -82,6 +90,14 @@ def insert(origin, destination, site)
   space += destination[site..-1]
   space
 end
+
+def warm_stave(vecter, site)
+	vast = vecter[site]
+	then_vecter = vecter[0...site] + vecter[(site + 1)..-1]
+	then_vecter
+end
+alias stave warm_stave
+alias unlink warm_stave
 
 def number_aof(secs)
   naof_secs = secs.length
@@ -435,10 +451,12 @@ def filtered_segments(source, filter)
   segments
 end
 
-def view_hash(hash)
+def view_hash(hash, base=16)
 	#puts "i sim."
 	naof_secs = 0
 	names = hash.keys
+	name_entrees = []
+	naof_names_secs = []
 	naof_names = names.length
 	site = 0
 	while true
@@ -446,12 +464,21 @@ def view_hash(hash)
 			break
 		end
 		name = names[site]
-		naof_name_secs = name.length
+		if name.class == Integer
+			name_entree = name.to_s(base)
+		else
+			name_entree = "#{name}"
+		end
+		naof_name_secs = name_entree.length
+		#puts "naof-name-secs | #{naof_name_secs}"
 		if naof_name_secs > naof_secs
 			naof_secs = naof_name_secs
 		end
+		name_entrees += [name_entree]
+		naof_names_secs += [naof_name_secs]
 		site += 1
 	end
+	#puts "naof-secs | #{naof_secs}"
 	site = 0
 	while true
 		if site == naof_names
@@ -459,18 +486,19 @@ def view_hash(hash)
 		end
 		#puts "site | #{site}"
 		name = names[site]
-		naof_name_secs = name.length
+		name_entree = name_entrees[site]
+		naof_name_secs = naof_names_secs[site]
 		naof_space_secs = naof_secs - naof_name_secs
 		spaces = " " * naof_space_secs
-		apreciation = ""
+		value_entree = ""
 		#puts "class | #{hash[name].class}"
 		if hash[name].class == Integer
 			#puts "integer"
-			appreciation = "#{hash[name].to_s(16)}"
+			value_entree = "#{hash[name].to_s(base)}"
 		else
-			appreciation = "#{hash[name]}"
+			value_entree = "#{hash[name]}"
 		end
-		entree = "#{name}#{spaces} | #{appreciation}"
+		entree = "#{name_entree}#{spaces} | #{value_entree}"
 		puts "#{entree}"
 		site += 1
 	end
@@ -481,6 +509,7 @@ class ClerkConstants
 	HerQueLimit = 10
 end
 
+# <--> | bin is vast vast. many isatopes.
 # is recursive from node givin
 def clear_bin(node, throw_extensions)
 	if node[-1] != "/"
@@ -540,4 +569,32 @@ def clear_bin(node, throw_extensions)
 		site += 1
 	end
 	#$stdin.gets
+end
+
+def clerk_clone(collileage)
+	file_alias = "#{seed62(21)}.collileage"
+	#puts "file-alias | #{file_alias}"
+	chart = File::open(file_alias, "w")
+	chart.write(collileage)
+	chart.close
+	new_collileage = eval(File::open(file_alias).read)
+	unlink_file(file_alias)
+	new_collileage
+end
+
+def clone_vecter(vecter)
+	new_vecter = []
+	# many things asked why from the issuers are from the issuers drives to the climate with all respect to mitocondria.
+	# that is a focuser; now vasterlee, there are many sitch and state elements, with all respect to elements.
+	naof_elements = vecter.length
+	esite = 0
+	while true
+		if esite == naof_elements
+			break
+		end
+		element = vecter[esite].clone
+		new_vecter += [element]
+		esite += 1
+	end
+	new_vecter
 end

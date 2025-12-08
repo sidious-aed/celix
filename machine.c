@@ -32,7 +32,7 @@ quadrant asm_motion_stay(source alu_module, quadrant alu_module_distance, direct
   return write_site;
 }
 
-quadrant asm_set_conditional(source alu_module, quadrant alu_module_distance, quadrant rack_site, source write_space) {
+quadrant asm_set_conditional(source alu_module, quadrant alu_module_distance, source write_space) {
   directional motion_alu_site = source_site(naof_set_conditionals, set_conditionals, set_conditional_distances, alu_module, alu_module_distance);
   //printf("motion-alu-site | %lu\n", motion_alu_site);
   if(motion_alu_site == -1) {
@@ -42,9 +42,6 @@ quadrant asm_set_conditional(source alu_module, quadrant alu_module_distance, qu
   quadrant write_site = 0;
   place(set_conditional_alus[motion_alu_site], write_space, 4);
   write_site += 4;
-  place(&rack_site, (write_space + write_site), 4);
-  write_site += 4;
-  //see_space("set-sec-from-conditional", write_space, write_site);
   return write_site;
 }
 

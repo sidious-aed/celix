@@ -366,10 +366,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
       //see_space("record", record, 40);
       add_to_vecter(record, &back_futures);
     } else if(compair_spaces("set-conditional", 15, (segment_space + components[0]), components[1])) {
-      quadrant rack_site;
-      //printf("rack-site | %lu\n", rack_site);
-      entree_to_number((segment_space + components[4]), components[5], 16, &rack_site);
-      machine_site = asm_set_conditional((segment_space + components[2]), components[3], rack_site, machine_space);
+      machine_site = asm_set_conditional((segment_space + components[2]), components[3], machine_space);
     } else if(compair_spaces("entree", 6, (segment_space + components[0]), components[1])) {
       source entree = malloc(components[3]);
       place((segment_space + components[2]), entree, components[3]);

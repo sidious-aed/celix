@@ -8,107 +8,147 @@ if naof_params != 1
   return
 end
 samples_node = params[0]
-if samples_node[-1] != "/"
-	samples_node += "/"
-end
 
-view_asms = Chart.new
-sample_nodes = filter_node_nodes(Dir::entries(samples_node))
-naof_sample_nodes = sample_nodes.length
-asms = []
-sample_sites = []
-sample_names = []
-sample_site = 0
-asite = 0
-site = 0
-while true
-	if site == naof_sample_nodes
-		break
+class SamplesViewer
+	attr_accessor :view_asms, :view_sites, :asms, :naof_asms, :sample_sites, :sample_names, :naof_sample_names
+	def initialize(samples_node)
+		if samples_node[-1] != "/"
+			samples_node += "/"
+		end
+		@samples_node = samples_node
+		self.load_samples
 	end
-	sample_node = sample_nodes[site]
-	binary_name, bsb16 = sample_node.split("-")
-	sample_node = "#{samples_node}#{sample_node}/"
-	#puts "sample-node | #{sample_node}"
-	asm_name = "#{sample_node}asm.meta"
-	asm = eval(File::open(asm_name).read)
-	asm["binary-name"] = binary_name
-	asm["asite"] = asite
-	view_asm = poly_clone(asm)
-	view_asm.delete("secs")
-	view_asm.delete("naof-secs")
-	view_asm["asite"] = asite
-	sources = filter_node_nodes(Dir::entries(sample_node))
-	#puts "sources | #{sources}"
-	naof_sources = sources.length
-	asm_sample_names = []
-	ssite = 0
-	while true
-		if ssite == naof_sources
-			break
-		end
-		name = sources[ssite]
-		components = name.split(".")
-		if components[-1] == "sample-meta"
-			sample_name = "#{sample_node}#{name}"
-			#puts "sample-name | #{sample_name}"
-			asm_sample_names += [sample_name]
-		end
-		ssite += 1
-	end
-	naof_asm_samples = asm_sample_names.length
-	site_com = sample_site + naof_asm_samples
-	if naof_asm_samples > 0
-		asm_sample_names.sort! do |a,b|
-			comps1 = a.split("/")[-1].split(".")
-			#puts "comps1 | #{comps1}"
-			time1 = "#{comps1[1].to_i(16)}.#{comps1[2].to_i(16)}".to_f
-			#puts "time1 | #{time1}"
-			comps2 = b.split("/")[-1].split(".")
-			#puts "comps2 | #{comps2}"
-			time2 = "#{comps2[1].to_i(16)}.#{comps2[2].to_i(16)}".to_f
-			#puts "time2 | #{time2}"
-			time1 <=> time2
-		end
-		#puts "sample-site | #{sample_site}"
-		sample_names += asm_sample_names
-		asm["naof-ocurances"] = naof_asm_samples
-		view_asm["naof-ocurances"] = naof_asm_samples
-		view_asms.add(view_asm)
-		asms += [asm]
-		sample_sites += [(sample_site...(site_com))]
-		#puts "sample-sites | #{sample_sites}"
-		#if asm["bs"] == 0xd306
+	def load_samples
+		@view_asms = Chart.new
+		@sample_nodes = filter_node_nodes(Dir::entries(@samples_node))
+		@naof_sample_nodes = @sample_nodes.length
+		@asms = []
+		@sample_sites = []
+		@sample_names = []
+		sample_site = 0
+		asite = 0
+		site = 0
+		while true
+			if site == @naof_sample_nodes
+				break
+			end
+			sample_node = @sample_nodes[site]
+			binary_name, bsb16 = sample_node.split("-")
+			sample_node = "#{@samples_node}#{sample_node}/"
+			puts "sample-node | #{sample_node}"
+			asm_name = "#{sample_node}asm.meta"
+			asm = eval(File::open(asm_name).read)
+			asm["binary-name"] = binary_name
+			asm["asite"] = asite
+			sources = filter_node_nodes(Dir::entries(sample_node))
+			#puts "sources | #{sources}"
+			naof_sources = sources.length
+			asm_sample_names = []
+			ssite = 0
+			while true
+				if ssite == naof_sources
+					break
+				end
+				name = sources[ssite]
+				components = name.split(".")
+				if components[-1] == "sample-meta"
+					#puts "sample-name | #{sample_name}"
+					asm_sample_names += [name]
+				end
+				ssite += 1
+			end
+			naof_asm_samples = asm_sample_names.length
+			#puts "asm-sample-names | #{asm_sample_names}"
 			#$stdin.gets
-		#end
-		sample_site = site_com
-		asite += 1
+			site_com = sample_site + naof_asm_samples
+			if naof_asm_samples > 0
+				asm_sample_names = sort_samples(asm_sample_names)
+				ssite = 0
+				while true
+					if ssite == naof_asm_samples
+						break
+					end
+					name = asm_sample_names[ssite]
+					sample_name = "#{sample_node}#{name}"
+					asm_sample_names[ssite] = sample_name
+					ssite += 1
+				end
+				#puts "asm-sample-names | #{asm_sample_names}"
+				#$stdin.gets
+				#asm_sample_names.sort! do |a,b|
+					#comps1 = a.split("/")[-1].split(".")
+					#puts "comps1 | #{comps1}"
+					#time1 = "#{comps1[1].to_i(16)}.#{comps1[2].to_i(16)}".to_f
+					#puts "time1 | #{time1}"
+					#comps2 = b.split("/")[-1].split(".")
+					#puts "comps2 | #{comps2}"
+					#time2 = "#{comps2[1].to_i(16)}.#{comps2[2].to_i(16)}".to_f
+					#puts "time2 | #{time2}"
+					#time1 <=> time2
+				#end
+				#asm_sample_names.each do |e|
+					#sample = eval(File::open(e).read)
+					#view_hash(sample["meta"])
+				#end
+				#$stdin.gets
+				#puts "sample-site | #{sample_site}"
+				@sample_names += asm_sample_names
+				asm["naof-ocurances"] = naof_asm_samples
+				if asm["mod"] == "syscall"
+					sample = eval(File::open(asm_sample_names[0]).read)
+					rax_site = droid_select(sample["registers"], lambda{|e| e["name"] == "rax"})[0]
+					if rax_site
+						rax_register = sample["registers"][rax_site]
+						asm["source"] = unix_system_source(rax_register["number"])
+					end
+					#view_one(poly_clone(asm))
+					#$stdin.gets
+				end
+				@asms += [asm]
+				view_asm = poly_clone(asm)
+				view_asm.delete("secs")
+				view_asm.delete("naof-secs")
+				view_asm["asite"] = asite
+				view_asm["naof-ocurances"] = naof_asm_samples
+				@view_asms.add(view_asm)
+				@sample_sites += [(sample_site...(site_com))]
+				#puts "sample-sites | #{sample_sites}"
+				#if asm["bs"] == 0xd306
+					#$stdin.gets
+				#end
+				sample_site = site_com
+				asite += 1
+			end
+			site += 1
+		end
+		@asm_sites = (0...asite).to_a
+		@naof_asms = asite
+		@view_sites = poly_clone(@asm_sites)
+		#puts "asm-sites | #{asm_sites}"
+		#$stdin.gets
+		#puts "sample-names | #{sample_names}"
+		@naof_sample_names = sample_names.length
+		#puts "naof-sample-names | #{naof_sample_names}"
+		#view_asms.engage_pause
 	end
-	site += 1
 end
-asm_sites = (0...asite).to_a
-naof_asms = asite
-view_sites = poly_clone(asm_sites)
-#puts "asm-sites | #{asm_sites}"
-#$stdin.gets
-#puts "sample-names | #{sample_names}"
-naof_sample_names = sample_names.length
-#puts "naof-sample-names | #{naof_sample_names}"
-#view_asms.engage_pause
+sv = SamplesViewer.new(samples_node)
+
 while true
-	naof_vsites = view_sites.length
+	naof_vsites = sv.view_sites.length
 	naof_vsamples = 0
 	vsite = 0
 	while true
 		if vsite == naof_vsites
 			break
 		end
-		asm = asms[view_sites[vsite]]
+		asm = sv.asms[sv.view_sites[vsite]]
 		#view_one(poly_clone(asm))
 		#puts "sites-vecter | #{sample_sites[asm["site"]].to_a}"
-		naof_vsamples += sample_sites[asm["asite"]].to_a.length
+		naof_vsamples += sv.sample_sites[asm["asite"]].to_a.length
 		vsite += 1
 	end
-	view_asms.view_sites(view_sites)
+	sv.view_asms.view_sites(sv.view_sites)
 	puts "naof-asms    | #{naof_vsites.to_s(16)}"
 	puts "naof-samples | #{naof_vsamples.to_s(16)}"
 	print "comand | "
@@ -118,14 +158,14 @@ while true
 	is_pause = true
 	if components[0] == "v"
 		asite = components[1].to_i(16)
-		sites_r = sample_sites[asite]
+		sites_r = sv.sample_sites[asite]
 		#puts "sites-r | #{sites_r}"
-		names = sample_names[sites_r]
+		names = sv.sample_names[sites_r]
 		puts "names | #{names}"
 		naof_names = names.length
 		puts "naof-names | #{naof_names}"
 		puts
-		view_asms.view(asite, asite)
+		sv.view_asms.view(asite, asite)
 		et = naof_names - 1
 		ssite = 0
 		while true
@@ -141,18 +181,98 @@ while true
 			end
 			ssite += 1
 		end
-		view_asms.view(asite, asite)
+		sv.view_asms.view(asite, asite)
 		puts
-	elsif components[0] == "vcs"
+	elsif components[0] == "va"
 		asite = components[1].to_i(16)
-		sites_r = sample_sites[asite]
+		puts
+		sv.view_asms.view(asite, asite)
+		puts
+	elsif components[0] == "vm"
+		asite = components[1].to_i(16)
+		sites_r = sv.sample_sites[asite]
 		#puts "sites-r | #{sites_r}"
-		names = sample_names[sites_r]
+		names = sv.sample_names[sites_r]
 		puts "names | #{names}"
 		naof_names = names.length
 		puts "naof-names | #{naof_names}"
 		puts
-		view_asms.view(asite, asite)
+		sv.view_asms.view(asite, asite)
+		et = naof_names - 1
+		ssite = 0
+		while true
+			if ssite == naof_names
+				break
+			end
+			name = names[ssite]
+			sample = eval(File::open(name).read)
+			view_vecter(sample["maps"])
+			puts "sample-name | #{name}"
+			if ssite == et
+				puts
+			end
+			ssite += 1
+		end
+		sv.view_asms.view(asite, asite)
+		puts
+	elsif components[0] == "vt"
+		asite = components[1].to_i(16)
+		sites_r = sv.sample_sites[asite]
+		#puts "sites-r | #{sites_r}"
+		names = sv.sample_names[sites_r]
+		puts "names | #{names}"
+		naof_names = names.length
+		puts "naof-names | #{naof_names}"
+		times = []
+		puts
+		sv.view_asms.view(asite, asite)
+		et = naof_names - 1
+		ssite = 0
+		while true
+			if ssite == naof_names
+				break
+			end
+			name = names[ssite]
+			sample = eval(File::open(name).read)
+			times += [{
+				"time-seconds" => sample["meta"]["time-seconds"],
+				"time-micro-seconds" => sample["meta"]["time-micro-seconds"]
+			}]
+			#puts "sample-name | #{name}"
+			if ssite == et
+				puts
+			end
+			ssite += 1
+		end
+		view_vecter(times)
+		sv.view_asms.view(asite, asite)
+		puts
+	elsif components[0] == "vo"
+		asite = components[1].to_i(16)
+		osite = components[2].to_i(16)
+		sites_r = sv.sample_sites[asite]
+		#puts "sites-r | #{sites_r}"
+		names = sv.sample_names[sites_r]
+		puts "names | #{names}"
+		naof_names = names.length
+		puts "naof-names | #{naof_names}"
+		puts
+		sv.view_asms.view(asite, asite)
+		name = names[osite]
+		sample = eval(File::open(name).read)
+		view_sample(sample)
+		sv.view_asms.view(asite, asite)
+		puts
+	elsif components[0] == "vcs"
+		asite = components[1].to_i(16)
+		sites_r = sv.sample_sites[asite]
+		#puts "sites-r | #{sites_r}"
+		names = sv.sample_names[sites_r]
+		puts "names | #{names}"
+		naof_names = names.length
+		puts "naof-names | #{naof_names}"
+		puts
+		sv.view_asms.view(asite, asite)
 		conditionals = []
 		ssite = 0
 		while true
@@ -168,20 +288,20 @@ while true
 			ssite += 1
 		end
 		view_vecter(conditionals)
-		view_asms.view(asite, asite)
+		sv.view_asms.view(asite, asite)
 		puts
 	elsif components[0] == "vrm"
 		asite = components[1].to_i(16)
-		sites_r = sample_sites[asite]
+		sites_r = sv.sample_sites[asite]
 		register_name = components[2]
 		#puts "sites-r | #{sites_r}"
-		names = sample_names[sites_r]
+		names = sv.sample_names[sites_r]
 		puts "names | #{names}"
 		naof_names = names.length
 		puts "naof-names | #{naof_names}"
 		puts
 		registers = []
-		view_asms.view(asite, asite)
+		sv.view_asms.view(asite, asite)
 		ssite = 0
 		while true
 			if ssite == naof_names
@@ -196,7 +316,150 @@ while true
 			ssite += 1
 		end
 		view_vecter(registers)
-		view_asms.view(asite, asite)
+		sv.view_asms.view(asite, asite)
+		puts
+	elsif components[0] == "vsm"
+		asite = components[1].to_i(16)
+		sites_r = sv.sample_sites[asite]
+		space_name = components[2]
+		#puts "sites-r | #{sites_r}"
+		names = sv.sample_names[sites_r]
+		puts "names | #{names}"
+		naof_names = names.length
+		puts "naof-names | #{naof_names}"
+		puts
+		registers = []
+		sv.view_asms.view(asite, asite)
+		ssite = 0
+		while true
+			if ssite == naof_names
+				break
+			end
+			puts "ocurance-site | #{ssite.to_s(16)}"
+			name = names[ssite]
+			sample = eval(File::open(name).read)
+			space_site = droid_select(sample["spaces"], lambda{|e| e["name"] == space_name})[0]
+			puts "space-site | #{space_site}"
+			space = sample["spaces"][space_site]
+			naof_secs = space["secs"].length
+			naof_quads = naof_secs / 8
+			quads = []
+			site = 0
+			while true
+				if site == naof_quads
+					break
+				end
+				access_site = site * 8
+				quad = number_aof(space["secs"][access_site...(access_site + 8)].reverse)
+				qm = quad_meta("#{access_site.to_s(16)}", quad, sample)
+				quads += [qm]
+				site += 1
+			end
+			puts "#{space["name"]} | #{space["secs"]}"
+			puts "#{space["secs"].pack("c*")}"
+			view_vecter(quads)
+			puts
+			ssite += 1
+		end
+		view_vecter(registers)
+		sv.view_asms.view(asite, asite)
+		puts
+	elsif components[0] == "vsmo"
+		asite = components[1].to_i(16)
+		sites_r = sv.sample_sites[asite]
+		ocurance_site = components[2].to_i(16)
+		puts "ocurance-site | #{ocurance_site.to_s(16)}"
+		space_name = components[3]
+		#puts "sites-r | #{sites_r}"
+		names = sv.sample_names[sites_r]
+		puts "names | #{names}"
+		naof_names = names.length
+		puts "naof-names | #{naof_names}"
+		puts
+		registers = []
+		sv.view_asms.view(asite, asite)
+		name = names[ocurance_site]
+		sample = eval(File::open(name).read)
+		space_site = droid_select(sample["spaces"], lambda{|e| e["name"] == space_name})[0]
+		puts "space-site | #{space_site}"
+		space = sample["spaces"][space_site]
+		naof_secs = space["secs"].length
+		naof_quads = naof_secs / 8
+		quads = []
+		site = 0
+		while true
+			if site == naof_quads
+				break
+			end
+			access_site = site * 8
+			quad = number_aof(space["secs"][access_site...(access_site + 8)].reverse)
+			qm = quad_meta("#{access_site.to_s(16)}", quad, sample)
+			quads += [qm]
+			site += 1
+		end
+		puts "#{space["name"]} | #{space["secs"]}"
+		puts "#{space["secs"].pack("c*")}"
+		view_vecter(quads)
+		puts
+		view_vecter(registers)
+		sv.view_asms.view(asite, asite)
+		puts
+	elsif components[0] == "vsms"
+		space_name = components[1]
+		puts "space-name | #{space_name}"
+		site = 0
+		while true
+			if site == naof_vsites
+				break
+			end
+			asite = sv.view_sites[site]
+			sites_r = sv.sample_sites[asite]
+			#puts "sites-r | #{sites_r}"
+			names = sv.sample_names[sites_r]
+			puts "names | #{names}"
+			naof_names = names.length
+			puts "naof-names | #{naof_names}"
+			puts
+			registers = []
+			sv.view_asms.view(asite, asite)
+			ssite = 0
+			while true
+				if ssite == naof_names
+					break
+				end
+				puts "ocurance-site | #{ssite.to_s(16)}"
+				name = names[ssite]
+				sample = eval(File::open(name).read)
+				#puts "space-names | #{sample["spaces"].map{|e| e["name"]}}"
+				space_site = droid_select(sample["spaces"], lambda{|e| e["name"] == space_name})[0]
+				puts "space-site | #{space_site}"
+				if space_site
+					space = sample["spaces"][space_site]
+					naof_secs = space["secs"].length
+					naof_quads = naof_secs / 8
+					quads = []
+					sssite = 0
+					while true
+						if sssite == naof_quads
+							break
+						end
+						access_site = sssite * 8
+						quad = number_aof(space["secs"][access_site...(access_site + 8)].reverse)
+						qm = quad_meta("#{access_site.to_s(16)}", quad, sample)
+						quads += [qm]
+						sssite += 1
+					end
+					puts "#{space["name"]} | #{space["secs"]}"
+					puts "#{space["secs"].pack("c*")}"
+					view_vecter(quads)
+				end
+				ssite += 1
+			end
+			puts
+			site += 1
+		end
+		view_vecter(registers)
+		sv.view_asms.view(asite, asite)
 		puts
 	elsif components[0] == "vrs"
 		vasms = []
@@ -207,20 +470,23 @@ while true
 			if site == naof_vsites
 				break
 			end
-			asite = view_sites[site]
-			sites_r = sample_sites[asite]
-			names = sample_names[sites_r]
+			asite = sv.view_sites[site]
+			sites_r = sv.sample_sites[asite]
+			names = sv.sample_names[sites_r]
 			naof_names = names.length
 			ssite = 0
 			while true
 				if ssite == naof_names
 					break
 				end
-				asm = poly_clone(asms[asite])
+				asm = poly_clone(sv.asms[asite])
+				asm.delete("secs")
+				asm.delete("source")
 				name = names[ssite]
 				sample = eval(File::open(name).read)
 				rsite = droid_select(sample["registers"], lambda{|e| e["name"] == register_name})[0]
 				register = sample["registers"][rsite]
+				puts "register | #{register}"
 				asm["number"] = register["number"]
 				asm["fz-segment"] = register["fz-segment"]
 				asm["fz-site"] = register["fz-site"]
@@ -255,8 +521,8 @@ while true
 			if vsite == naof_vsites
 				break
 			end
-			asite = view_sites[vsite]
-			asm = asms[asite]
+			asite = sv.view_sites[vsite]
+			asm = sv.asms[asite]
 			is_filter = false
 			fsite = 0
 			while true
@@ -284,20 +550,29 @@ while true
 			end
 			vsite += 1
 		end
-		view_sites = vsites
+		sv.view_sites = vsites
 		is_pause = false
 	elsif components[0] == "sfs"
 		filters = []
 		values = []
 		naof_filters = (naof_components - 1) / 2
+		bs_vsites = nil
 		fsite = 0
 		while true
 			if fsite == naof_filters
 				break
 			end
 			filter_site = (fsite * 2) + 1
-			filters += [components[filter_site]]
-			values += [components[(filter_site + 1)]]
+			filter = components[filter_site]
+			filters += [filter]
+			value = components[(filter_site + 1)]
+			if value[0] == "[" && value[-1] == "]"
+				value = value[1..-2].split(",")
+				if filter == "bs"
+					bs_vsites = value.map{|e| e.to_i(16)}
+				end
+			end
+			values += [value]
 			fsite += 1
 		end
 		puts "filters | #{filters}"
@@ -305,10 +580,10 @@ while true
 		vsites = []
 		asite = 0
 		while true
-			if asite == naof_asms
+			if asite == sv.naof_asms
 				break
 			end
-			asm = asms[asite]
+			asm = sv.asms[asite]
 			is_filter = true
 			fsite = 0
 			while true
@@ -318,16 +593,26 @@ while true
 				filter = filters[fsite]
 				value = values[fsite]
 				asm_value = asm[filter]
-				if asm_value.class == Integer
-					asm_value = asm_value.to_s(16)
-					if (asm_value != value)
+				if value.class == Array
+					if asm_value.class == Integer
+						asm_value = asm_value.to_s(16)
+					end
+					if value.index(asm_value) == nil
 						is_filter = false
 						break
 					end
 				else
-					if (asm_value =~ /#{value}/i) == nil
-						is_filter = false
-						break
+					if asm_value.class == Integer
+						asm_value = asm_value.to_s(16)
+						if (asm_value != value)
+							is_filter = false
+							break
+						end
+					else
+						if (asm_value =~ /#{value}/i) == nil
+							is_filter = false
+							break
+						end
 					end
 				end
 				fsite += 1
@@ -337,10 +622,42 @@ while true
 			end
 			asite += 1
 		end
-		view_sites = vsites
+		if bs_vsites
+			sv.view_sites = vsites.sort do |a,b|
+				#puts "a | #{a.to_s(16)}"
+				#puts "b | #{b.to_s(16)}"
+				asm1 = sv.asms[a]
+				#puts "asm1 | #{asm1}"
+				asm2 = sv.asms[b]
+				#puts "asm2 | #{asm2}"
+				index1 = bs_vsites.index(asm1["bs"])
+				index2 = bs_vsites.index(asm2["bs"])
+				index1 <=> index2
+			end
+		else
+			sv.view_sites = vsites
+		end
+		is_pause = false
+	elsif components[0] == "s"
+		attribute = components[1]
+		vsites = []
+		sasms = poly_clone(sv.asms)
+		sasms.sort!{|a,b| a[attribute] <=> b[attribute]}
+		asite = 0
+		while true
+			if asite == sv.naof_asms
+				break
+			end
+			asm = sasms[asite]
+			if sv.view_sites.index(asm["asite"])
+				vsites += [asm["asite"]]
+			end
+			asite += 1
+		end
+		sv.view_sites = vsites
 		is_pause = false
 	elsif components[0] == "cfs"
-		view_sites = poly_clone(asm_sites)
+		sv.view_sites = poly_clone(sv.asm_sites)
 		is_pause = false
 	elsif components[0] == "vl"
 		bs_sites = []
@@ -349,12 +666,15 @@ while true
 			if site == naof_vsites
 				break
 			end
-			asite = view_sites[site]
+			asite = sv.view_sites[site]
 			asm = asms[asite]
 			bs_sites += [asm["bs"]]
 			site += 1
 		end
 		puts "view-list | #{bs_sites}"
+	elsif components[0] == "ls"
+		sv.load_samples
+		is_pause = false
 	elsif components[0] == "c"
 		break
 	end

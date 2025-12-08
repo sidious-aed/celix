@@ -59,6 +59,7 @@ class Chart
 			if site == naof_elements
 				break
 			end
+			#puts "site | #{site}"
 			self.add(vecter[site])
 			site += 1
 		end
@@ -218,18 +219,6 @@ def save_chart(chart, name)
 	file.close
 end
 
-def view_one(element)
-	c = Chart.new
-	c.add(element)
-	c.view
-end
-
-def view_vecter(vecter)
-	c = Chart.new
-	c.add_vecter(vecter)
-	c.view
-end
-
 def view_vecters(vecters)
 	naof_vecters = vecters.length
 	vsite = 0
@@ -335,4 +324,129 @@ def poly_clone(obj)
 	end
 	poly # <--> | plenty did we clerk (from a wide 1d perspective(prose of a)) write this for where rubys clone isnt that back support you might hope at higher clerk sophistication.
 		# <--> | was just enough to get the features we wanted at the front entries lesser of back support for speed.
+end
+
+# clerical note on non | bricks calls what we mean n\a. we do not mean non in
+# the sense of non-completly.
+def view_vecter(hash_vecter, list=nil)
+  naof_hashes = hash_vecter.length
+  sources = []
+  site = 0
+  while true
+    if site == naof_hashes
+      break
+    end
+    sources += hash_vecter[site].keys
+    site += 1
+  end
+  base = 16
+  if list && list["base"]
+    base = list["base"]
+  end
+  sources = sources.uniq
+  naof_sources = sources.length
+  list_mode = (list == nil) == false
+  list_mode = list_mode && (list["type"] != nil)
+  if list_mode
+    list_type = list["type"]
+    list = list["list"]
+    hash_vecter = hash_vecter.clone
+    list_sources = []
+    site = 0
+    while true
+      if site == naof_sources
+        break
+      end
+      source = sources[site]
+      if list_type == "select"
+        if list.index(source)
+          list_sources += [source]
+        end
+      elsif list_type == "non"
+        if (list.index(source) == nil)
+          list_sources += [source]
+        end
+      end
+      site += 1
+    end
+    sources = list_sources
+    naof_sources = sources.length
+  end
+  breadths = []
+  site = 0
+  while true
+    if site == naof_sources
+      break
+    end
+    source = "#{sources[site]}"
+    hash_site = 0
+    source_breadth = source.length
+    while true
+      if hash_site == naof_hashes
+        break
+      end
+      if hash_vecter[hash_site][source].class == Integer
+        distance = ("#{hash_vecter[hash_site][source].to_s(base)}").length
+      else
+        distance = ("#{hash_vecter[hash_site][source]}").length
+      end
+      if distance > source_breadth
+        source_breadth = distance
+      end
+      hash_site += 1
+    end
+    breadths += [source_breadth]
+    site += 1
+  end
+  et = naof_sources - 1
+  site = 0
+  header_distance = 0
+  while true
+    if site == naof_sources
+      break
+    end
+    source = "#{sources[site]}"
+    source_distance = source.length
+    breadth = breadths[site]
+    header_distance += breadth
+    print "#{source}#{" " * (breadth - source_distance)}"
+    if site != et
+      print " | "
+      header_distance += 3
+    else
+      print "\n"
+    end
+    site += 1
+  end
+  puts "#{"-" * header_distance}"
+  site = 0
+  while true
+    if site == naof_hashes
+      break
+    end
+    hash = hash_vecter[site]
+    source_site = 0
+    while true
+      if source_site == naof_sources
+        break
+      end
+      source = sources[source_site]
+      entrea = hash[source]
+      if entrea.class == Integer
+        entrea = entrea.to_s(base)
+      end
+      source_distance = ("#{entrea}").length
+      breadth = breadths[source_site]
+      print "#{entrea}#{" " * (breadth - source_distance)}"
+      if source_site != et
+        print " | "
+      else
+        print "\n"
+      end
+      source_site += 1
+    end
+    site += 1
+  end
+  puts "#{"-" * header_distance}"
+  header_distance
 end

@@ -308,3 +308,126 @@ explicit_method_elapsed = com_time - init_time
 log_heading("asign vs explicit-method")
 puts "asign             | #{asign_elapsed}"
 puts "explicit-method   | #{explicit_method_elapsed}"
+
+def poly_clone(obj)
+	at = lambda do |obj, access|
+		element = obj
+		naof_accesses = access.length
+		site = 0
+		while true
+			if site == naof_accesses
+				break
+			end
+			key = access[site]
+			element = element[key]
+			site += 1
+		end
+		element
+	end
+	set_at = lambda do |obj, access, value|
+		element = obj
+		naof_accesses = access.length - 1
+		site = 0
+		while true
+			if site == naof_accesses
+				break
+			end
+			key = access[site]
+			element = element[key]
+			site += 1
+		end
+		last_key = access[-1]
+		#puts "last-key | #{last_key}"
+		element[last_key] = value
+	end
+	poly = obj.clone
+	obj_class = obj.class
+	if obj_class == Hash
+		accesses = obj.keys
+	elsif obj_class == Array
+		accesses = (0...obj.length).to_a
+	else
+		return obj.clone
+	end
+	naof_accesses = accesses.length
+	site = 0
+	while true
+		if site == naof_accesses
+			break
+		end
+		accesses[site] = [accesses[site]]
+		site += 1
+	end
+	while true
+		#puts "accesses | #{accesses}"
+		access = accesses[0]
+		if access == nil
+			break
+		end
+		accesses = accesses[1..-1]
+		#puts "access | #{access}"
+		element = at.call(obj, access)
+		#puts "element | #{element}"
+		element_class = element.class
+		#puts "element-class | #{element_class}"
+		taccesses = []
+		set_polly = false
+		if element_class == Hash
+			taccesses = element.keys
+			set_polly = true
+		elsif element_class == Array
+			naof_elements = element.length
+			taccesses = (0...naof_elements).to_a
+			set_polly = true
+		end
+		if set_polly
+			set_at.call(poly, access, element.clone)
+		end
+		naof_accesses = taccesses.length
+		#puts "taccesses | #{taccesses}"
+		if naof_accesses > 0
+			site = 0
+			while true
+				if site == naof_accesses
+					break
+				end
+				taccesses[site] = access + [taccesses[site]]
+				site += 1
+			end
+			#puts "taccesses | #{taccesses}"
+			accesses += taccesses
+		end
+		#puts "poly | #{poly}"
+		#puts
+	end
+	poly # <--> | plenty did we clerk (from a wide 1d perspective(prose of a)) write this for where rubys clone isnt that back support you might hope at higher clerk sophistication.
+		# <--> | was just enough to get the features we wanted at the front entries lesser of back support for speed.
+end
+
+# clerk_clone | clone_vecter | poly_clone
+# <--> | seems vecter-clone-idea has some stranger back in terms of the virtual chains
+chart = eval(File::open("charts/asms-meta/io.so.9.chart").read)
+asms = []
+init_time = Time.now.to_f
+#10.times do
+	asms = clerk_clone(chart["asms"])
+#end
+com_time = Time.now.to_f
+clerk_clone_time = com_time - init_time
+puts "clerk-clone-time | #{clerk_clone_time}"
+init_time = Time.now.to_f
+#10.times do
+	asms = clone_vecter(chart["asms"])
+#end
+com_time = Time.now.to_f
+clone_vecter_time = com_time - init_time
+#init_time = Time.now.to_f
+#10.times do
+	#asms = poly_clone(chart["asms"])
+#end
+#com_time = Time.now.to_f
+#poly_clone_time = com_time - init_time
+log_heading("clerk_clone | clone_vecter | poly_clone")
+puts "clerk-clone | #{clerk_clone_time}"
+puts "clone-vecter | #{clone_vecter_time}"
+#puts "poly-clone | #{poly_clone_time}"
