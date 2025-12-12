@@ -10,5 +10,5 @@ if naof_params != 1
 end
 node = params[0]
 
-to_throw_extensions = ["swp", "stay", "alert", "warn", "from-her", "buz", "writes"]
+to_throw_extensions = ["swp", "stay", "alert", "warn", "from-her", "buz", "writes", "collileage"]
 clear_bin(node, to_throw_extensions)

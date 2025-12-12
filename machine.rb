@@ -9,7 +9,8 @@ class WideSequences
 			asm = {"bs" => bs, "completion" => com, "mod" => "nop", "params" => "", "secs" => secs, "naof-secs" => 1, "destination" => nil, "source" => nil}
 			asm
 		end
-		def jmpq(com, destination)
+		def jmpq(bs, destination)
+			com = bs + 5
 			motion = destination - com
 			motion_secs = secs_aof(motion, 4).reverse
 			secs = [0x9] + motion_secs

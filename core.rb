@@ -573,7 +573,7 @@ end
 
 def clerk_clone(collileage)
 	file_alias = "#{seed62(21)}.collileage"
-	#puts "file-alias | #{file_alias}"
+	puts "file-alias | #{file_alias}"
 	chart = File::open(file_alias, "w")
 	chart.write(collileage)
 	chart.close
@@ -597,4 +597,21 @@ def clone_vecter(vecter)
 		esite += 1
 	end
 	new_vecter
+end
+
+# simple-hash-clone
+def hash_clone(hash)
+	keys = hash.keys
+	naof_sources = keys.length
+	new_hash = {}
+	ksite = 0
+	while true
+		if ksite == naof_sources
+			break
+		end
+		key = keys[ksite]
+		new_hash[key] = hash[key].clone
+		ksite += 1
+	end
+	new_hash
 end

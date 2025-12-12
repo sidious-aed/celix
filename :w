@@ -1,0 +1,541 @@
+require "/home/tyrel/celix/binary.rb"
+require "/home/tyrel/celix/machine.rb"
+
+class BinaryClerk
+	attr_accessor :meta, :asm_metas, :slot, :asms, :asms_index, :regards, :moves, :asm_references
+	def initialize(binary_name)
+		@meta_name = "charts/binary-meta/#{binary_name}.chart"
+		@asm_meta_name = "charts/asms-meta/#{binary_name}.chart"
+		@slots_meta_name = "charts/slots/#{binary_name}.chart"
+		meta_names = [@meta_name, @asm_meta_name, @slots_meta_name]
+		naof_meta_names = meta_names.length
+		msite = 0
+		while true
+			if msite == naof_meta_names
+				break
+			end
+			meta_name = meta_names[msite]
+			puts "meta-name | #{meta_name}"
+			if File::exists?(meta_name) == false
+				puts "<--> | need meta and asm-meta charts generated for #{binary_name}"
+				return false
+			end
+			msite += 1
+		end
+		@binary_name = binary_name
+		@meta = eval(File::open(@meta_name).read)
+		@asm_metas = eval(File::open(@asm_meta_name).read)
+		@asms = @asm_metas["asms"]
+		@onaof_asms = @asms.length
+		@asms_index = @asm_metas["asms-index"]
+		@regards = @asm_metas["regards"]
+		@back_slot = eval(File::open(@slots_meta_name).read)["slot"]
+		@sc = SequencesClerk.new("charts/machine.chart")
+		@charts_zap = 0
+		@moves = {}
+		@references = []
+		@regards_references = {}
+		@nops = []
+		#puts "slots | #{@back_slot_meta}"
+	end
+	def engage_slots
+		@slot = @back_slot
+		@writes = []
+		@asms = @asms[0...@onaof_asms]
+		naof_references = @references.length
+		msite = 0
+		while true
+			if msite == naof_references
+				break
+			end
+			reference = @references[msite]
+			puts "reference | #{reference}"
+			@asms_index[reference[0]] = reference[1]
+			msite += 1
+		end
+		naof_nops = @nops.length
+		nsite = 0
+		while true
+			if nsite == naof_nops
+				break
+			end
+			@asms_index.delete(@nops[nsite])
+			nsite += 1
+		end
+		@references = []
+		@nops = []
+		@moves = {}
+	end
+	def get_asm(bs)
+		asm = nil
+		asite = @asms_index[bs]
+		if asite
+			asm = @asms[asite].clone
+		else
+			nil
+		end
+	end
+	def pack_asm(bs)
+		asm_site = @asms_index[bs]
+		@references += [[bs, asm_site]]
+		@asms_index.delete(bs) # stave-to-references
+	end
+	# in regards to no regards. the regards of bricks hall torced in sub avinues torced out basises are dwindalled-ing in a resolve past their in resolve.
+	# regards of ours in this case or your injected systems are your own or oures in this case * in a yoda to give.
+	def add_asm(asm)
+		bs = asm["bs"]
+		#log_heading("add-asm")
+		#view_vecter([asm])
+		#$stdin.gets
+		naof_secs = asm["naof-secs"]
+		while true
+			pasm = self.get_asm(bs) # pasm | pack-asm
+			if pasm == nil
+				naof_secs -= 1
+				bs += 1
+				next
+			end
+			#view_vecter([pasm])
+			asm_site = pasm["site"]
+			@references += [[bs, asm_site]]
+			#puts "index | #{@asms_index[bs]}"
+			@asms_index.delete(bs) # stave-to-references
+			#puts "index | #{@asms_index[bs]}"
+			bs = pasm["completion"]
+			naof_secs -= pasm["naof-secs"]
+			if naof_secs <= 0
+				break
+			end
+		end
+		asm_site = @asms.length
+		asm["site"] = asm_site
+		@asms += [asm]
+		@asms_index[asm["bs"]] = asm_site
+		nops_meta = [false, 0]
+		if naof_secs == asm["naof-secs"]
+			naof_nops = 0
+		else
+			naof_nops = naof_secs * -1
+			if naof_nops > 0
+				nbs = bs - naof_nops
+				nops_meta = [nbs, naof_nops]
+				site = 0
+				while true
+					if site == naof_nops
+						break
+					end
+					asm_site += 1
+					asm = WideSequences::nop(nbs)
+					asm["site"] = asm_site
+					#view_vecter([asm])
+					@asms += [asm]
+					@asms_index[nbs] = asm_site
+					@nops += [nbs]
+					nbs += 1
+					site += 1
+				end
+			end
+		end
+		return nops_meta
+	end
+	def regards_for(bs)
+		regards = @regards_references[bs]
+		if regards
+			return regards
+		end
+		regards = @regards[bs]
+		if regards
+			return regards
+		end
+		nil
+	end
+	def asm_category(asm)
+		if (asm["mod"] == "jmp" || asm["mod"] == "jmpq" || BinaryConstants::ConditionalAluModules.index(asm["mod"])) && asm["params"][0] != "*"
+			if asm["naof-secs"] == 2 
+				"expansion"
+			else
+				"motion"
+			end
+		elsif asm["destination"]
+			"motion"
+		else
+			"just"
+		end
+	end
+	def get_motion_site(asm)
+		motion = asm["destination"] - asm["completion"]
+		motion_secs = secs_aof(motion, 4).reverse
+		puts "motion-secs | #{motion_secs}"
+		if asm["bs"] == 0xe836
+			#view_vecter([asm])
+			#puts "<--> | motion | #{motion.to_s(16)}"
+			#$stdin.gets
+		end
+		motion_site = sites_aof(motion_secs, asm["secs"])[0]
+		puts "motion-site | #{motion_site}"
+		if motion_site == nil
+			motion_secs = secs_aof(motion, 1).reverse
+			puts "motion-secs | #{motion_secs}"
+			motion_site = sites_aof(motion_secs, asm["secs"])[0]
+		end
+		motion_site
+	end
+	def add_write(write)
+		puts "add-write | #{write}"
+		$stdin.gets
+		@writes += [write]
+	end
+	def inject(secs_name, bs)
+		if @moves[bs]
+			bs = @moves[bs]
+		end
+		#puts "bs | #{bs.to_s(16)}"
+		oslot = @slot
+		naof_secs = File::size(secs_name)
+		secs_file = File::open(secs_name)
+		write = {
+			"bs" => @slot,
+			"secs" => secs_file.read.bytes
+		}
+		self.add_write(write)
+		@slot += naof_secs
+		section_ports = [bs]
+		regard_motions = []
+		sections = []
+		section_pbs = [] # pbs | port-backs
+		section_pts = [] # pbs | port-tos
+		moves_que = []
+		section_site = 0
+		while true
+			#puts "section-ports | #{section_ports}"
+			pobs = section_ports[0]
+			section = []
+			if pobs == nil
+				break
+			end
+			#puts "pobs | #{pobs.to_s(16)}"
+			pbs = nil
+			bpbs = nil # bpbs | back-port-binary-site
+			pt = nil
+			combs = nil
+			log_heading("gathering-section | #{section_site}")
+			naof_secs = 0
+			asite = 0
+			while true
+				if naof_secs >= 5
+					break
+				end
+				asm = get_asm(bs)
+				if asm == nil
+					bs += 1
+					naof_secs -= 1
+					next
+				end
+				view_vecter([asm])
+				aobs = asm["bs"]
+				bpbs = asm["completion"]
+				combs = asm["completion"]
+				#puts "section-site | #{section_site}"
+				if pt == nil && section_site == 0
+					pt = [(asm["bs"]), oslot]
+				elsif pt == nil
+					pt = [(asm["bs"]), @slot]
+				end
+				#puts "pt | #{pt.map{|e| e.to_s(16)}}"
+				if asm == nil
+					bs += 1
+					naof_secs += 1
+				end
+				bs = asm["completion"]
+				pbs = bs
+				naof_secs += asm["naof-secs"]
+				regards = self.regards_for(+asm["bs"])
+				#if regards
+					#puts "<--> | regards | #{regards}"
+					#$stdin.gets
+				#end
+				type = asm_category(asm)
+				#puts "type | #{type}"
+				if type == "motion"
+					asm["motion-site"] = get_motion_site(asm)
+				end
+				if type == "expansion"
+					asm["motion-site"] = 1
+					conditional_code = clericall_conditional_name(asm["mod"])
+					asm["secs"] = @sc.sequences("st 0 0 #{conditional_code}")
+					asm["naof-secs"] = asm["secs"].length
+				end
+				asm["obs"] = asm["bs"]
+				asm["bs"] = @slot
+				asm["completion"] = @slot + asm["naof-secs"]
+				@slot += asm["naof-secs"]
+				section += [asm]
+				self.add_asm(asm)
+				moves_que += [[aobs, asm["bs"]]]
+				if regards
+					naof_regards = regards.length
+					puts "naof-regards | #{naof_regards}"
+					puts "regards | #{regards.map{|e| e.to_s(16)}}"
+					rsite = 0
+					while true
+						if rsite == naof_regards
+							break
+						end
+						puts "rsite | #{rsite}"
+						regard = regards[rsite]
+						puts "regard | #{regard.to_s(16)}"
+						rasm = self.get_asm(regard)
+						#puts "<--> | rasm | #{rasm}"
+						type = self.asm_category(rasm)
+						puts "type | #{type}"
+						if type == "motion"
+							rasm["motion-site"] = get_motion_site(rasm)
+						end
+						if rasm["destination"]
+							puts "rasm[\"destination\"] | #{rasm["destination"].to_s(16)}"
+							if asite == 0 && section_site == 0
+									rasm["destination"] = oslot
+							else
+								rasm["destination"] = asm["bs"]
+							end
+							puts "rasm[\"destination\"] | #{rasm["destination"].to_s(16)}"
+						end
+						if type == "expansion"
+							section_ports += [rasm["bs"]]
+						else
+							regard_motions += [rasm]
+						end
+						rsite += 1
+					end
+				end
+				asite += 1
+			end
+			naof_nops = naof_secs - 5
+			#puts "naof-nops | #{naof_nops}"
+			if naof_nops > 0
+				nops = [0x90] * naof_nops
+				bs = (combs - naof_nops);
+				write = {
+					"bs" => (bs),
+					"secs" => nops
+				}
+				#puts "write | #{write}"
+				self.add_write(write)
+				nsite = 0
+				while true
+					if nsite == naof_nops
+						break
+					end
+					asm = ::WideSequences::nop(bs)
+					#puts "<--> | #{bs.to_s(16)}"
+					#puts "<--> | #{asm}"
+					#view_vecter([asm])
+					#$stdin.gets
+					bs += 1
+					nsite += 1
+				end
+			end
+			section_pts += [pt]
+			com = @slot + 5
+			asm = {"bs" => @slot, "completion" => (com), "mod" => "jmpq", "params" => bpbs.to_s(16), "destination" => bpbs, "motion-site" => 1}
+			asm["secs"] = @sc.sequences("st #{com.to_s(16)} #{bpbs.to_s(16)} always")
+			asm["naof-secs"] = asm["secs"].length
+			puts "<--> | #{asm}"
+			#if asm["naof-secs"].class == Vecter
+				#$stdin.gets
+			#end
+			@slot += 5
+			section += [asm]
+			self.add_asm(asm)
+			sections += [section]
+			section_pbs += [pbs]
+			section_ports = section_ports[1..-1]
+			section_site += 1
+		end
+		naof_moves = moves_que.length
+		msite = 0
+		while true
+			if msite == naof_moves
+				break
+			end
+			@moves[moves_que[msite][0]] = moves_que[msite][1]
+			msite += 1
+		end
+		naof_sections = sections.length
+		site = 0
+		while true
+			if site == naof_sections
+				break
+			end
+			section = sections[site]
+			naof_asms = section.length
+			log_heading("section | #{site}")
+			view_vecter(section)
+			#puts "naof-asms | #{naof_asms}"
+			#puts
+			naof_asms = section.length
+			pb_bs = section_pbs[site] # pb-bs | port-back-binary-site
+			pt_bs = section_pts[site] # pt-bs | port-to-binary-site
+			#puts "port-to | #{pt_bs.map{|e| e.to_s(16)}}"
+			write = {
+				"bs" => nil,
+				"secs" => []
+			}
+			asite = 0
+			while true
+				if asite == naof_asms
+					break
+				end
+				asm = section[asite]
+				#view_vecter([asm])
+				if asite == 0
+					write["bs"] = asm["bs"]
+				end
+				type = asm_category(asm)
+				#puts "<--> | #{type}"
+				#puts "<--> | #{asm}"
+				#$stdin.gets
+				if type == "expansion"
+					asm["secs"] = @sc.sequences("st #{asm["completion"].to_s(16)} #{asm["destination"].to_s(16)} #{conditional_code}")
+				elsif type == "motion"
+					motion = asm["destination"] - asm["completion"]
+					motion_secs = secs_aof(motion, 4).reverse
+					#puts "motion-secs | #{motion_secs}"
+					place(motion_secs, asm["secs"], asm["motion-site"])
+				else
+				end
+				write["secs"] += asm["secs"]
+				asite += 1
+			end
+			#puts "write | #{write}"
+			self.add_write(write)
+			com = (pt_bs[0] + 5)
+			destination = pt_bs[1]
+			pb = @sc.sequences("st #{(com).to_s(16)} #{destination.to_s(16)} always")
+			write = {
+				"bs" => pt_bs[0],
+				"secs" => pb
+			}
+			#puts "write | #{write}"
+			self.add_write(write)
+			asm = ::WideSequences::jmpq(pt_bs[0], destination)
+			puts "<--> | asm | #{asm}"
+			self.add_asm(asm)
+			site += 1
+		end
+		log_heading("regard-motions")
+		#view_vecter(regard_motions)
+		#$stdin.gets
+		naof_regards = regard_motions.length
+		rsite = 0
+		while true
+			if rsite == naof_regards
+				break
+			end
+			asm = regard_motions[rsite]
+			motion = asm["destination"] - asm["completion"]
+			motion_secs = secs_aof(motion, 4).reverse
+			#puts "<--> | asm | #{asm}"
+			type = asm_category(asm)
+			#puts "type | #{type}"
+			place(motion_secs, asm["secs"], asm["motion-site"])
+			write = {
+				"bs" => asm["bs"],
+				"secs" => asm["secs"]
+			}
+			#puts "write | #{write}"
+			self.add_write(write)
+			self.add_asm(asm)
+			#view_vecter([rasm])
+			#puts "rasm | <--> | #{rasm}"
+			#$stdin.gets
+			rsite += 1
+		end
+	end
+	def write()
+		place_name = @binary_name.gsub(".so.", ".do.").gsub("-do", "-steel")
+		comand = "./sf #{@binary_name} #{place_name}"
+		#puts "comand | #{comand}"
+		system(comand)
+		write_sites = []
+		naof_writes = @writes.length
+		write_secs = []
+		write_site = 0
+		wsite = 0
+		while true
+			if wsite == naof_writes
+				break
+			end
+			write = @writes[wsite]
+			write_secs += write["secs"]
+			naof_secs = write["secs"].length
+			write_sites += [[write_site, naof_secs, write["bs"]]]
+			write_site += naof_secs
+			wsite += 1
+		end
+		#puts "write-secs | #{write_secs}"
+		#puts "write-sites | #{write_sites}"
+		writes_name = "#{seed62(7)}.writes"
+		#puts "writes-name | #{writes_name}"
+		writes_file = File::open(writes_name, "w")
+		writes_file.write(write_secs.pack("c*"))
+		writes_file.close
+		wsite = 0
+		while true
+			if wsite == naof_writes
+				break
+			end
+			sites = write_sites[wsite]
+			comand = "./place-sites #{writes_name} #{sites[0].to_s(16)} #{sites[1].to_s(16)} #{place_name} #{sites[2].to_s(16)}"
+			#puts "comand | #{comand}"
+			system(comand)
+			wsite += 1
+		end
+		#unlink_file(writes_name)
+	end
+	def view_asms(origin=nil, completion=nil)
+		if origin && completion
+			asms = []
+			bss = []
+			naof_asms = @asms.length
+			site = naof_asms - 1
+			while true
+				asm = @asms[site]
+				bs = asm["bs"]
+				#puts "bs | #{bs}"
+				if (bs >= origin) && (bs <= completion) && (bss.index(bs) == nil) && (@asms_index[bs])
+					bss += [bs]
+					asm = @asms[site]
+					asms += [asm]
+				end
+				site -= 1
+				if site == 0
+					break
+				end
+			end
+		else
+			asms = @asms
+		end
+		asms.sort!{|a,b| a["bs"] <=> b["bs"]}
+		view_vecter(asms)
+	end
+	def view_writes
+		naof_writes = @writes
+		wsite = 0
+		bss = []
+		while true
+			if wsite == naof_writes
+				break
+			end
+			write = @writes[wsite]
+			puts "write | #{write}"
+			b16 = write["bs"].to_s(16)
+			log_heading("write | #{b16}")
+			bss += [b16]
+			b16 = write["secs"].map{|e| b16=e.to_s(16);naof_secs = b16.length; naof_secs == 2 ? b16 : "0#{b16}"}.join(" ")
+			puts "b16 | #{b16}"
+			wsite += 1
+		end
+		puts "bss | #{bss.join(" ")}"
+	end
+end

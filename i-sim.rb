@@ -39,9 +39,12 @@ while true
 			next
 		end
 	end
+	bc.engage_slots
+	#$stdin.gets
 	log_heading("#{bs.to_s(16)} init")
 	puts "bs | #{bs.to_s(16)}"
-	bc.engage_slots
+	asm = bc.get_asm(0xe90)
+	#view_vecter([asm])
 	bc.inject("secs/i-sim.secs", bs)
 	bc.write()
 	comand = binary_comand
