@@ -1,19 +1,16 @@
 secs 90
-back-stay-to mm-section
-naof-secs 10 90
-motion-stay 123 always
-stay-to completion equal
-add-to-rack-site 400
-quad-source site 10
-auto-quad-source page-site
+set aedaed r8
+auto-quad-source site
 move-quad-to site r8
-move-quad-to page-site r9
 move-quad r8 site
+naof-secs 10 90
+auto-quad-source page-site
+move-quad-to page-site r9
+set ff00ff r9
 move-quad r9 page-site
 store-state
 restore-state
-set aedaed r8
-set ff00ff r9
+marker completion
 and r8 r9
 move 0 r8 rsi
 set aed r13
@@ -54,13 +51,12 @@ set 1 rdi
 set 1 rax
 syscall
 stay-to i-sim-unix always
-marker completion
 move-to 200 rax rsp
 stay-from-rack 200
 naoify r8
 naoify r9
-quad-source site 10
-quad-source naof-leads 18
+auto-quad-source site 10
+auto-quad-source naof-leads 18
 move-quad r8 site
 move-quad r9 naof-leads
 move-quad-to site r8
@@ -93,3 +89,5 @@ set aed r8
 move-quad r8 facter
 set aed rax
 multiply-by-quad facter
+#init
+#com

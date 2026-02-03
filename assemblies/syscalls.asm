@@ -1,3 +1,29 @@
+auto-quad-source stead-seconds
+auto-quad-source stead-micro-seconds
+auto-quad-source naof-seconds
+auto-quad-source naof-micro-seconds
+auto-quad-source pid
+auto-quad-source dso-site
+auto-quad-source file
+auto-quad-source source-file
+auto-quad-source site
+auto-quad-source proc-site
+auto-quad-source naof-source-secs
+auto-quad-source destination-file
+auto-quad-source zones-1
+auto-quad-source zones-2
+auto-quad-source proc-files-node
+add-to-rack-site 200
+auto-quad-source link-name
+add-to-rack-site 200
+auto-quad-source naof-link-secs
+entree file-name | charts/aeoliaon.chart
+entree i-sim | i sim. ka tic boo tic but.\n
+auto-quad-source clerk-space
+add-to-rack-site 200
+auto-quad-source pts-meta-space
+auto-quad-source meta
+
 # nanosleep
 leeve-quad stead-seconds rdi
 set 23 rax
@@ -5,7 +31,7 @@ syscall
 
 # open-read
 naoify rsi
-leeve-entree clerk-listen-file-name rdi
+leeve-entree file-name rdi
 set 2 rax
 syscall
 move-quad rax file
@@ -13,7 +39,7 @@ move-quad rax file
 # read
 move-quad-to file rdi
 set 8 rdx
-leeve-quad clerk-listen rsi
+leeve-quad clerk-space rsi
 set 0 rax
 syscall
 
@@ -47,8 +73,8 @@ set 3c rax
 syscall
 
 # print
-leeve-entree i-sim-stay-in-task rsi
-set e rdx
+leeve-entree i-sim rsi
+set 1b rdx
 set 1 rdi
 set 1 rax
 syscall
@@ -56,7 +82,7 @@ syscall
 # open-append
 set 1ff rdx
 set 441 rsi
-leeve-entree clerk-listen-file-name rdi
+leeve-entree file-name rdi
 set 2 rax
 syscall
 move-quad rax file
@@ -72,7 +98,7 @@ move-quad rax file
 # write
 move-quad-to file rdi
 set 8 rdx
-leeve-quad clerk-listen rsi
+leeve-quad clerk-space rsi
 set 1 rax
 syscall
 
@@ -117,7 +143,7 @@ syscall
 
 # lseek
 move-quad-to file rdi
-move-quad site rsi
+move-quad-to site rsi
 # 0 | seek-origin
 # 2 | seek-completion
 set 2 rdx
@@ -154,7 +180,7 @@ syscall
 
 # sendfile
 move-quad-to source-file rsi
-move-quad-to source-distance rdx
+move-quad-to naof-source-secs rdx
 move-quad-to destination-file rdi
 set 28 rax
 syscall
@@ -190,9 +216,17 @@ stay-to stay-stead-init equal
 
 # clerical note | readlink does not seem to work good for /proc and maybe more; so, stat instead
 # readlink
-leeve-entree proc-files-node rdi
+leeve-quad proc-files-node rdi
 leeve-quad link-name rsi
 set 200 rdx
 set 3b rax
 syscall
 move-quad rax naof-link-secs
+
+# ioctl | naof-rows, and naof-cols
+naoify rdi
+set 5413 rsi
+leeve-quad pts-meta-space rdx
+set 10 rax
+syscall
+marker stay-stead-init

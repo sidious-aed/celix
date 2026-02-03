@@ -1,5 +1,5 @@
 #include "./standard.h"
-#define naof_extensions 3
+#define naof_extensions 4
 
 quadrant main(quadrant naof_params, source_vecter params) {
   if(naof_params != 2) {
@@ -7,12 +7,13 @@ quadrant main(quadrant naof_params, source_vecter params) {
     printf("1 | node\n");
     return;
   }
-	source_vecter extensions[3] = {"swp", "stay", "alert"};
-	quadrant extension_distances[3] = {3, 4, 5};
+	writer grid = 0;
+	source_vecter extensions[naof_extensions] = {"swp", "stay", "alert", "nonce"};
+	quadrant extension_distances[naof_extensions] = {3, 4, 5, 5};
 	sec comand[1000];
 	quadrant comand_site = 0;
 	quadrant_reference nm;
-	node_meta(params[1], &nm);
+	node_meta(&grid, params[1], &nm);
 
 	quadrant site = 0;
 	while(true) {
@@ -21,6 +22,10 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		}
 		//printf("site | %lu\n", site);
 		quadrant_reference record = ((nm + 3) + (site * 3));
+		site += 1;
+		if(record[1] != 8) {
+			continue;
+		}
 		source name = record[0];
 		quadrant seek_site = record[2] - 1;
 		while(true) {
@@ -57,14 +62,9 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			syscall(unix_write, 1, "equation-name | ", 0x10);
 			syscall(unix_write, 1, (name), (record[2]));
 			syscall(unix_write, 1, "\n", 0x1);
+			//printf("type | %lu\n", record[1]);
 			syscall(unix_unlink, record[0]);
 		}
-		//comand_site = 0;
-		//add_to_entree("./sequences assemblies/equations/", comand, 0x21, &comand_site);
-		// assembly-components
-		//system("./sequences assemblies/equations/number-to-entree.asm secs/number-to-entree.secs");
-		//system("gcc equations-main.c -o equations-main");
-		site += 1;
 	}
 	return 0;
 }

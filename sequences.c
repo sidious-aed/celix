@@ -1,17 +1,20 @@
 #include "./machine.h"
 
 quadrant main(quadrant naof_params, source_vecter params) {
+	//printf("naof-params | %lu\n", naof_params);
+	//view_params(naof_params, params);
   if(naof_params < 4) {
-    syscall(unix_write, 1, "params | 2\n", 11);
+    syscall(unix_write, 1, "params | 3-*\n", 13);
     syscall(unix_write, 1, "1 | asm-file\n", 13);
     syscall(unix_write, 1, "2 | secs-file\n", 14);
     syscall(unix_write, 1, "3 | origin-site (base-16)\n", 26);
     syscall(unix_write, 1, "(3-*) | asm-params\n", 19);
     return 0;
   }
-  quadrant asm_file_distance = get_distance(params[1]);
-  quadrant secs_file_distance = get_distance(params[2]);
-  quadrant origin_site_distance = get_distance(params[3]);
+	source grid = 0;
+  quadrant asm_file_distance = get_naof_secs(params[1]);
+  quadrant secs_file_distance = get_naof_secs(params[2]);
+  quadrant origin_site_distance = get_naof_secs(params[3]);
   quadrant origin_site;
   entree_to_number(params[3], origin_site_distance, 16, &origin_site);
   quadrant naof_asm_params = naof_params - 3;
@@ -27,28 +30,23 @@ quadrant main(quadrant naof_params, source_vecter params) {
   close(asm_file);
   archive_grid secs_file = open(params[2], archive_read);
   if(secs_file != 0xffffffffffffffff) {
-    sec comand[1000];
-    quadrant comand_site = 0;
-    add_to_entree("ul ", 3, comand, &comand_site);
-    add_to_entree(params[2], secs_file_distance, comand, &comand_site);
-    comand[comand_site] = 0;
-    printf("comand | %s\n", comand);
-    system(comand);
+		syscall(unix_close, secs_file);
+		syscall(unix_unlink, params[2]);
   }
-  secs_file = open(params[2], archive_create|archive_write, archive_arws);
   quadrant binary_site = origin_site;
   quadrant asm_rack_site = 0;
   writer entrees;
-  create_vecter(24, 100, &entrees);
+  create_vecter(&grid, 24, 100, &entrees);
   writer markers;
-  create_vecter(24, 100, &markers);
+  create_vecter(&grid, 24, 100, &markers);
   writer futures;
-  create_vecter(40, 100, &futures);
-  writer back_futures;
-  create_vecter(24, 100, &back_futures);
+  create_vecter(&grid, 40, 100, &futures);
   writer sources;
-  create_vecter(24, 100, &sources);
-  source machine_secs = malloc(1000000);
+  create_vecter(&grid, 24, 100, &sources);
+  //source machine_secs = malloc(1000000);
+	//printf("i sim.\n");
+	writer machine_secs = 0;
+	create_vecter(&grid, 1, 0x10000, &machine_secs);
   sec machine_space[100000];
   sec clerical_space[100];
   //naoify(machine_space, 100);
@@ -97,13 +95,13 @@ quadrant main(quadrant naof_params, source_vecter params) {
       quadrant remaining_segment_distance = (segment_distance - segment_site);
       directional param_site = seek_space("$", 1, (segment + segment_site), (remaining_segment_distance));
       if(param_site < 0) {
-        place((segment + segment_site), (segment_space + segment_space_site), (remaining_segment_distance));
+        wide_com((segment + segment_site), (segment_space + segment_space_site), (remaining_segment_distance));
         segment_space_site += remaining_segment_distance;
         segment_site += remaining_segment_distance;
         break;
       } else {
         quadrant segment_is_complete = false;
-        place((segment + segment_site), (segment_space + segment_space_site), (param_site));
+        wide_com((segment + segment_site), (segment_space + segment_space_site), (param_site));
         segment_site += (param_site + 1);
         segment_space_site += (param_site);
         quadrant remaining_segment_distance = (segment_distance - segment_site);
@@ -119,8 +117,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
           printf("clerical warn | need asm-param-site %lu\n", (site_of_param - 3));
           syscall(unix_exit_group, 0);
         }
-        quadrant param_distance = get_distance(params[site_of_param]);
-        place(params[site_of_param], (segment_space + segment_space_site), param_distance);
+        quadrant param_distance = get_naof_secs(params[site_of_param]);
+        wide_com(params[site_of_param], (segment_space + segment_space_site), param_distance);
         segment_space_site += param_distance;
         segment_site += space_site;
         if(segment_is_complete) {
@@ -149,7 +147,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
         //printf("segment-from-site | %s\n", (segment_space + ssite));
         if(replicate_symbol_site < 0) {
           quadrant send_distance = (segment_distance - ssite);
-          place((segment_space + ssite), (replicate_space + rsite), (send_distance));
+          wide_com((segment_space + ssite), (replicate_space + rsite), (send_distance));
           ssite += (send_distance);
           rsite += send_distance;
         } else {
@@ -173,13 +171,13 @@ quadrant main(quadrant naof_params, source_vecter params) {
 								//printf("conjoined-if-param | %s\n", conjoined_if_param);
 								//printf("param-site | %lu\n", param_site);
 								quadrant send_distance = (replicate_symbol_site - 1);
-								place((segment_space + ssite), (replicate_space + rsite), (send_distance));
+								wide_com((segment_space + ssite), (replicate_space + rsite), (send_distance));
 								ssite += (send_distance + 2);
 								rsite += send_distance;
-								place(" ", (replicate_space + rsite), 1);
+								wide_com(" ", (replicate_space + rsite), 1);
 								rsite += 1;
-								place((replicate_params + replicate_params_site), (replicate_space + rsite), (param_site));
-								place((replicate_params + replicate_params_site), (conjoined_if_param), (param_site));
+								wide_com((replicate_params + replicate_params_site), (replicate_space + rsite), (param_site));
+								wide_com((replicate_params + replicate_params_site), (conjoined_if_param), (param_site));
 								conjoined_if_param_site = param_site;
 								conjoined_if_param[conjoined_if_param_site] = 0;
 								//printf("conjoined-if-param | %s\n", conjoined_if_param);
@@ -189,22 +187,22 @@ quadrant main(quadrant naof_params, source_vecter params) {
 							} else {
 								//printf("continuing conjoined if.\n");
 								quadrant send_distance = (replicate_symbol_site - 1);
-								place((segment_space + ssite), (replicate_space + rsite), (send_distance));
+								wide_com((segment_space + ssite), (replicate_space + rsite), (send_distance));
 								ssite += (send_distance + 2);
 								rsite += send_distance;
-								place(" ", (replicate_space + rsite), 1);
+								wide_com(" ", (replicate_space + rsite), 1);
 								rsite += 1;
-								place((conjoined_if_param), (replicate_space + rsite), (conjoined_if_param_site));
+								wide_com((conjoined_if_param), (replicate_space + rsite), (conjoined_if_param_site));
 								rsite += conjoined_if_param_site;
 							}
 						} else {
 							quadrant send_distance = (replicate_symbol_site - 1);
-							place((segment_space + ssite), (replicate_space + rsite), (send_distance));
+							wide_com((segment_space + ssite), (replicate_space + rsite), (send_distance));
 							ssite += (send_distance + 2);
 							rsite += send_distance;
-							place(" ", (replicate_space + rsite), 1);
+							wide_com(" ", (replicate_space + rsite), 1);
 							rsite += 1;
-							place((replicate_params + replicate_params_site), (replicate_space + rsite), (param_site));
+							wide_com((replicate_params + replicate_params_site), (replicate_space + rsite), (param_site));
 							rsite += param_site;
 							replicate_params_site += (param_site + 1);
 							clerical_param_site += 1;
@@ -215,7 +213,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
         }
       }
       //printf("\n");
-      place((replicate_space), (segment_space), rsite);
+      wide_com((replicate_space), (segment_space), rsite);
       segment_space[rsite] = 0;
       segment_distance = rsite;
       segment_space_site = segment_distance;
@@ -289,19 +287,30 @@ quadrant main(quadrant naof_params, source_vecter params) {
       entree_to_number((segment_space + components[2]), components[3], 16, &naof_secs);
       quadrant machine_sec = 0;
       entree_to_number((segment_space + components[4]), components[5], 16, &machine_sec);
-      replicate(machine_sec, machine_space, naof_secs);
-      machine_site = naof_secs;
+			sec replicate_sec[1];
+			replicate_sec[0] = machine_sec;
+			quadrant rsite = 0;
+			while(true) {
+				if(rsite == naof_secs) {
+					break;
+				}
+				add_string_to_sec_vecter(&grid, replicate_sec, 1, &machine_secs);
+				rsite += 1;
+			}
     } else if(compair_spaces("marker", 6, (segment_space + components[0]), components[1])) {
-      source entree = malloc(components[3]);
-      place((segment_space + components[2]), entree, components[3]);
+      source entree = 0;
+			get_grid_secs(&grid, components[3], &entree);
+      wide_com((segment_space + components[2]), entree, components[3]);
       //see_space("entree", &entree, 8);
       //printf("entree | %s\n", entree);
       sec record[24];
-      place(&entree, record, 8);
-      place((components + 3), (record + 8), 8);
-      place(&binary_site, (record + 16), 8);
+      wide_com(&entree, record, 8);
+      wide_com((components + 3), (record + 8), 8);
+			//see_quad("binary-site | ", 14, binary_site, 16);
+			//getc(stdin);
+      wide_com(&binary_site, (record + 16), 8);
       //see_space("record", record, 24);
-      add_to_vecter(record, &markers);
+      add_to_vecter(&grid, record, &markers);
       reader record_quads = record;
       //printf("destination | %lu\n", record_quads[2]);
 		} else if(compair_spaces("reset-rack-site", 15, (segment_space + components[0]), components[1])) {
@@ -320,7 +329,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
         is_replicate = true;
         clerical_param_site = 0;
         clerical_site_for_replicate = site;
-        place((segment_space + components[2]), replicate_params, components[3]);
+        wide_com((segment_space + components[2]), replicate_params, components[3]);
         replicate_params_distance = components[3];
         replicate_params_site = 0;
         //printf("is-replicate | %lu\n", is_replicate);
@@ -341,46 +350,39 @@ quadrant main(quadrant naof_params, source_vecter params) {
       machine_site = asm_clerical_motion_stay_from((segment_space + components[4]), components[5], binary_site, stack_site, machine_space);
     } else if(compair_spaces("stay-to", 7, (segment_space + components[0]), components[1])) {
       machine_site = asm_clerical_motion_stay_from((segment_space + components[4]), components[5], binary_site, 0, machine_space);
-      source entree = malloc(components[3]);
-      place((segment_space + components[2]), entree, components[3]);
-      //see_space("entree", &entree, 8);
+      source entree = 0;
+			get_grid_secs(&grid, components[3], &entree);
+      wide_com((segment_space + components[2]), entree, components[3]);
+      //see_space("entree", &entree, (components[3] + 4));
       //printf("entree | %s\n", entree);
       sec record[40];
-      place(&entree, record, 8);
-      place((components + 3), (record + 8), 8);
-      entree = malloc(components[5]);
-      place((segment_space + components[4]), entree, components[5]);
+      wide_com(&entree, record, 8);
+      wide_com((components + 3), (record + 8), 8);
+      entree = 0;
+			get_grid_secs(&grid, components[5], &entree);
+      wide_com((segment_space + components[4]), entree, components[5]);
       //see_space("entree", &entree, 8);
-      place(&entree, (record + 16), 8);
-      place((components + 5), (record + 24), 8);
-      place(&binary_site, (record + 32), 8);
+      wide_com(&entree, (record + 16), 8);
+      wide_com((components + 5), (record + 24), 8);
+			see_quad("binary-site | ", 14, binary_site, 16);
+			getc(stdin);
+      wide_com(&binary_site, (record + 32), 8);
       //see_space("record", record, 40);
-      add_to_vecter(record, &futures);
-    } else if(compair_spaces("back-stay-to", 12, (segment_space + components[0]), components[1])) {
-			machine_site = asm_back_stay_from((binary_site + 5), 0, machine_space);
-      source entree = malloc(components[3]);
-      place((segment_space + components[2]), entree, components[3]);
-      //see_space("entree", &entree, 8);
-      //printf("entree | %s\n", entree);
-      sec record[24];
-      place(&entree, record, 8);
-      place((components + 3), (record + 8), 8);
-      place(&binary_site, (record + 16), 8);
-      //see_space("record", record, 40);
-      add_to_vecter(record, &back_futures);
+      add_to_vecter(&grid, record, &futures);
     } else if(compair_spaces("set-conditional", 15, (segment_space + components[0]), components[1])) {
       machine_site = asm_set_conditional((segment_space + components[2]), components[3], machine_space);
     } else if(compair_spaces("entree", 6, (segment_space + components[0]), components[1])) {
-      source entree = malloc(components[3]);
-      place((segment_space + components[2]), entree, components[3]);
+      source entree = 0;
+			get_grid_secs(&grid, components[3], &entree);
+      wide_com((segment_space + components[2]), entree, components[3]);
       //see_space("entree", &entree, 8);
       //printf("entree | %s\n", entree);
       sec record[24];
-      place(&entree, record, 8);
-      place((components + 3), (record + 8), 8);
-      place(&asm_rack_site, (record + 16), 8);
+      wide_com(&entree, record, 8);
+      wide_com((components + 3), (record + 8), 8);
+      wide_com(&asm_rack_site, (record + 16), 8);
       //see_space("record", record, 24);
-      add_to_vecter(record, &entrees);
+      add_to_vecter(&grid, record, &entrees);
       quadrant quad_site = 0;
       quadrant segment_site = components[6];
       quadrant quad = 0;
@@ -464,31 +466,33 @@ quadrant main(quadrant naof_params, source_vecter params) {
     } else if(compair_spaces("reset-site", 10, (segment_space + components[0]), components[1])) {
       asm_rack_site = 0;
     } else if(compair_spaces("quad-source", 11, (segment_space + components[0]), components[1])) {
-      source entree = malloc(components[3]);
-      place((segment_space + components[2]), entree, components[3]);
+      source entree = 0;
+			get_grid_secs(&grid, components[3], &entree);
+      wide_com((segment_space + components[2]), entree, components[3]);
       //see_space("entree", &entree, 8);
       //printf("entree | %s\n", entree);
       sec record[24];
-      place(&entree, record, 8);
-      place((components + 3), (record + 8), 8);
+      wide_com(&entree, record, 8);
+      wide_com((components + 3), (record + 8), 8);
       quadrant rack_site;
       entree_to_number((segment_space + components[4]), components[5], 16, &rack_site);
-      place(&rack_site, (record + 16), 8);
+      wide_com(&rack_site, (record + 16), 8);
       //see_space("record", record, 24);
-      add_to_vecter(record, &sources);
+      add_to_vecter(&grid, record, &sources);
     } else if(compair_spaces("auto-quad-source", 16, (segment_space + components[0]), components[1])) {
-      source entree = malloc(components[3]);
-      place((segment_space + components[2]), entree, components[3]);
+      source entree = 0;
+			get_grid_secs(&grid, components[3], &entree);
+      wide_com((segment_space + components[2]), entree, components[3]);
       //see_space("entree", &entree, 8);
       //printf("entree | %s\n", entree);
 			//printf("rack-site | %lu\n", asm_rack_site);
       sec record[24];
-      place(&entree, record, 8);
-      place((components + 3), (record + 8), 8);
-      place(&asm_rack_site, (record + 16), 8);
+      wide_com(&entree, record, 8);
+      wide_com((components + 3), (record + 8), 8);
+      wide_com(&asm_rack_site, (record + 16), 8);
       asm_rack_site += 8;
       //see_space("record", record, 24);
-      add_to_vecter(record, &sources);
+      add_to_vecter(&grid, record, &sources);
     } else if(compair_spaces("leeve-quad", 10, (segment_space + components[0]), components[1])) {
       quadrant naof_sources = sources[2];
       quadrant source_site = 0;
@@ -528,10 +532,12 @@ quadrant main(quadrant naof_params, source_vecter params) {
         source_site += 1;
       }
       quadrant rack_site = record[2];
+			//printf("rack-site | %lu\n", rack_site);
       sec registers[100];
       quadrant registers_site = 0;
       add_to_entree((segment_space + components[2]), components[3], (registers), &registers_site);
       add_to_entree("-rsp", 4, (registers), &registers_site);
+			//printf("registers | %s\n", registers);
       machine_site = asm_move_to(registers, registers_site, rack_site, (machine_space + machine_site));
     } else if(compair_spaces("move-quad-to", 12, (segment_space + components[0]), components[1])) {
       quadrant naof_sources = sources[2];
@@ -543,16 +549,19 @@ quadrant main(quadrant naof_params, source_vecter params) {
           syscall(unix_exit_group, 0);
         }
         record = (sources + (3 + (source_site * 3)));
+				//printf("source | %s\n", record[0]);
         if(compair_spaces((segment_space + components[2]), components[3], record[0], record[1])) {
           break;
         }
         source_site += 1;
       }
       quadrant rack_site = record[2];
+			//printf("rack-site | %lu\n", rack_site);
       sec registers[100];
       quadrant registers_site = 0;
       add_to_entree("rsp-", 4, (registers), &registers_site);
       add_to_entree((segment_space + components[4]), components[5], (registers), &registers_site);
+			//printf("registers | %s\n", registers);
       machine_site = asm_move_registers(registers, registers_site, rack_site, (machine_space + machine_site));
     } else if(compair_spaces("store-state", 11, (segment_space + components[0]), components[1])) {
       machine_site = asm_store_state(machine_space);
@@ -561,6 +570,10 @@ quadrant main(quadrant naof_params, source_vecter params) {
     } else if(compair_spaces("set", 3, (segment_space + components[0]), components[1])) {
       quadrant number;
       entree_to_number((segment_space + components[2]), components[3], 16, &number);
+			//printf("number | %lu\n", number);
+			//printf("naof-register-name-secs | %lu\n", components[5]);
+			//syscall(unix_write, 1, (segment_space + components[4]), components[5]);
+			//syscall(unix_write, 1, "\n", 1);
       machine_site = asm_set_register((segment_space + components[4]), components[5], number, machine_space);
     } else if(compair_spaces("and", 3, (segment_space + components[0]), components[1])) {
       sec registers[100];
@@ -785,7 +798,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
     if(machine_site > 0) {
       quadrant machine_secs_site = binary_site - origin_site;
       //printf("machine-site | %lu\n", machine_site);
-      place(machine_space, (machine_secs + machine_secs_site), machine_site);
+      //wide_com(machine_space, (machine_secs + machine_secs_site), machine_site);
+			add_string_to_sec_vecter(&grid, machine_space, machine_site, &machine_secs);
       //write(secs_file, machine_space, machine_site);
       binary_site += machine_site;
     }
@@ -800,6 +814,9 @@ quadrant main(quadrant naof_params, source_vecter params) {
       break;
     }
     reader record = (futures + (3 + (futures_site * 5)));
+		see_space("record", record, 0x28);
+		printf("entree-0 | %s\n", record[0]);
+		printf("entree-1 | %s\n", record[2]);
     reader marker;
     quadrant marker_site = 0;
     while(true) {
@@ -808,55 +825,30 @@ quadrant main(quadrant naof_params, source_vecter params) {
         syscall(unix_exit_group, 0);
       }
       marker = (markers + (3 + (marker_site * 3)));
-      //see_space("marker", marker, 24);
       //printf("marker | %s\n", marker[0]);
       //printf("marker-destination | %lu\n", marker[2]);
       if(compair_spaces(record[0], record[1], marker[0], marker[1])) {
+				//printf("marker matched.\n");
         break;
       }
       marker_site += 1;
     }
+		see_space("marker", marker, 24);
     directional motion_alu_site = source_site(naof_standard_motion_alus, clerical_motion_alus, clerical_motion_alus_distances, record[2], record[3]);
     quadrant naof_secs = standard_motion_signs_distances[motion_alu_site];
     directional motion = marker[2] - (record[4] + naof_secs);
-    //printf("origin | %lu\n", record[4]);
-    //printf("destination | %lu\n", marker[2]);
     quadrant machine_site = asm_clerical_motion_stay_from(record[2], record[3], record[4], marker[2], machine_space);
+		quadrant binary_site = record[4];
+		//printf("binary-site | %lu\n", binary_site);
+		see_quad("binary-site | ", 14, binary_site, 16);
+		quad msec_site = binary_site - origin_site;
+		see_quad("msec-site | ", 12, msec_site, 16);
+    see_base16("init-sequence", (get_vecter_grid(machine_secs) + msec_site), 0x20);
+    printf("origin | %lu\n", record[4]);
+    printf("destination | %lu\n", marker[2]);
+    see_space("machine-secs", (machine_space), machine_site);
+		printf("machine-site | %lu\n", machine_site);
     quadrant machine_secs_site = record[4] - origin_site;
-    //see_space("machine-secs", (machine_secs + machine_secs_site), machine_site);
-    place(machine_space, (machine_secs + machine_secs_site), machine_site);
-    //see_space("machine-secs", (machine_secs + machine_secs_site), machine_site);
-    futures_site += 1;
-  }
-  quadrant naof_back_futures = back_futures[2];
-  futures_site = 0;
-  while(true) {
-    if(futures_site == naof_back_futures) {
-      break;
-    }
-    reader record = (back_futures + (3 + (futures_site * 3)));
-		//see_space("record", record, 24);
-		//printf("origin-site | %lu\n", origin_site);
-    reader marker;
-    quadrant marker_site = 0;
-    while(true) {
-      if(marker_site == naof_markers) {
-        printf("clerical warn | could not find marker %s.\n", record[0]);
-        syscall(unix_exit_group, 0);
-      }
-      marker = (markers + (3 + (marker_site * 3)));
-      //see_space("marker", marker, 24);
-      //printf("marker | %s\n", marker[0]);
-      //printf("marker-destination | %lu\n", marker[2]);
-      if(compair_spaces(record[0], record[1], marker[0], marker[1])) {
-        break;
-      }
-      marker_site += 1;
-    }
-		quadrant machine_site = asm_back_stay_from((record[2] + 5), marker[2], machine_space);
-    quadrant machine_secs_site = record[2] - origin_site;
-    //see_space("machine-secs", (machine_secs + machine_secs_site), machine_site);
-    place(machine_space, (machine_secs + machine_secs_site), machine_site);
     //see_space("machine-secs", (machine_secs + machine_secs_site), machine_site);
     futures_site += 1;
   }
@@ -864,11 +856,10 @@ quadrant main(quadrant naof_params, source_vecter params) {
   */
   quadrant machine_secs_site = binary_site - origin_site;
   //see_space("machine-secs", machine_secs, machine_secs_site);
-  write(secs_file, machine_secs, machine_secs_site);
-  close(secs_file);
-  free(entrees);
-  free(markers);
-  free(futures);
-  free(machine_secs);
+	if(machine_secs[2] > 0) {
+		secs_file = open(params[2], archive_create|archive_write, archive_arws);
+		write(secs_file, (machine_secs + 3), machine_secs_site);
+		close(secs_file);
+	}
   return 0;
 }

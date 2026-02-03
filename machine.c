@@ -19,6 +19,7 @@ directional source_site(quadrant naof_sources, source_vecter sources, reader sou
 }
 
 quadrant asm_motion_stay(source alu_module, quadrant alu_module_distance, directional motion, source write_space) {
+	//printf("alu-module | %s\n", alu_module);
   directional motion_alu_site = source_site(naof_standard_motion_alus, standard_motion_alus, standard_motion_alus_distances, alu_module, alu_module_distance);
   if(motion_alu_site == -1) {
     printf("clerical warn | no sign found for %s in asm-motion-stay\n", alu_module);
@@ -36,7 +37,7 @@ quadrant asm_set_conditional(source alu_module, quadrant alu_module_distance, so
   directional motion_alu_site = source_site(naof_set_conditionals, set_conditionals, set_conditional_distances, alu_module, alu_module_distance);
   //printf("motion-alu-site | %lu\n", motion_alu_site);
   if(motion_alu_site == -1) {
-    printf("clerical warn | no sign found for %s in asm-motion-stay\n", alu_module);
+    printf("clerical warn | no sign found for %s in asm-set-conditional\n", alu_module);
     syscall(unix_exit_group, 0);
   }
   quadrant write_site = 0;
@@ -60,18 +61,6 @@ quadrant asm_clerical_motion_stay_from(source alu_module, quadrant alu_module_di
   quadrant naof_secs = standard_motion_signs_distances[motion_alu_site] + 4;
   directional motion = destination - (origin + naof_secs);
   directional write_site = asm_motion_stay(standard_motion_alus[motion_alu_site], standard_motion_alus_distances[motion_alu_site], motion, write_space);
-  return write_site;
-}
-
-quadrant asm_back_stay_from(quadrant origin, quadrant destination, source write_space) {
-	directional distance = destination - origin;
-  //printf("alu-module | %s\n", alu_module);
-	quadrant write_site = 0;
-	sec back_stay_sign[1] = {232};
-  place(back_stay_sign, (write_space), 1);
-  write_site += 1;
-  place(&distance, (write_space + write_site), 4);
-  write_site += 4;
   return write_site;
 }
 
@@ -238,13 +227,14 @@ quadrant asm_compair_registers(source registers, quadrant registers_distance, so
 
 quadrant asm_set_register(source register_source, quadrant register_distance, quadrant number, source write_space) {
   directional register_site = source_site(naof_clerical_registers, gnu_registers, gnu_registers_distances, register_source, register_distance);
-  //printf("pair-site | %ld\n", register_site);
+  //printf("register-site | %ld\n", register_site);
   if(register_site == -1) {
     printf("clerical warn | no sign found for %s in asm-move-registers\n", register_source);
     syscall(unix_exit_group, 0);
   }
   //printf("naof-and-sign-secs | %lu\n", naof_and_sign_secs[register_site]);
   //see_space("sign", and_signs[register_site], naof_and_sign_secs[register_site]);
+	//see_base16("set-sign", set_signs[register_site], 2);
   place(set_signs[register_site], write_space, 2);
   place(&number, (write_space + 2), 8);
   return 10;
