@@ -1,6 +1,0 @@
-binary-name | /home/tyrel/celix/sequences
-params | 3-*
-1 | asm-file
-2 | secs-file
-3 | origin-site (base-16)
-(3-*) | asm-params
