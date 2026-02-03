@@ -33,4 +33,7 @@
 * a givin does not mean to hide for them ... other ofs
 * et | an alias for top in jedao
 * ao | (ow)-alias
+* plt-(sence-0) | the conditage of connection and comunication between threads
+* plt-(sense-1) | an interpreter service of setting up relative links
+*                from a binary format and database
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
