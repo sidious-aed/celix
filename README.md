@@ -22,13 +22,15 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
 * wide-[clerk]-(es) | mid-low-hertz the front spec threadage
-*				     the logists transfer is interprocess archives
+*				     the protocol logists transfer is interprocess archives
 * kernel | has some auxillery alu-mods for charts-memory
-*          the logistics transfer is interdevice
+*          the plt is inter-(sequencer-asigs-in-the-asic-et)-(inter-devices)
 *           and between core processes
 * orecle | extreemly fast thread
 *          is logistic transfer is to and from kernel
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * a givin does not mean to hide for them ... other ofs
+* et | an alias for top in jedao
+* ao | (ow)-alias
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
