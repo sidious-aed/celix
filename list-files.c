@@ -44,51 +44,54 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			}
 			seek_site -= 1;
 		}
-		//syscall(unix_write, 1, record[0], record[1]);
+		//syscall(unix_write, 1, record[0], record[2]);
 		//syscall(unix_write, 1, "\n", 1);
-		source extension = (record[0] + seek_site);
-		quadrant naof_extension_secs = (record[2] - seek_site);
-		if(seek_site == 0) {
-			extension = binary_type;
-			naof_extension_secs = naof_binary_type_secs;
-		}
-		//syscall(unix_write, 1, extension, naof_extension_secs);
-		//syscall(unix_write, 1, "\n", 1);
-		//printf("naof-file-types | %lu\n", file_types[2]);
-		quadrant tsite = 0;
-		while(true) {
-			if(tsite == file_types[2]) {
-				break;
+		//printf("type | %lu\n", record[1]);
+		if(record[1] == 8) {
+			source extension = (record[0] + seek_site);
+			quadrant naof_extension_secs = (record[2] - seek_site);
+			if(seek_site == 0) {
+				extension = binary_type;
+				naof_extension_secs = naof_binary_type_secs;
 			}
-			writer type_record = ((file_types + 3) + (tsite * 3));
-			//printf("extension | %s\n", extension);
-			//see_space("type-record", type_record, 0x18);
-			if(compair_spaces(extension, naof_extension_secs, type_record[0], type_record[1])) {
-				writer files_for_type = type_record[2];
+			//syscall(unix_write, 1, extension, naof_extension_secs);
+			//syscall(unix_write, 1, "\n", 1);
+			//printf("naof-file-types | %lu\n", file_types[2]);
+			quadrant tsite = 0;
+			while(true) {
+				if(tsite == file_types[2]) {
+					break;
+				}
+				writer type_record = ((file_types + 3) + (tsite * 3));
+				//printf("extension | %s\n", extension);
+				//see_space("type-record", type_record, 0x18);
+				if(compair_spaces(extension, naof_extension_secs, type_record[0], type_record[1])) {
+					writer files_for_type = type_record[2];
+					writer file_for_type[0x2];
+					file_for_type[0] = name;
+					file_for_type[1] = record[2];
+					add_to_vecter(&grid, file_for_type, &files_for_type);
+					break;
+				}
+				tsite += 1;
+			}
+			//printf("tsite | %lu\n", tsite);
+			if(tsite == file_types[2]) {
+				//printf("adding type.\n");
+				writer files_for_type = 0;
+				create_vecter(&grid, 0x10, 100, &files_for_type);
+				//printf("files-for-type | %lu\n", files_for_type);
 				writer file_for_type[0x2];
 				file_for_type[0] = name;
 				file_for_type[1] = record[2];
 				add_to_vecter(&grid, file_for_type, &files_for_type);
-				break;
+				writer type_record[0x2];
+				type_record[0] = extension;
+				type_record[1] = naof_extension_secs;
+				type_record[2] = files_for_type;
+				//see_space("type-record", type_record, 0x18);
+				add_to_vecter(&grid, type_record, &file_types);
 			}
-			tsite += 1;
-		}
-		//printf("tsite | %lu\n", tsite);
-		if(tsite == file_types[2]) {
-			//printf("adding type.\n");
-			writer files_for_type = 0;
-			create_vecter(&grid, 0x10, 100, &files_for_type);
-			//printf("files-for-type | %lu\n", files_for_type);
-			writer file_for_type[0x2];
-			file_for_type[0] = name;
-			file_for_type[1] = record[2];
-			add_to_vecter(&grid, file_for_type, &files_for_type);
-			writer type_record[0x2];
-			type_record[0] = extension;
-			type_record[1] = naof_extension_secs;
-			type_record[2] = files_for_type;
-			//see_space("type-record", type_record, 0x18);
-			add_to_vecter(&grid, type_record, &file_types);
 		}
 		//printf("\n");
 	}

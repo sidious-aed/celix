@@ -8,6 +8,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
   }
 	sec asm_entree[10000];
 	quad naof_asm_entree_secs = standardise_entree(params[1], asm_entree);
+	//syscall(unix_write, 1, asm_entree, naof_asm_entree_secs);
+	//syscall(unix_write, 1, "\n", 1);
 	
 	ip_file init_ipf = syscall(unix_open, "c-shell.c", archive_read);
 	quad naof_c_file_secs = syscall(unix_lseek, init_ipf, 0, seek_com);
@@ -46,8 +48,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	add_to_entree(nonce_name, naof_nonce_name_secs, comand, &comand_site);
 	add_to_entree(" -o ", 4, comand, &comand_site);
 	add_to_entree(nonce_bin_name, naof_nonce_bin_name_secs, comand, &comand_site);
-	//syscall(unix_write, 1, comand, comand_site);
-	//syscall(unix_write, 1, "\n", 1);
+	syscall(unix_write, 1, comand, comand_site);
+	syscall(unix_write, 1, "\n", 1);
 	system(comand);
 	syscall(unix_unlink, nonce_name);
 	ip_file bin_file = syscall(unix_open, nonce_bin_name, archive_read);
@@ -58,8 +60,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		add_to_entree(" > ", 3, comand, &comand_site);
 		naof_nonce_name_secs = get_time_name(nonce_name);
 		add_to_entree(nonce_name, naof_nonce_name_secs, comand, &comand_site);
-		//syscall(unix_write, 1, comand, comand_site);
-		//syscall(unix_write, 1, "\n", 1);
+		syscall(unix_write, 1, comand, comand_site);
+		syscall(unix_write, 1, "\n", 1);
 		system(comand);
 		syscall(unix_unlink, nonce_bin_name);
 
@@ -84,7 +86,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		quad machine_secs_site = 0;
 		quad mode = 0;
 		sec b16_sec[3];
-		quad machine_sec = 0;
+		sec machine_sec = 0;
 		b16_sec[2] = 0;
 		quad b16_site = 0;
 		while(true) {
@@ -95,9 +97,12 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			if(mode == 0) {
 				if((rune == ' ') || (rune == '\t')) {
 					//printf("b16-sec | %s\n", b16_sec);
-					entree_to_number(b16_sec, b16_site, 16, &machine_sec);
+					machine_sec = 0;
+					entree_to_number(b16_sec, 2, 16, &machine_sec);
+					//printf("machine-sec | %u\n", machine_sec);
 					machine_secs[machine_secs_site] = machine_sec;
 					machine_secs_site += 1;
+					//see_space("machine-secs-b10", machine_secs, machine_secs_site);
 					mode = 1;
 					continue;
 				}
@@ -114,9 +119,111 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			}
 			//getc(stdin);
 		}
+		//printf("seek-site | %lu\n", seek_site);
+		squad segment_site = seek_space("\n", 1, obj_file + seek_site, naof_obj_file_secs - seek_site) + 1;
+		squad naof_segment_secs = seek_space("\n", 1, obj_file + seek_site, naof_obj_file_secs - seek_site);
+		source segment = (obj_file + seek_site + segment_site);
+		quad stack_segment = segment;
+		segment += seek_space(":", 1, segment, naof_obj_file_secs - (quad)segment) + 1;
+		while(true) {
+			sec rune = segment[0];
+			if((rune != ' ') && (rune != '\t')) {
+				break;
+			}
+			segment += 1;
+		}
+		//printf("segment | %s\n", segment);
+		source at_potential_aux = segment;
+		mode = 0;
+		while(true) {
+			sec rune = segment[0];
+			if(rune != '\n') {
+				segment += 1;
+			}
+			//printf("rune | %c\n", rune);
+			//printf("mode | %lu\n", mode);
+			if(mode == 0) {
+				if((rune == ' ') || (rune == '\t') || (rune == '\n')) {
+					//printf("b16-sec | %s\n", b16_sec);
+					mode = 1;
+					continue;
+				}
+			} else {
+				if((rune == ' ') || (rune == '\t') || (rune == '\n')) {
+					break;
+				} else {
+					mode = 0;
+					segment -= 1;
+				}
+			}
+		}
+		//printf("segment | %s\n", segment);
+		//printf("segment | %c | %u\n", segment[0], segment[0]);
+		naof_segment_secs = naof_segment_secs - ((quad)segment - stack_segment);
+		//syscall(unix_write, 1, (segment), naof_segment_secs);
+		//syscall(unix_write, 1, "\n", 1);
+		quad is_aux_naof_secs = false;
+		if(segment[0] == '\n') {
+			is_aux_naof_secs = true;
+		} else {
+			quad ssite = 0;
+			while(true) {
+				sec rune = segment[0];
+				segment += 1;
+				//printf("rune | %c | %u\n", rune, rune);
+				ssite += 1;
+				if(rune == '\n') {
+					is_aux_naof_secs = true;
+					break;
+				}
+				if((rune == ' ') || (rune == '\t')) {
+					continue;
+				}
+				if(((rune >= 48) && (rune <= 57)) || ((rune >= 97) && (rune <= 102))) {
+					continue;
+				} else {
+					break;
+				}
+			}
+		}
+		//printf("is-aux-naof-secs | %lu\n", is_aux_naof_secs);
+		if(is_aux_naof_secs) {
+			b16_site = 0;
+			segment = at_potential_aux;
+			mode = 0;
+			while(true) {
+				sec rune = segment[0];
+				segment += 1;
+				//printf("mode | %lu\n", mode);
+				//printf("rune | %c\n", rune);
+				if(mode == 0) {
+					if((rune == ' ') || (rune == '\t') || (rune == '\n')) {
+						//printf("b16-sec | %s\n", b16_sec);
+						entree_to_number(b16_sec, b16_site, 16, &machine_sec);
+						machine_secs[machine_secs_site] = machine_sec;
+						machine_secs_site += 1;
+						//see_space("machine-secs-b10", machine_secs, machine_secs_site);
+						mode = 1;
+						continue;
+					}
+					b16_sec[b16_site] = rune;
+					b16_site += 1;
+				} else {
+					if((rune == ' ') || (rune == '\t') || (rune == '\n')) {
+						break;
+					} else {
+						mode = 0;
+						b16_site = 0;
+						segment -= 1;
+					}
+				}
+				//getc(stdin);
+			}
+		}
+		syscall(unix_unlink, nonce_name);
+
 		view_header("the machine secs");
 		syscall(unix_write, 1, "asm-entree       | ", 19);
-		syscall(unix_unlink, nonce_name);
 		syscall(unix_write, 1, asm_entree, naof_asm_entree_secs);
 		syscall(unix_write, 1, "\n", 1);
 		syscall(unix_write, 1, "machine-secs-b16 | ", 0x13);
