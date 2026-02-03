@@ -147,11 +147,15 @@ typedef short * dyno_reference;
 #define archive_open 493
 #define archive_jypsy 488
 #define archive_admin 448
-#define seek_origin 0
+#define seek_init 0
 #define seek_at 1
-#define seek_completion 2
+#define seek_com 2
 #define nonce_distance 12
 
+// shell constants
+#define c_shell_file_zone 86
+#define c_shell_file_zone_com 98
+#define c_shell_binary_zone 0x607
 // back-aliases
 // i remember much; rememberance is relearn remember * prose of a
 // com  | completion
@@ -179,6 +183,9 @@ typedef short * dyno_reference;
 #define map_readable 1             ///////////////
 #define map_writable 2             ///////////////
 #define map_stayable 4             ///////////////
+#define seek_origin 0              ////////////////
+#define seek_at 1                 //////////////////
+#define seek_completion 2        ////////////////////
 ///////////////////////////////////////////////////////
 #endif                             //           //
 ///////////////////////////////////////////////////////

@@ -26,6 +26,8 @@ quadrant main() {
 	//system("gcc standard.lib clerk.lib list-files.c -o list-files");
 	//system("gcc standard.lib clerk.lib ngrep.c -o ngrep");
 	//system("gcc standard.lib clerk.lib equations.c -o equations");
+	system("gcc standard.lib seek-file-site.c -o seek-file-site");
+	system("gcc standard.lib asm-secs.c -o asm-secs");
 
 	// clerk-wide
 	//system("gcc standard.lib machine.lib sequences.c -o sequences");

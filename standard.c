@@ -340,11 +340,15 @@ directional seek_space(source seek, quadrant seek_distance, source space, quadra
     return -2;
   }
   quadrant naof_seek_quadrants = seek_distance >> 3;
+	//printf("naof-seek-quadrants | %lu\n", naof_seek_quadrants);
   quadrant naof_quadrant_secs = naof_seek_quadrants << 3;
   quadrant naof_seek_secs = seek_distance - naof_quadrant_secs;
+	//printf("naof-seek-secs | %lu\n", naof_seek_secs);
   quadrant naof_trys = space_distance - seek_distance + 1;
+	//printf("naof-trys | %lu\n", naof_trys);
   quadrant site = 0;
   while(true) {
+		//printf("site | %lu\n", site);
     reader compair_seek_quadrants = (reader)seek;
     source compair_seek_secs = seek + naof_quadrant_secs;
     reader compair_space_quadrants = (reader)(space + site);
@@ -355,12 +359,14 @@ directional seek_space(source seek, quadrant seek_distance, source space, quadra
       if(compair_site == naof_seek_quadrants) {
         break;
       }
+			//printf("comp | %lu | %lu\n", compair_seek_quadrants[compair_site], compair_space_quadrants[compair_site]);
       if(compair_seek_quadrants[compair_site] != compair_space_quadrants[compair_site]) {
         is_equal = false;
         break;
       }
       compair_site += 1;
     }
+		//printf("site | %lu\n", site);
     compair_site = 0;
     if(is_equal) {
       while(true) {
@@ -375,6 +381,8 @@ directional seek_space(source seek, quadrant seek_distance, source space, quadra
         compair_site += 1;
       }
     }
+		//printf("is-equal | %lu\n", is_equal);
+		//printf("site | %lu\n", site);
     if(is_equal) {
       return site;
     }
@@ -462,13 +470,17 @@ quadrant standardise_entree(source entree, source destination) {
 				destination[dsite] = '\t';
 			} else if (nrune == '\\') {
 				destination[dsite] = '\\';
+			} else {
+				destination[dsite] = nrune;
 			}
 		} else {
 			destination[dsite] = rune;
 		}
 		//printf("drune | %c\n", destination[dsite]);
 		dsite += 1;
+		//printf("dsite | %lu\n", dsite);
 	}
+	return dsite;
 }
 
 // clerical views
@@ -1127,4 +1139,20 @@ vast statemints(writer grid, source statemints_source, quadrant naof_statemints_
 		//break;
 	}
 	return;
+}
+
+// clerk-clericaL-es auxillery
+vast view_header(source relay) {
+	sec clerk_es_space[1000000];
+	quad clerk_es_site = 0;
+	quad naof_relay_secs = get_naof_secs(relay);
+	quad naof_bar_secs = naof_relay_secs + 4;
+	clerk_es_site += replicate('-', clerk_es_space, naof_bar_secs);
+	add_to_entree("\n| ", 3, clerk_es_space, &clerk_es_site);
+	add_to_entree(relay, naof_relay_secs, clerk_es_space, &clerk_es_site);
+	add_to_entree(" |\n", 3, clerk_es_space, &clerk_es_site);
+	clerk_es_site += replicate('-', (clerk_es_space + clerk_es_site), naof_bar_secs);
+	clerk_es_space[clerk_es_site] = '\n';
+	clerk_es_site += 1;
+	syscall(unix_write, 1, clerk_es_space, clerk_es_site);
 }
