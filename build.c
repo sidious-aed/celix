@@ -51,7 +51,7 @@ quadrant main() {
 	//system("gcc standard.lib clerk.lib equations.c -o equations");
 	system("gcc standard.lib machine.lib sequences.c -o sequences");
 	system("gcc standard.lib clerk.lib build-equations.c -o build-equations");
-	//system("gcc standard.lib build-shell.c -o build-shell");
+	system("gcc standard.lib build-shell.c -o build-shell");
 	//system("gcc standard.lib view-assembly.c -o view-assembly");
 	// all respects to the awesome spec fulfilling dinasaurs.
 	// be to the spec demanders the non (in a prose of trends) of their docket issuances goes to.

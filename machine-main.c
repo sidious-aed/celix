@@ -278,12 +278,21 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	see_encoded(ms, ms_site, 16);
 	syscall(unix_write, 1, "\n", 1);
 
+	log_heading("divide-to-returns");
+	ms_site = asm_divide_to_returns(0xaedaed, "rdi", 3, ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+
+	/*
 	log_heading("divide-register-to-returns");
 	ms_site = asm_divide_castl_to_returns(0xaed, "rdi", 3, ms);
 	see_space("ms", ms, ms_site);
 	syscall(unix_write, 1, "ms | ", 4);
 	see_encoded(ms, ms_site, 16);
 	syscall(unix_write, 1, "\n", 1);
+	*/
 
 	log_heading("nops");
 	ms_site = asm_nops(100, ms);
@@ -314,6 +323,28 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	syscall(unix_write, 1, "\n", 1);
 	log_heading("restore-state");
 	ms_site = asm_restore_state(ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+
+	log_heading("repz");
+	ms_site = asm_repz_movq(ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+	ms_site = asm_repz_movb(ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+	ms_site = asm_repz_cmpq(ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+	ms_site = asm_repz_cmpb(ms);
 	see_space("ms", ms, ms_site);
 	syscall(unix_write, 1, "ms | ", 4);
 	see_encoded(ms, ms_site, 16);

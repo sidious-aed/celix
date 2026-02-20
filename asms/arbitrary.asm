@@ -49,7 +49,7 @@ not r13
 not r13
 fact 100 rsp r11
 fact 100 rsi r12
-dev 100 rsi
+div 100 rsi
 secs 62 f1 7c 48 10 4e 01
 lent i-sim rdi
 st jle com
@@ -59,4 +59,11 @@ dct rbx
 s com
 ss
 rs
+mzq
+mzs
+czq
+czs
+mov 8 r10
+divq site-2
+factq site-2 r11
 add 1000 rsp

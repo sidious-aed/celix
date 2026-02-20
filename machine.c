@@ -314,11 +314,20 @@ quad asm_multiply_registers(quad cast_site, source registers, quad naof_register
 	return ms_site;
 }
 
-quad asm_divide_castl_to_returns(quad cast_site, source register_name, quad naof_register_secs, source space) {
+quad asm_divide(source register_name, quad naof_register_secs, source space) {
 	squad register_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_gnu_registers, register_name, naof_register_secs);
 	//printf("register-site | %lu\n", register_site);
-	quad naof_sign_secs = divide_castl_to_returns_signs_naof_secs[register_site];
-	wide_com(divide_castl_to_returns_signs[register_site], space, naof_sign_secs);
+	quad naof_sign_secs = divide_signs_naof_secs[register_site];
+	wide_com(divide_signs[register_site], space, naof_sign_secs);
+	quad ms_site = naof_sign_secs;
+	return ms_site;
+}
+
+quad asm_divide_to_returns(quad cast_site, source register_name, quad naof_register_secs, source space) {
+	squad register_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_gnu_registers, register_name, naof_register_secs);
+	//printf("register-site | %lu\n", register_site);
+	quad naof_sign_secs = divide_to_returns_signs_naof_secs[register_site];
+	wide_com(divide_to_returns_signs[register_site], space, naof_sign_secs);
 	quad ms_site = naof_sign_secs;
 	wide_com(&cast_site, (space + ms_site), 4);
 	ms_site += 4;
@@ -350,6 +359,31 @@ quad asm_store_state(source space) {
 quad asm_restore_state(source space) {
 	wide_com(restore_state_sign_sec, space, 1);
 	return 1;
+}
+
+// z | spells intreague in tiger speak. and the questzeez here; is the meager gem of
+// the clerk-clerkess type-scanner which probably the best scope for movzeez and cmpzeez
+// as the mms are like a printing press in a prose compaired to the repz digi-type-thingy,
+// and the quest to get to ask kernel stay of procedures where the mms scope should be better sense
+// the kernel should have the zmms.
+quad asm_repz_movq(source space) {
+	wide_com(rep_movq_sign_secs, space, 3);
+	return 3;
+}
+
+quad asm_repz_movb(source space) {
+	wide_com(rep_movb_sign_secs, space, 2);
+	return 2;
+}
+
+quad asm_repz_cmpq(source space) {
+	wide_com(rep_cmpq_sign_secs, space, 3);
+	return 3;
+}
+
+quad asm_repz_cmpb(source space) {
+	wide_com(rep_cmpb_sign_secs, space, 2);
+	return 2;
 }
 
 /*

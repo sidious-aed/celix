@@ -51,6 +51,10 @@ static const sec call_sign_sec[1] = {0xe8};
 static const sec syscall_sign_secs[2] = {0x0f, 0x05};
 static const sec store_state_sign_sec[1] = {0x9f};
 static const sec restore_state_sign_sec[1] = {0x9e};
+static const sec rep_movq_sign_secs[3] = {0xf3, 0x48, 0xa5};
+static const sec rep_movb_sign_secs[2] = {0xf3, 0xa4};
+static const sec rep_cmpq_sign_secs[3] = {0xf3, 0x48, 0xa7};
+static const sec rep_cmpb_sign_secs[2] = {0xf3, 0xa6};
 
 // logical and motion signs
 // stay-to-signs
@@ -3990,26 +3994,45 @@ static const sec multiply_registers_signs_ff[4] = {0x48, 0x0f, 0xaf, 0xad};
 static const source multiply_registers_signs[256] = {multiply_registers_signs_0, multiply_registers_signs_1, multiply_registers_signs_2, multiply_registers_signs_3, multiply_registers_signs_4, multiply_registers_signs_5, multiply_registers_signs_6, multiply_registers_signs_7, multiply_registers_signs_8, multiply_registers_signs_9, multiply_registers_signs_a, multiply_registers_signs_b, multiply_registers_signs_c, multiply_registers_signs_d, multiply_registers_signs_e, multiply_registers_signs_f, multiply_registers_signs_10, multiply_registers_signs_11, multiply_registers_signs_12, multiply_registers_signs_13, multiply_registers_signs_14, multiply_registers_signs_15, multiply_registers_signs_16, multiply_registers_signs_17, multiply_registers_signs_18, multiply_registers_signs_19, multiply_registers_signs_1a, multiply_registers_signs_1b, multiply_registers_signs_1c, multiply_registers_signs_1d, multiply_registers_signs_1e, multiply_registers_signs_1f, multiply_registers_signs_20, multiply_registers_signs_21, multiply_registers_signs_22, multiply_registers_signs_23, multiply_registers_signs_24, multiply_registers_signs_25, multiply_registers_signs_26, multiply_registers_signs_27, multiply_registers_signs_28, multiply_registers_signs_29, multiply_registers_signs_2a, multiply_registers_signs_2b, multiply_registers_signs_2c, multiply_registers_signs_2d, multiply_registers_signs_2e, multiply_registers_signs_2f, multiply_registers_signs_30, multiply_registers_signs_31, multiply_registers_signs_32, multiply_registers_signs_33, multiply_registers_signs_34, multiply_registers_signs_35, multiply_registers_signs_36, multiply_registers_signs_37, multiply_registers_signs_38, multiply_registers_signs_39, multiply_registers_signs_3a, multiply_registers_signs_3b, multiply_registers_signs_3c, multiply_registers_signs_3d, multiply_registers_signs_3e, multiply_registers_signs_3f, multiply_registers_signs_40, multiply_registers_signs_41, multiply_registers_signs_42, multiply_registers_signs_43, multiply_registers_signs_44, multiply_registers_signs_45, multiply_registers_signs_46, multiply_registers_signs_47, multiply_registers_signs_48, multiply_registers_signs_49, multiply_registers_signs_4a, multiply_registers_signs_4b, multiply_registers_signs_4c, multiply_registers_signs_4d, multiply_registers_signs_4e, multiply_registers_signs_4f, multiply_registers_signs_50, multiply_registers_signs_51, multiply_registers_signs_52, multiply_registers_signs_53, multiply_registers_signs_54, multiply_registers_signs_55, multiply_registers_signs_56, multiply_registers_signs_57, multiply_registers_signs_58, multiply_registers_signs_59, multiply_registers_signs_5a, multiply_registers_signs_5b, multiply_registers_signs_5c, multiply_registers_signs_5d, multiply_registers_signs_5e, multiply_registers_signs_5f, multiply_registers_signs_60, multiply_registers_signs_61, multiply_registers_signs_62, multiply_registers_signs_63, multiply_registers_signs_64, multiply_registers_signs_65, multiply_registers_signs_66, multiply_registers_signs_67, multiply_registers_signs_68, multiply_registers_signs_69, multiply_registers_signs_6a, multiply_registers_signs_6b, multiply_registers_signs_6c, multiply_registers_signs_6d, multiply_registers_signs_6e, multiply_registers_signs_6f, multiply_registers_signs_70, multiply_registers_signs_71, multiply_registers_signs_72, multiply_registers_signs_73, multiply_registers_signs_74, multiply_registers_signs_75, multiply_registers_signs_76, multiply_registers_signs_77, multiply_registers_signs_78, multiply_registers_signs_79, multiply_registers_signs_7a, multiply_registers_signs_7b, multiply_registers_signs_7c, multiply_registers_signs_7d, multiply_registers_signs_7e, multiply_registers_signs_7f, multiply_registers_signs_80, multiply_registers_signs_81, multiply_registers_signs_82, multiply_registers_signs_83, multiply_registers_signs_84, multiply_registers_signs_85, multiply_registers_signs_86, multiply_registers_signs_87, multiply_registers_signs_88, multiply_registers_signs_89, multiply_registers_signs_8a, multiply_registers_signs_8b, multiply_registers_signs_8c, multiply_registers_signs_8d, multiply_registers_signs_8e, multiply_registers_signs_8f, multiply_registers_signs_90, multiply_registers_signs_91, multiply_registers_signs_92, multiply_registers_signs_93, multiply_registers_signs_94, multiply_registers_signs_95, multiply_registers_signs_96, multiply_registers_signs_97, multiply_registers_signs_98, multiply_registers_signs_99, multiply_registers_signs_9a, multiply_registers_signs_9b, multiply_registers_signs_9c, multiply_registers_signs_9d, multiply_registers_signs_9e, multiply_registers_signs_9f, multiply_registers_signs_a0, multiply_registers_signs_a1, multiply_registers_signs_a2, multiply_registers_signs_a3, multiply_registers_signs_a4, multiply_registers_signs_a5, multiply_registers_signs_a6, multiply_registers_signs_a7, multiply_registers_signs_a8, multiply_registers_signs_a9, multiply_registers_signs_aa, multiply_registers_signs_ab, multiply_registers_signs_ac, multiply_registers_signs_ad, multiply_registers_signs_ae, multiply_registers_signs_af, multiply_registers_signs_b0, multiply_registers_signs_b1, multiply_registers_signs_b2, multiply_registers_signs_b3, multiply_registers_signs_b4, multiply_registers_signs_b5, multiply_registers_signs_b6, multiply_registers_signs_b7, multiply_registers_signs_b8, multiply_registers_signs_b9, multiply_registers_signs_ba, multiply_registers_signs_bb, multiply_registers_signs_bc, multiply_registers_signs_bd, multiply_registers_signs_be, multiply_registers_signs_bf, multiply_registers_signs_c0, multiply_registers_signs_c1, multiply_registers_signs_c2, multiply_registers_signs_c3, multiply_registers_signs_c4, multiply_registers_signs_c5, multiply_registers_signs_c6, multiply_registers_signs_c7, multiply_registers_signs_c8, multiply_registers_signs_c9, multiply_registers_signs_ca, multiply_registers_signs_cb, multiply_registers_signs_cc, multiply_registers_signs_cd, multiply_registers_signs_ce, multiply_registers_signs_cf, multiply_registers_signs_d0, multiply_registers_signs_d1, multiply_registers_signs_d2, multiply_registers_signs_d3, multiply_registers_signs_d4, multiply_registers_signs_d5, multiply_registers_signs_d6, multiply_registers_signs_d7, multiply_registers_signs_d8, multiply_registers_signs_d9, multiply_registers_signs_da, multiply_registers_signs_db, multiply_registers_signs_dc, multiply_registers_signs_dd, multiply_registers_signs_de, multiply_registers_signs_df, multiply_registers_signs_e0, multiply_registers_signs_e1, multiply_registers_signs_e2, multiply_registers_signs_e3, multiply_registers_signs_e4, multiply_registers_signs_e5, multiply_registers_signs_e6, multiply_registers_signs_e7, multiply_registers_signs_e8, multiply_registers_signs_e9, multiply_registers_signs_ea, multiply_registers_signs_eb, multiply_registers_signs_ec, multiply_registers_signs_ed, multiply_registers_signs_ee, multiply_registers_signs_ef, multiply_registers_signs_f0, multiply_registers_signs_f1, multiply_registers_signs_f2, multiply_registers_signs_f3, multiply_registers_signs_f4, multiply_registers_signs_f5, multiply_registers_signs_f6, multiply_registers_signs_f7, multiply_registers_signs_f8, multiply_registers_signs_f9, multiply_registers_signs_fa, multiply_registers_signs_fb, multiply_registers_signs_fc, multiply_registers_signs_fd, multiply_registers_signs_fe, multiply_registers_signs_ff};
 static const quad multiply_registers_signs_naof_secs[256] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
 
+// divide
+static const sec divide_signs_0[3] = {0x49, 0xf7, 0xf0};
+static const sec divide_signs_1[3] = {0x49, 0xf7, 0xf1};
+static const sec divide_signs_2[3] = {0x49, 0xf7, 0xf2};
+static const sec divide_signs_3[3] = {0x49, 0xf7, 0xf3};
+static const sec divide_signs_4[3] = {0x49, 0xf7, 0xf4};
+static const sec divide_signs_5[3] = {0x49, 0xf7, 0xf5};
+static const sec divide_signs_6[3] = {0x49, 0xf7, 0xf6};
+static const sec divide_signs_7[3] = {0x49, 0xf7, 0xf7};
+static const sec divide_signs_8[3] = {0x48, 0xf7, 0xf0};
+static const sec divide_signs_9[3] = {0x48, 0xf7, 0xf3};
+static const sec divide_signs_a[3] = {0x48, 0xf7, 0xf1};
+static const sec divide_signs_b[3] = {0x48, 0xf7, 0xf2};
+static const sec divide_signs_c[3] = {0x48, 0xf7, 0xf7};
+static const sec divide_signs_d[3] = {0x48, 0xf7, 0xf6};
+static const sec divide_signs_e[3] = {0x48, 0xf7, 0xf4};
+static const sec divide_signs_f[3] = {0x48, 0xf7, 0xf5};
+static const source divide_signs[16] = {divide_signs_0, divide_signs_1, divide_signs_2, divide_signs_3, divide_signs_4, divide_signs_5, divide_signs_6, divide_signs_7, divide_signs_8, divide_signs_9, divide_signs_a, divide_signs_b, divide_signs_c, divide_signs_d, divide_signs_e, divide_signs_f};
+static const quad divide_signs_naof_secs[16] = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
+
 // devide-register-to-returns
-static const sec divide_castl_to_returns_signs_0[3] = {0x49, 0xf7, 0xb0};
-static const sec divide_castl_to_returns_signs_1[3] = {0x49, 0xf7, 0xb1};
-static const sec divide_castl_to_returns_signs_2[3] = {0x49, 0xf7, 0xb2};
-static const sec divide_castl_to_returns_signs_3[3] = {0x49, 0xf7, 0xb3};
-static const sec divide_castl_to_returns_signs_4[4] = {0x49, 0xf7, 0xb4, 0x24};
-static const sec divide_castl_to_returns_signs_5[3] = {0x49, 0xf7, 0xb5};
-static const sec divide_castl_to_returns_signs_6[3] = {0x49, 0xf7, 0xb6};
-static const sec divide_castl_to_returns_signs_7[3] = {0x49, 0xf7, 0xb7};
-static const sec divide_castl_to_returns_signs_8[3] = {0x48, 0xf7, 0xb0};
-static const sec divide_castl_to_returns_signs_9[3] = {0x48, 0xf7, 0xb3};
-static const sec divide_castl_to_returns_signs_a[3] = {0x48, 0xf7, 0xb1};
-static const sec divide_castl_to_returns_signs_b[3] = {0x48, 0xf7, 0xb2};
-static const sec divide_castl_to_returns_signs_c[3] = {0x48, 0xf7, 0xb7};
-static const sec divide_castl_to_returns_signs_d[3] = {0x48, 0xf7, 0xb6};
-static const sec divide_castl_to_returns_signs_e[4] = {0x48, 0xf7, 0xb4, 0x24};
-static const sec divide_castl_to_returns_signs_f[3] = {0x48, 0xf7, 0xb5};
-static const sec divide_castl_to_returns_signs_10[3] = {0x48, 0xf7, 0x35};
-static const source divide_castl_to_returns_signs[17] = {divide_castl_to_returns_signs_0, divide_castl_to_returns_signs_1, divide_castl_to_returns_signs_2, divide_castl_to_returns_signs_3, divide_castl_to_returns_signs_4, divide_castl_to_returns_signs_5, divide_castl_to_returns_signs_6, divide_castl_to_returns_signs_7, divide_castl_to_returns_signs_8, divide_castl_to_returns_signs_9, divide_castl_to_returns_signs_a, divide_castl_to_returns_signs_b, divide_castl_to_returns_signs_c, divide_castl_to_returns_signs_d, divide_castl_to_returns_signs_e, divide_castl_to_returns_signs_f, divide_castl_to_returns_signs_10};
-static const quad divide_castl_to_returns_signs_naof_secs[17] = {3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3};
+static const sec divide_to_returns_signs_0[3] = {0x49, 0xf7, 0xb0};
+static const sec divide_to_returns_signs_1[3] = {0x49, 0xf7, 0xb1};
+static const sec divide_to_returns_signs_2[3] = {0x49, 0xf7, 0xb2};
+static const sec divide_to_returns_signs_3[3] = {0x49, 0xf7, 0xb3};
+static const sec divide_to_returns_signs_4[4] = {0x49, 0xf7, 0xb4, 0x24};
+static const sec divide_to_returns_signs_5[3] = {0x49, 0xf7, 0xb5};
+static const sec divide_to_returns_signs_6[3] = {0x49, 0xf7, 0xb6};
+static const sec divide_to_returns_signs_7[3] = {0x49, 0xf7, 0xb7};
+static const sec divide_to_returns_signs_8[3] = {0x48, 0xf7, 0xb0};
+static const sec divide_to_returns_signs_9[3] = {0x48, 0xf7, 0xb3};
+static const sec divide_to_returns_signs_a[3] = {0x48, 0xf7, 0xb1};
+static const sec divide_to_returns_signs_b[3] = {0x48, 0xf7, 0xb2};
+static const sec divide_to_returns_signs_c[3] = {0x48, 0xf7, 0xb7};
+static const sec divide_to_returns_signs_d[3] = {0x48, 0xf7, 0xb6};
+static const sec divide_to_returns_signs_e[4] = {0x48, 0xf7, 0xb4, 0x24};
+static const sec divide_to_returns_signs_f[3] = {0x48, 0xf7, 0xb5};
+static const source divide_to_returns_signs[16] = {divide_to_returns_signs_0, divide_to_returns_signs_1, divide_to_returns_signs_2, divide_to_returns_signs_3, divide_to_returns_signs_4, divide_to_returns_signs_5, divide_to_returns_signs_6, divide_to_returns_signs_7, divide_to_returns_signs_8, divide_to_returns_signs_9, divide_to_returns_signs_a, divide_to_returns_signs_b, divide_to_returns_signs_c, divide_to_returns_signs_d, divide_to_returns_signs_e, divide_to_returns_signs_f};
+static const quad divide_to_returns_signs_naof_secs[16] = {3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3};
 
 /*
 	// an abstract towards kernel-z-moves

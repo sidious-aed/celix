@@ -87,25 +87,34 @@ set 2 rax
 syscall
 move-quad rax file
 
+ent fn droid/clerk-com.secs
+aqs file
 # open-write
-set 1f8 rdx
-set 41 rsi
-leeve-entree file-name rdi
-set 2 rax
-syscall
-move-quad rax file
+mov 1f8 rdx
+mov 41 rsi
+lent fn rdi
+mov 2 rax
+sys
+mq rax file
 
 # write
-move-quad-to file rdi
-set 8 rdx
-leeve-quad clerk-space rsi
-set 1 rax
-syscall
+mq file rdi
+mov 8 rdx
+lq naof-quads rsi
+mov 1 rax
+sys
+
+# write
+mq file rdi
+mov 8 rdx
+lq naof-secs rsi
+mov 1 rax
+sys
 
 # close
-move-quad-to file rdi
-set 3 rax
-syscall
+mq file rdi
+mov 3 rax
+sys
 
 # arch_prctl
 set 9e rax
