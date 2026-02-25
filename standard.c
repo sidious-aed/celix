@@ -56,6 +56,21 @@ quadrant get_naof_secs(source entree) {
 	return site;
 }
 
+/*
+// ready to go with clerk-clerkess print inspecting.
+quadrant get_naof_com_secs(source entree) {
+	quadrant site = 0;
+	while(true) {
+		//printf("con | %c\n", entree[site]);
+		if(entree[site] == 0) {
+			break;
+		}
+		site += 1;
+	}
+	return site;
+}
+*/
+
 quadrant replicate(sec rune, source destination, quadrant naof_secs) {
 	//printf("rune | %u\n", rune);
 	//see_space("init-dest", destination, naof_secs);
@@ -983,6 +998,7 @@ vast add_string_to_sec_vecter(writer grid, source string, quadrant naof_string_s
   wide_com(string, vec_con, naof_string_secs);
   vecter[0][2] += naof_string_secs;
 	//printf("string | %s\n", (vecter[0] + 3));
+	//printf("naof-string-secs | %lu\n", vecter[0][2]);
   return;
 }
 

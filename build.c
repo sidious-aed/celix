@@ -19,7 +19,7 @@ quadrant main() {
 	//system("gcc cn.c -o cn");
 	//system("gcc rn.c -o rn");
 	//system("gcc standard.lib stay.c -o stay");
-	//system("gcc standard.lib naof-secs.c -o naof-secs");
+	system("gcc standard.lib naof-secs.c -o naof-secs");
 	//system("gcc standard.lib naof-entrees-secs.c -o naof-entrees-secs");
 	//system("gcc standard.lib naof-elements.c -o naof-elements");
 	//system("gcc standard.lib base.c -o base");
@@ -58,6 +58,7 @@ quadrant main() {
 	//system("gcc standard.lib clerk.lib non-cltqs.c -o non-cltqs");
 
 	// main-shells
+	system("gcc standard.lib equations-main.c -o equations-main");
 	//system("./sequences procs/i-sim.asm procs/i-sim.proc 0");
 	//system("./build-shell procs/i-sim.proc i-sim.c");
 	//system("gcc i-sim.c -o i-sim");

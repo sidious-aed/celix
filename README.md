@@ -17,9 +17,16 @@
 * 	_ low-high logic segmenting and statements
 *	- assembly dsl
 * 	- abstract c function to asm mods and params
-*		- an entree domain to relative sec segments
-*
+*		- dsl to machine secs with abstracter and concicer symbols
+*			- (s) stat (markers), with linked calls, and stay-tos
+*			- entrees, auto move types, and clerk-type module features mapped
+*		- module systems and named mappings
+*	- equations
+*		- com, number-to-entree, entree-to-number
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+*                     rememberence is relearn remember.
+*                     ---------------------------------
 *
 * wide-[clerk]-(es) | mid-low-hertz the front spec threadage
 *				     the protocol logists transfer is interprocess archives
@@ -29,8 +36,11 @@
 * orecle | extreemly fast thread
 *          is logistic transfer is to and from kernel
 *
+* asig | conduits of design.
+* sequencer | pulsater that grounds through ports, and that the last port resets to first port.
+* thread | sequencer asig with a stay-register and alu-modules.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-* a givin does not mean to hide for them ... other ofs
+* - a givin does not mean to hide for them ... other ofs
 * et | an alias for top in jedao
 * ao | (ow)-alias
 * plt-(sence-0) | the conditage of connection and comunication between threads

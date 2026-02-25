@@ -1,103 +1,72 @@
 ##########################################################################################################
-# number-to-entree
+# com
 ##########################################################################################################
-# rdi | number
 # rsi | entree
+# rcx | naof-secs
 # rbx | base
 ##########################################################################################################
 # com-init
 ##########################################################################################################
 sub 1000 rsp
-
-aqs number
-mq rdi number
 aqs entree
 mq rsi entree
+aqs naof-secs
+mq rcx naof-secs
 aqs base
 mq rbx base
+aqs esite
+sub 1 rcx
+mq rcx esite
+aqs number
+nao r8
+mq r8 number
 
 ent fn droid/clerk-com.secs
 aqs file
 
-aqs et
-aqs bbreadth
-mov 1 rax
-mq rax bbreadth
-nao r8
-s seek-base-breadth-init
-mq bbreadth rax
-factq base rax
-mq rax bbreadth
-st jo seek-base-breadth-com
-mq rax et
-add 1 r8
-cmp 10 r8
-st je seek-base-breadth-com
-st jmp seek-base-breadth-init
-s seek-base-breadth-com
-
+aqs sec0
 aqs focus
-mq et r8
+mov 1 r8
 mq r8 focus
-s seek-to-et-init
-mq number rax
-nao rdx
-divq focus
-cmp 0 rax
-st jne seek-to-et-com
-mq focus rax
-nao rdx
-divq base
-mq rax focus
-st jmp seek-to-et-init
-s seek-to-et-com
+s clerical-entree-to-number-init
 
-aqs sum
-aqs esite
-nao r8
-mq r8 esite
-s write-number-init
+nao r9
+mq entree rsi
+mq esite r8
+add r8 rsi
+movs 0 rsi r9
+mq r9 sec0
 
-mq number rax
-nao rdx
-divq focus
-mq rax sum
-
-mq sum rax
-cmp 9 rax
-st ja a-scope-com
-add 30 rax
+mq sec0 r9
+cmp 39 r9
+st ja scope-a-com
+sub 30 r9
 st jmp scopes-com
-s a-scope-com
-add 57 rax
+s scope-a-com
+sub 57 r9
 s scopes-com
 
-mq esite r8
-mq entree rsi
-add r8 rsi
-movs rax 0 rsi
-add 1 r8
-mq r8 esite
+factq focus r9
+mq number r10
+add r9 r10
+mq r10 number
 
-mq number r9
-mq sum r10
-factq focus r10
-sub r10 r9
-mq r9 number
+mq focus r11
+factq base r11
+mq r11 focus
 
-mq focus rax
-nao rdx
-divq base
-mq rax focus
-cmp 0 rax
-st je write-number-com
-st jmp write-number-init
-s write-number-com
+mq esite r12
+cmp 0 r12
+st je clerical-entree-to-number-com
+sub 1 r12
+mq r12 esite
+st jmp clerical-entree-to-number-init
+s clerical-entree-to-number-com
 
 ##########################################################################################################
 # com-com
 ##########################################################################################################
-mq esite rax
+mq number rax
 add 1000 rsp
 ret
 
@@ -116,13 +85,7 @@ mq rax file
 # write
 mq file rdi
 mov 8 rdx
-mq focus rsi
-mov 1 rax
-sys
-# write
-mq file rdi
-mov 8 rdx
-mq sum rsi
+lq sec0 rsi
 mov 1 rax
 sys
 # close

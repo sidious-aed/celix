@@ -232,7 +232,7 @@ quad asm_and_registers(source registers, quad naof_registers_secs, source space)
 
 quad asm_xor_const_register(source register_name, quad naof_register_secs, quad constant, source space) {
 	squad register_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_gnu_registers, register_name, naof_register_secs);
-	printf("register-site | %lu\n", register_site);
+	//printf("register-site | %lu\n", register_site);
 	quad naof_sign_secs = xor_const_register_signs_naof_secs[register_site];
 	//printf("naof-sign-secs | %lu\n", naof_sign_secs);
 	//getc(stdin);
@@ -333,6 +333,32 @@ quad asm_divide_to_returns(quad cast_site, source register_name, quad naof_regis
 	ms_site += 4;
 	return ms_site;
 }
+
+quad asm_cmp_const_register(source register_name, quad naof_register_secs, quad constant, source space) {
+	squad register_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_gnu_registers, register_name, naof_register_secs);
+	//printf("register-site | %lu\n", register_site);
+	quad naof_sign_secs = cmp_cnst_reg_signs_naof_secs[register_site];
+	//printf("naof-sign-secs | %lu\n", naof_sign_secs);
+	//getc(stdin);
+	//see_space("xor-sign", xor_const_register_signs[register_site], naof_sign_secs);
+	wide_com(cmp_cnst_reg_signs[register_site], space, naof_sign_secs);
+	quad ms_site = naof_sign_secs;
+	wide_com(&constant, (space + ms_site), 4);
+	ms_site += 4;
+	return ms_site;
+}
+
+quad asm_cmp_registers(source registers, quad naof_registers_secs, source space) {
+	squad registers_site = get_entree_site(gnu_register_pairs, gnu_register_pairs_naof_secs, naof_mov_pair_registers, registers, naof_registers_secs);
+	//printf("registers-site | %lu\n", registers_site);
+	quad naof_sign_secs = cmp_regzeez_signs_naof_secs[registers_site];
+	wide_com(cmp_regzeez_signs[registers_site], space, naof_sign_secs);
+	quad ms_site = naof_sign_secs;
+	//printf("sec-0 | %u\n", space[0]);
+	return ms_site;
+}
+/*
+*/
 
 quad asm_nops(quad naof_nops, source space) {
 	replicate(nop_sign_sec[0], space, naof_nops);

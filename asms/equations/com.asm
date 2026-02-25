@@ -1,5 +1,5 @@
 ##########################################################################################################
-# com | 1
+# com
 ##########################################################################################################
 # rsi | entree
 # rdi | destination
@@ -8,13 +8,6 @@
 # com-init
 ##########################################################################################################
 sub 1000 rsp
-ent i-sim talkei talkei. i sim. ka tic boo tic but.\n
-aqs i-sim-2
-isr 100
-lent i-sim rsi
-lq i-sim-2 rdi
-mov 2a rcx
-#ent i-sim i sim.\n
 aqs entree
 mq rsi entree
 aqs destination
@@ -42,24 +35,19 @@ mq entree rsi
 mq destination rdi
 mzq
 
-mq naof-quad-secs r8
-mq naof-quads rcx
 mq entree rsi
+mq naof-quad-secs r8
 add r8 rsi
 mq destination rdi
 add r8 rdi
+mq naof-secs rcx
 mzs
-
-mov 1 rdi
-mq destination rsi
-mq naof-entree-secs rdx
-mov 1 rax
-sys
 
 ##########################################################################################################
 # com-com
 ##########################################################################################################
 add 1000 rsp
+ret
 
 #init
 ent fn droid/clerk-com.secs
@@ -78,13 +66,8 @@ mq rax file
 # write
 mq file rdi
 mov 8 rdx
-lq naof-quads rsi
-mov 1 rax
-sys
-# write
-mq file rdi
-mov 8 rdx
-lq naof-secs rsi
+mq naof-secs rdx
+mq entree rsi
 mov 1 rax
 sys
 # close

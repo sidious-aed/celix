@@ -60,6 +60,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	create_vecter(&grid, 0x18, 1000, &quads);
 	writer stats = 0;
 	create_vecter(&grid, 0x18, 1000, &stats);
+	writer cmetas = 0;
+	create_vecter(&grid, 0x18, 1000, &cmetas);
 	writer futures = 0;
 	create_vecter(&grid, 0x38, 1000, &futures);
 
@@ -73,6 +75,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	quad msite = 0;
 	quad site = 0;
 	while(true) {
+		//printf("at | %s\n", (cp + cp_site));
 		cp_site = 0;
 		add_to_entree("bs | ", 5, cp, &cp_site);
 		cp_site += number_to_entree(bs, (cp + cp_site), 16);
@@ -80,7 +83,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		//syscall(unix_write, 1, cp, cp_site);
 		source sect = (asms + site);
 		squad sect_site = seek_space("\n", 1, sect, (naof_asm_secs - site));
-		syscall(unix_write, 1, sect, (sect_site + 1));
+		//syscall(unix_write, 1, sect, (sect_site + 1));
 		site += (sect_site + 1);
 		if(compair_spaces((sect), 4, "#com", 4)) {
 			//printf("com of multi-comment.\n");
@@ -164,9 +167,9 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		writer comp2 = (components + 3) + (10);
 		writer comp3 = (components + 3) + (15);
 		cp_site = 0;
-		printf("is-in-multy-comment | %lu\n", is_in_multy_comment);
-		printf("module-name | %s\n", comp0[0]);
-		printf("naof-module-secs | %lu\n", comp0[1]);
+		//printf("is-in-multy-comment | %lu\n", is_in_multy_comment);
+		//printf("module-name | %s\n", comp0[0]);
+		//printf("naof-module-secs | %lu\n", comp0[1]);
 		//printf("first-con | %c\n", (((source)(comp0[0])))[0]);
 		if(compair_spaces(comp0[0], comp0[1], "#init", 5)) {
 			//printf("init of multi-comment.\n");
@@ -174,6 +177,22 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		} else if(((((source)(comp0[0])))[0] == '#') || compair_spaces(comp0[0], comp0[1], "#", 1)) {
 			// explicit comment aura-clerically registered.
 			//getc(stdin);
+		} else if(((((source)(comp0[0])))[0] == '%')) {
+			source cname = 0;
+			get_grid_secs(&grid, comp1[1], &cname);
+			wide_com(comp1[0], cname, comp1[1]);
+			writer meta_name = 0;
+			create_vecter(&grid, 1, 100, &meta_name);
+			add_string_to_sec_vecter(&grid, "secs/", 5, &meta_name);
+			add_string_to_sec_vecter(&grid, comp1[0], comp1[1], &meta_name);
+			add_string_to_sec_vecter(&grid, "/sites.chart", 12, &meta_name);
+			printf("meta-name | %lu\n", meta_name);
+			printf("meta-name | %s\n", (meta_name + 3));
+			quad cmetar[3];
+			cmetar[0] = cname;
+			cmetar[1] = comp1[1];
+			cmetar[2] = meta_name;
+			add_to_vecter(&grid, cmetar, &cmetas);
 		} else if(compair_spaces(comp0[0], comp0[1], "lea", 3)) {
 			if(naof_comps != 4) {
 				poly_alert("lea params are add-site, src-register, dest-register.");
@@ -256,6 +275,62 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			} else {
 				msite = asm_add_const_register(comp2[0], comp2[1], comp1[3], msecs);
 			}
+		} else if(compair_spaces(comp0[0], comp0[1], "addc", 4)) {
+			quad call_site = 0;
+			quad found_call_meta = false;
+			quad csite = 0;
+			while(true) {
+				if(csite == cmetas[2]) {
+					break;
+				}
+				writer cmeta = (cmetas + 3) + (csite * 3);
+				writer cmetae = cmeta[2];
+				//see_space("cmeta", cmeta, 0x18);
+				if(compair_spaces(cmeta[0], cmeta[1], comp1[0], comp1[1])) {
+					//printf("addc | %lu\n", cmetae);
+					printf("addc | %s\n", (cmetae + 3));
+					ip_file cf = syscall(unix_open, (cmetae + 3), archive_read);
+					quad found_call_site = false;
+					quad rsite = 0;
+					while(true) {
+						syscall(unix_lseek, cf, rsite, seek_origin);
+						quad naof_rsecs = syscall(unix_read, cf, cp, 1000);
+						printf("naof-rsecs | %lu\n", naof_rsecs);
+						if(naof_rsecs == 0) {
+							break;
+						}
+						squad segment_site = seek_space("\n", 1, cp, naof_rsecs);
+						syscall(unix_write, 1, cp, (segment_site + 1));
+						squad section_site = seek_space("|", 1, cp, segment_site);
+						if(compair_spaces(cp, section_site, comp2[0], comp2[1])) {
+							entree_to_number((cp + section_site + 1), (segment_site - section_site - 1), 16, &call_site);
+							printf("call-site | %lu\n", call_site);
+							found_call_site = true;
+							break;
+						}
+						rsite += (segment_site + 1);
+					}
+					if(found_call_site == false) {
+						cp_site = 0;
+						add_to_entree("could not find call-site for ", 29, cp, &cp_site);
+						add_to_entree(cmeta[0], cmeta[1], cp, &cp_site);
+						add_to_entree(" ", 1, cp, &cp_site);
+						add_to_entree(comp2[0], comp2[1], cp, &cp_site);
+						poly_alert(cp);
+						syscall(unix_exit_group, 0);
+					}
+					found_call_meta = true;
+				}
+				csite += 1;
+			}
+			if(found_call_meta == false) {
+				cp_site = 0;
+				add_to_entree("could not find call-site for ", 29, cp, &cp_site);
+				add_to_entree(comp1[0], comp1[1], cp, &cp_site);
+				poly_alert(cp);
+				syscall(unix_exit_group, 0);
+			}
+			msite = asm_add_const_register(comp3[0], comp3[1], call_site, msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "and", 3)) {
 			if(b16_site == code_b) {
 				cp_site = 0;
@@ -348,6 +423,18 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			}
 		/*
 		*/
+		} else if(compair_spaces(comp0[0], comp0[1], "cmp", 3)) {
+			if(b16_site == code_b) {
+				cp_site = 0;
+				add_to_entree(comp1[0], comp1[1], cp, &cp_site);
+				add_to_entree("-", 1, cp, &cp_site);
+				add_to_entree(comp2[0], comp2[1], cp, &cp_site);
+				//syscall(unix_write, 1, cp, cp_site);
+				//syscall(unix_write, 1, "\n", 1);
+				msite = asm_cmp_registers(cp, cp_site, msecs);
+			} else {
+				msite = asm_cmp_const_register(comp2[0], comp2[1], comp1[3], msecs);
+			}
 		} else if(compair_spaces(comp0[0], comp0[1], "s", 1)) { // s | (stat|marker)
 			quad stat[3];
 			stat[0] = comp1[0];
@@ -462,7 +549,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					break;
 				}
 				writer qua = (quads + 3) + (qsite * 3); // qua --- ke for aqsing <--> * sirindiplea ... like final fantasy
-				printf("qua | %s\n", qua[0]);
+				//printf("qua | %s\n", qua[0]);
 				if(compair_spaces(source_name, naof_source_name_secs, qua[0], qua[1])) {
 					cp_site = 0;
 					if(is_castr) {
@@ -637,14 +724,14 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		site += 1;
 	}
 
-	log_heading("quads");
+	//log_heading("quads");
 	site = 0;
 	while(true) {
 		if(site == quads[2]) {
 			break;
 		}
 		writer aqs = (quads + 3) + (site * 3);
-		printf("quad-%lu | %s | %lu\n", site, aqs[0], aqs[2]);
+		//printf("quad-%lu | %s | %lu\n", site, aqs[0], aqs[2]);
 		site += 1;
 	}
 

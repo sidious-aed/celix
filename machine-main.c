@@ -294,6 +294,22 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	syscall(unix_write, 1, "\n", 1);
 	*/
 
+	log_heading("const-reg-compairzeez");
+	ms_site = asm_cmp_const_register("rax", 3, 0xaedaed, ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+
+	log_heading("reg-reg-compairzeez");
+	ms_site = asm_cmp_registers("r12-rsp", 7, ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+	/*
+	*/
+
 	log_heading("nops");
 	ms_site = asm_nops(100, ms);
 	see_space("ms", ms, ms_site);

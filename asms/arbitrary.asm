@@ -66,4 +66,6 @@ czs
 mov 8 r10
 divq site-2
 factq site-2 r11
+cmp aed r8
+cmp r11 rsi
 add 1000 rsp
