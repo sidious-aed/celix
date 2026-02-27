@@ -56,6 +56,17 @@ quadrant get_naof_secs(source entree) {
 	return site;
 }
 
+quadrant wide_naof_secs(source entree) {
+	source back_entree = entree;
+	while(true) {
+		if(entree[0] == 0) {
+			break;
+		}
+		entree += 1;
+	}
+	return entree - back_entree;
+}
+
 /*
 // ready to go with clerk-clerkess print inspecting.
 quadrant get_naof_com_secs(source entree) {

@@ -86,7 +86,7 @@ mov r9 0 rsi
 add 1 rsi
 nao r9
 mov r9 0 rsi
-add 2 r8
+add 1 r8
 mq r8 clerical-space-site
 
 mov 1 rdi
@@ -94,6 +94,62 @@ lq clerical-space rsi
 mq clerical-space-site rdx
 mov 1 rax
 sys
+
+ent russian-breadth talkei talkei. airgo vah nah goo trim bradder.\n
+aqs naof-russian-breadth-secs
+lent russian-breadth rdi
+mq equations r15
+addc equations get-naof-secs r15
+dct r15
+mq rax naof-russian-breadth-secs
+
+mov rax rdi
+lq clerical-space rsi
+mov 10 rbx
+mq equations r11
+addc equations number-to-entree r11
+dct r11
+mq rax clerical-space-site
+lq clerical-space rsi
+add rax rsi
+mov a r8
+movs r8 0 rsi
+nao r8
+add 1 rsi
+movs r8 0 rsi
+add 1 rax
+
+mov 1 rdi
+lq clerical-space rsi
+mov rax rdx
+mov 1 rax
+sys
+
+ent fn droid/clerk-com.secs
+aqs file
+# unlink
+lent fn rdi
+mov 57 rax
+sys
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+lent fn rdi
+mov 2 rax
+sys
+mq rax file
+# write
+mq file rdi
+mov 8 rdx
+lq naof-russian-breadth-secs rsi
+mov 1 rax
+sys
+# close
+mq file rdi
+mov 3 rax
+sys
+#init
+#com
 
 add 1000 rsp
 ret

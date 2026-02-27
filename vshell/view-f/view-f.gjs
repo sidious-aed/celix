@@ -43,8 +43,43 @@ manager.add_style_sheet(userStyleSheet);
 window.add(webView);
 let html = read_file("view-f.html");
 webView.load_html(html, null);
-webView.load_html(html, null);
 
+let js = read_file("libs.js");
+js += read_file("0.js");
+//js += read_file("1.js");
+log("js | " + js);
+let sjs = function() {
+	webView.run_javascript(js, null, (view, result) => {
+		log("in trys shell.");
+		log("view | " + view);
+		log("result | " + result);
+	});
+}
+GLib.timeout_add(GLib.PRIORITY_DEFAULT, 327, sjs);
+
+webView.connect('button-press-event', (widget, event) => {
+	let [isOver, x, y] = event.get_coords();
+	let button = event.get_button();
+	log("click-registers | " + x + " " + y + "with button " + button + " with " + event);
+	return false;
+});
+
+/*
+let js = read_file("view-f.js");
+
+let seek_dom = function() {
+	webView.run_javascript(js, null, (view, result) => {
+		let jsResult = view.run_javascript_finish(result);
+		let value = jsResult.get_js_value();
+		//log("" + Object.keys(jsResult));
+		log("input-0 | " + value.to_string());
+	});
+	GLib.timeout_add(GLib.PRIORITY_DEFAULT, 127, seek_dom);
+}
+GLib.timeout_add(GLib.PRIORITY_DEFAULT, 327, seek_dom);
+*/
+
+/*
 let read_input = function() {
 	webView.run_javascript("document.getElementById(\"input-0\").value;", null, (view, result) => {
 		let jsResult = view.run_javascript_finish(result);
@@ -55,6 +90,7 @@ let read_input = function() {
 	GLib.timeout_add(GLib.PRIORITY_DEFAULT, 127, read_input);
 }
 GLib.timeout_add(GLib.PRIORITY_DEFAULT, 127, read_input);
+*/
 
 window.connect("key-press-event", (widget, event) => {
     let [, keyval] = event.get_keyval();

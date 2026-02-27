@@ -1,9 +1,14 @@
 body {
 	background-color: rgb(0, 0, 0);
 	color: rgb(27, 227, 27);
+	font-size: 11px;
 }
 
-#shell-0 {
-	display: inline-block;
+#tsc-0shell {
+	display: block;
 	overflow-y: auto;
+}
+
+#clerk-com {
+	display: none;
 }
