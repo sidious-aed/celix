@@ -5,6 +5,9 @@ const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gdk = imports.gi.Gdk;
 let read_file = function(name) {
+	if(name[0] != "/") {
+		name = "/home/tyrel/celix/vshell/tsc/" + name;
+	}
 	let file = Gio.File.new_for_path(name);
 	let [ok, contents] = file.load_contents(null);
 	if(ok) {
