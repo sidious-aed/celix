@@ -217,6 +217,8 @@ let type_staved_clerkesses = {
 				sjs += "update_dom();";
 				//log("sjs | " + sjs);
 				webv.run_javascript(sjs, null, (view, result) => {});
+				//webView.run_javascript("alert(simv);", null, (view, result) => {});
+				//webView.run_javascript("alert(window.simv);", null, null);
 				sjs = "tsc_pad = [];"
 				if(pad_site > 0) {
 					let pet = pad_site - 1;
@@ -281,7 +283,7 @@ window.get_style_context().add_class("generalp");
 window.set_default_size(800, 600);
 window.connect("destroy", Gtk.main_quit);
 
-let webView = new WebKit2.WebView();
+//let webView = new WebKit2.WebView();
 let css = read_file("tsc.css");
 let userStyleSheet = new WebKit2.UserStyleSheet(
     css,
@@ -290,24 +292,21 @@ let userStyleSheet = new WebKit2.UserStyleSheet(
     null,
     null
 );
+
+let js = read_file("jypsy.js");
+js += read_file("tsc.js");
+//log("js | " + js);
+let js_manager = new WebKit2.UserContentManager();
+js_manager.add_script(new WebKit2.UserScript(js, WebKit2.UserContentInjectedFrames.ALL_FRAMES, WebKit2.UserScriptInjectionTime.END, null, null));
+let webView = WebKit2.WebView.new_with_user_content_manager(js_manager);
+//webView.run_javascript(js, null, null);
+
 let manager = webView.get_user_content_manager();
 manager.add_style_sheet(userStyleSheet);
 window.add(webView);
 let html = read_file("tsc.html");
 webView.load_html(html, null);
 let tsc = type_staved_clerkesses.init(11, window, webView);
-
-let js = read_file("jypsy.js");
-js += read_file("tsc.js");
-//log("js | " + js);
-let sjs = function() {
-	webView.run_javascript(js, null, (view, result) => {
-		//log("in trys shell.");
-		//log("view | " + view);
-		//log("result | " + result);
-	});
-}
-GLib.timeout_add(GLib.PRIORITY_DEFAULT, 311, sjs);
 
 let get_text_attribute = function(html, name) {
 	if((html == undefined) || (html == " ")) {
@@ -425,6 +424,8 @@ let click_com = function() {
 		let jsValue = jsResult.get_js_value();
 		click_com_html = jsValue.to_string();
 	});
+	/*
+	*/
 	//log("click-com-html | " + click_com_html);
 	let click_comh = read_com(click_com_html, [{name: "id", value: "clerk-com"}]);
 	//log("click-comh | " + click_comh);

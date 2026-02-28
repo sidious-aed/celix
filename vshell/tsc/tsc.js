@@ -1,15 +1,15 @@
 //alert("i sim.");
-let nodes = [];
-let naof_nodes = 0;
-let tsc_pad = [];
-let tsc0 = [];
-let tsc_s0 = "";
-let update_dom = function() {
+window.nodes = [];
+window.naof_nodes = 0;
+window.tsc_pad = [];
+window.tsc0 = [];
+window.tsc_s0 = "";
+window.update_dom = function() {
 	nodes = simnodes(all_nodes());
 	naof_nodes = nodes.length;
 	//alert("naof-nodes | " + naof_nodes);Gjs-Message
 }
-let update_tsc_pad = function() {
+window.update_tsc_pad = function() {
 	//alert("i sim.");
 	//alert("tsc-pad | " + tsc_pad);
 	let tsc_node = filter_nodes(nodes, [{name: "id", value: "tsc-0shell"}])[0];
@@ -33,13 +33,13 @@ let update_tsc_pad = function() {
 			if(esite == naof_elements) {
 				break;
 			}
-			para += "<p>"
+			para += "<div class=\"para\">"
 			if(esite == 0) {
 				para += psite;
 				para += " | ";
 			}
 			para += pad[esite];
-			para += "</p>"
+			para += "</div>"
 			esite += 1;
 		}
 		para += "</div>";
@@ -83,8 +83,8 @@ let update_tsc_pad = function() {
 		tsite += 1;
 	}
 }
-let reset_click_com = function() {
+window.reset_click_com = function() {
 	let click_com = filter_nodes(nodes, [{name: "id", value: "clerk-com"}])[0];
 	click_com.innerHTML = "";
 }
-update_dom();
+window.update_dom();

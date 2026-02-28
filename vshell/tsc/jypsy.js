@@ -1,4 +1,4 @@
-let simv = function(vec) {
+window.simv = function(vec) {
 	let newv = [];
 	let naof_elements = vec.length;
 	let site = 0;
@@ -11,8 +11,9 @@ let simv = function(vec) {
 	}
 	return newv;
 }
+//alert(simv);
 
-let all_nodes = function() {
+window.all_nodes = function() {
 	let code_a = 0xffffffffffffffff;
 	let nodes = [];
 	let node_site = 0;
@@ -66,7 +67,7 @@ let all_nodes = function() {
 	return nodes;
 }
 
-let simnodes = function(nodes) {
+window.simnodes = function(nodes) {
 	let naof_nodes = nodes.length;
 	let snodes = [];
 	let site = 0;
@@ -81,7 +82,7 @@ let simnodes = function(nodes) {
 	return snodes;
 }
 
-let get_attribute = function(element, name) {
+window.get_attribute = function(element, name) {
 	let html = element.outerHTML;
 	if((html == undefined) || (html == " ")) {
 		return undefined;
@@ -143,7 +144,7 @@ let get_attribute = function(element, name) {
 	}
 }
 
-let filter_nodes = function(nodes, attributes) {
+window.filter_nodes = function(nodes, attributes) {
 	let fnodes = [];
 	//alert("attributes | " + attributes);
 	let naof_attributes = attributes.length;
