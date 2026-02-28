@@ -1,7 +1,10 @@
 % equations
+% views
 sub 1000 rsp
 aqs equations
 mq r11 equations
+aqs views
+mq r12 views
 ent segment \n
 ent i-sim talkei talkei. i sim. ka tic boo tic but.\n
 aqs naof-i-sim-secs
@@ -66,7 +69,6 @@ addc equations number-to-entree r8
 dct r8
 mq rax naof-secs
 
-
 aqs clerical-space
 isr 200
 aqs clerical-space-site
@@ -125,29 +127,25 @@ mov rax rdx
 mov 1 rax
 sys
 
-ent fn droid/clerk-com.secs
-aqs file
-# unlink
-lent fn rdi
-mov 57 rax
-sys
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lent fn rdi
-mov 2 rax
-sys
-mq rax file
-# write
-mq file rdi
-mov 8 rdx
-lq naof-russian-breadth-secs rsi
-mov 1 rax
-sys
-# close
-mq file rdi
-mov 3 rax
-sys
+aqs grid
+isr 10
+lq grid rdi
+nao r9
+mov r9 0 rdi
+mov 100 rsi
+mq equations r11
+addc equations naof-grid-secs r11
+dct r11
+
+ent nao-relay number
+lent nao-relay rsi
+mq grid rdi
+#mov aedaed rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
 #init
 #com
 

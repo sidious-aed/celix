@@ -81,6 +81,14 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		cp_site += number_to_entree(bs, (cp + cp_site), 16);
 		add_to_entree("\n", 1, cp, &cp_site);
 		//syscall(unix_write, 1, cp, cp_site);
+		while(true) {
+			sec sec0 = (asms + site)[0];
+			if(sec0 == '\t' || sec0 == ' ') {
+				site += 1;
+			} else {
+				break;
+			}
+		}
 		source sect = (asms + site);
 		squad sect_site = seek_space("\n", 1, sect, (naof_asm_secs - site));
 		//syscall(unix_write, 1, sect, (sect_site + 1));
@@ -134,7 +142,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				wide_com(sect_at, (entree), csite);
 				component[1] = csite;
 			}
-			//printf("entree | %s\n", entree);
+			//printf("comp-entree | %s\n", entree);
 			component[0] = entree;
 			//syscall(unix_write, 1, component[0], csite);
 			//syscall(unix_write, 1, "\n", 1);
@@ -162,6 +170,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		//printf("b16-site | %lu\n", b16_site);
 		msite = 0;
 		quad naof_comps = components[2];
+		//printf("naof-comps | %lu\n", naof_comps);
 		writer comp0 = (components + 3);
 		writer comp1 = (components + 3) + (5);
 		writer comp2 = (components + 3) + (10);
@@ -186,8 +195,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			add_string_to_sec_vecter(&grid, "secs/", 5, &meta_name);
 			add_string_to_sec_vecter(&grid, comp1[0], comp1[1], &meta_name);
 			add_string_to_sec_vecter(&grid, "/sites.chart", 12, &meta_name);
-			printf("meta-name | %lu\n", meta_name);
-			printf("meta-name | %s\n", (meta_name + 3));
+			//printf("meta-name | %lu\n", meta_name);
+			//printf("meta-name | %s\n", (meta_name + 3));
 			quad cmetar[3];
 			cmetar[0] = cname;
 			cmetar[1] = comp1[1];
@@ -288,23 +297,23 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				//see_space("cmeta", cmeta, 0x18);
 				if(compair_spaces(cmeta[0], cmeta[1], comp1[0], comp1[1])) {
 					//printf("addc | %lu\n", cmetae);
-					printf("addc | %s\n", (cmetae + 3));
+					//printf("addc | %s\n", (cmetae + 3));
 					ip_file cf = syscall(unix_open, (cmetae + 3), archive_read);
 					quad found_call_site = false;
 					quad rsite = 0;
 					while(true) {
 						syscall(unix_lseek, cf, rsite, seek_origin);
 						quad naof_rsecs = syscall(unix_read, cf, cp, 1000);
-						printf("naof-rsecs | %lu\n", naof_rsecs);
+						//printf("naof-rsecs | %lu\n", naof_rsecs);
 						if(naof_rsecs == 0) {
 							break;
 						}
 						squad segment_site = seek_space("\n", 1, cp, naof_rsecs);
-						syscall(unix_write, 1, cp, (segment_site + 1));
+						//syscall(unix_write, 1, cp, (segment_site + 1));
 						squad section_site = seek_space("|", 1, cp, segment_site);
 						if(compair_spaces(cp, section_site, comp2[0], comp2[1])) {
 							entree_to_number((cp + section_site + 1), (segment_site - section_site - 1), 16, &call_site);
-							printf("call-site | %lu\n", call_site);
+							//printf("call-site | %lu\n", call_site);
 							found_call_site = true;
 							break;
 						}
@@ -602,76 +611,49 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			//syscall(unix_write, 1, "\n", 1);
 			msite = asm_lea_registers(cp, cp_site, 0, msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "ent", 3)) { // ent | entree
+			//printf("com0 | %s\n", comp0[0]);
+			//printf("com1 | %s\n", comp1[0]);
+			source ent0 = (sect + comp0[1] + comp1[1] + 2);
+			quad naof_ent0_secs = sect_site - 2 - comp0[1] - comp1[1];
+			//printf("ent | %s", ent0);
+			//printf("naof-ent0-secs | %lu\n", naof_ent0_secs);
 			quad ent[2];
 			ent[0] = comp1[0];
 			ent[1] = comp1[1];
 			ent[2] = sr;
 			add_to_vecter(&grid, ent, &entrees);
-			quad naof_sections = naof_comps - 2;
-			if(naof_sections <= 0) {
-				poly_alert("not enough components for ent | for ent | symbol then entree");
-			}
-			quad et_co_site = naof_comps - 1;
-			quad co_site = 2;
-			sec q[8];
-			writer fq = q;
-			fq[0] = 0;
-			quad qsite = 0;
-			source cat = 0;
-			quad naof_cat_secs = 0;
-			quad cat_site = 0;
+			quad ent_quad = 0;
+			quad quad_site = 0; // awesome or plenty fine set in is beyond defferent than of.
+			source ent_com = &ent_quad;
+			quad ent_site = 0;
 			while(true) {
-				quad is_com = false;
 				quad is_qcom = false;
-				//printf("co-site | %lu\n", co_site);
-				if(cat_site == naof_cat_secs) {
-					cat = 0;
-				}
-				if(cat == 0) {
-					if(co_site < naof_comps) {
-						writer cat_comp = (components + 3) + (co_site * 5);
-						cat = cat_comp[0];
-						naof_cat_secs = cat_comp[1];
-						//printf("cat-at | %s\n", cat);
-						//printf("naof-cat-secs | %lu\n", naof_cat_secs);
-						//if((co_site != 2) && (co_site != et_co_site)) {
-						if((co_site != 2)) {
-							q[qsite] = ' ';
-							qsite += 1;
-							if(qsite == 8) {
-								is_qcom = true;
-							}
-						}
-						cat_site = 0;
-						co_site += 1;
+				quad is_com = false;
+				sec con = ent0[ent_site];
+				if(con == '\\') {
+					ent_site += 1;
+					if(ent0[ent_site] == 'n') {
+						con = '\n';
+					} else if(ent0[ent_site] == 't') {
+						con = '\t';
+					} else if(ent0[ent_site] == '\\') {
+						con = '\\';
 					} else {
-						is_com = true;
-						is_qcom = true;
+						con = 16;
 					}
 				}
-				if((cat != 0) && (is_qcom == false)) {
-					//printf("qsite | %lu\n", qsite);
-					sec rune = cat[cat_site];
-					cat_site += 1;
-					if((rune == '\\') && (cat_site < naof_cat_secs)) {
-						sec cont = cat[cat_site];
-						cat_site += 1;
-						if(cont == 'n') {
-							rune = '\n';
-						} else if(cont == 't') {
-							rune = '\t';
-						} else if(cont == '\\') {
-							rune = '\\';
-						}
-					}
-					q[qsite] = rune;
-					qsite += 1;
-					if(qsite == 8) {
-						is_qcom = true;
-					}
+				ent_com[quad_site] = con;
+				quad_site += 1;
+				if(quad_site == 8) {
+					is_qcom = true;
+				}
+				ent_site += 1;
+				if(ent_site == naof_ent0_secs) {
+					is_qcom = true;
+					is_com = true;
 				}
 				if(is_qcom) {
-					msite = asm_set_register(fq[0], "r8", 2, msecs);
+					msite = asm_set_register(ent_quad, "r8", 2, msecs);
 					add_string_to_sec_vecter(&grid, msecs, msite, &mach);
 					bs += msite;
 					ms += (msite);
@@ -680,8 +662,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					bs += msite;
 					ms += (msite);
 					sr += 8;
-					qsite = 0;
-					fq[0] = 0;
+					ent_quad = 0;
+					quad_site = 0;
 				}
 				if(is_com) {
 					msite = asm_xor_registers("r8-r8", 5, msecs);
@@ -697,8 +679,6 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					break;
 				}
 			}
-			/*
-			*/
 		}
 		if(msite > 0) {
 			//see_space("msecs", msecs, msite);

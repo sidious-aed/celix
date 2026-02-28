@@ -159,16 +159,17 @@ set 2 rdx
 set 8 rax
 syscall
 
+aqs stack-site
 # anonomous-mmap
-naoify rdi
-set 100000 rsi
-set 7 rdx
-set 22 r10
-naoify r9
-naoify r8
-set 9 rax
-syscall
-move-quad rax proc-site
+nao rdi
+mov 100000 rsi
+mov 7 rdx
+mov 22 r10
+nao r9
+nao r8
+mov 9 rax
+sys
+mq rax stack-site
 
 # file-mmap
 naoify rdi

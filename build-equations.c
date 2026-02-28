@@ -2,14 +2,35 @@
 #define naof_extensions 3
 
 quadrant main(quadrant naof_params, source_vecter params) {
+  if(naof_params != 2) {
+    printf("params | 1\n");
+    printf("1 | equations-symbol\n");
+    return;
+  }
+	quad naof_symbol_secs = get_naof_secs(params[1]);
 	source grid = 0;
+	sec mnode_name[10000];
+	quad mnode_name_site = 0;
+	add_to_entree("asms/", 5, mnode_name, &mnode_name_site);
+	add_to_entree(params[1], naof_symbol_secs, mnode_name, &mnode_name_site);
+	if(mnode_name[mnode_name_site - 1] != "/") {
+		mnode_name[mnode_name_site] = '/';
+		mnode_name_site += 1;
+	}
+	printf("mnode-name | %s\n", mnode_name);
+	sec snode_name[10000];
+	quad snode_name_site = 0;
+	add_to_entree(mnode_name, mnode_name_site, snode_name, &snode_name_site);
+	wide_com("secs", (snode_name), 4);
+	printf("snode-name | %s\n", snode_name);
 	sec comand[1000];
 	quadrant comand_site = 0;
 	sec s_space[10000];
 	quadrant s_space_site = 0;
 	quadrant_reference nm;
-	node_meta(&grid, "asms/equations", &nm);
+	node_meta(&grid, mnode_name, &nm);
 	printf("nm | %lu\n", &nm); // * recoils from swore duty mudra.
+	printf("naof-files | %lu\n", nm[2]);
 	sec nonce_name[1000];
 	quadrant nonce_name_site = get_time_name(nonce_name);
 	sec clerk_space[10000];
@@ -21,8 +42,12 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	quadrant secs_space_site = 0;
 	sec nop[1];
 	nop[0] = 0x90;
-	source sites_chart_name = "secs/equations/sites.chart";
+	sec sites_chart_name[10000];
+	quad sites_chart_name_site = 0;
+	add_to_entree(snode_name, snode_name_site, sites_chart_name, &sites_chart_name_site);
+	add_to_entree("sites.chart", 11, sites_chart_name, &sites_chart_name_site);
 	printf("sites-chart-name | %s\n", sites_chart_name);
+	//return;
 	syscall(unix_unlink, sites_chart_name);
 	archive_grid sites_chart = syscall(unix_open, sites_chart_name, archive_write|archive_create, archive_jypsy);
 	//printf("sites-chart | %lu\n", sites_chart);
@@ -59,7 +84,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			printf("is-main | %lu\n", is_main);
 			sec secs_name[1000];
 			quadrant secs_name_site = 0;
-			add_to_entree("secs/equations/", 15, secs_name, &secs_name_site);
+			add_to_entree(snode_name, snode_name_site, secs_name, &secs_name_site);
 			add_to_entree(record[0], seek_site, secs_name, &secs_name_site);
 			add_to_entree("secs", 4, secs_name, &secs_name_site);
 			cs_site = 0;
@@ -73,7 +98,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				continue;
 			} else {
 				comand_site = 0;
-				add_to_entree("./sequences asms/equations/", 27, comand, &comand_site);
+				add_to_entree("./sequences ", 12, comand, &comand_site);
+				add_to_entree(mnode_name, mnode_name_site, comand, &comand_site);
 				add_to_entree(record[0], record[2], comand, &comand_site);
 				add_to_entree(" ", 1, comand, &comand_site);
 				add_to_entree(secs_name, secs_name_site, comand, &comand_site);
@@ -124,10 +150,32 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		}
 	}
 	syscall(unix_close, sites_chart);
-	syscall(unix_unlink, "secs/equations/equations.secs");
-	ip_file ms = syscall(unix_open, "secs/equations/equations.secs", archive_create|archive_write, archive_jypsy);
+	sec full_name[10000];
+	quad full_name_site = 0;
+	add_to_entree(snode_name, snode_name_site, full_name, &full_name_site);
+	add_to_entree(params[1], naof_symbol_secs, full_name, &full_name_site);
+	add_to_entree(".secs", 5, full_name, &full_name_site);
+	printf("full-name | %s\n", full_name);
+	syscall(unix_unlink, full_name);
+	ip_file ms = syscall(unix_open, full_name, archive_create|archive_write, archive_jypsy);
 	syscall(unix_write, ms, (equations_secs + 3), equations_secs[2]);
 	syscall(unix_close, ms);
-	system("./sequences asms/equations/main.asm secs/equations/main.secs 0");
+	sec main_name[10000];
+	quad main_name_site = 0;
+	add_to_entree(mnode_name, mnode_name_site, main_name, &main_name_site);
+	add_to_entree("main.asm", 8, main_name, &main_name_site);
+	ip_file mainf = syscall(unix_open, main_name, archive_read);
+	if(mainf != code_a) {
+		comand_site = 0;
+		add_to_entree("./sequences ", 12, comand, &comand_site);
+		add_to_entree(main_name, main_name_site, comand, &comand_site);
+		add_to_entree(" ", 1, comand, &comand_site);
+		add_to_entree(snode_name, snode_name_site, comand, &comand_site);
+		add_to_entree("main.secs 0", 11, comand, &comand_site);
+		printf("comand | %s\n", comand);
+		system(comand);
+	}
+	/*
+	*/
 	return 0;
 }

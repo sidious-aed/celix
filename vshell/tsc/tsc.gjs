@@ -17,44 +17,185 @@ let read_file = function(name) {
 	return false;
 }
 
+let gsub = function(seek, replace, string) {
+	let naof_seek_secs = seek.length;
+	let naof_replace_secs = replace.length;
+	let nstring = "";
+	let naof_string_secs = string.length;
+	let site = 0;
+	while(true) {
+		if(site == naof_string_secs) {
+			break;
+		}
+		if(string.slice(site, (site + naof_seek_secs)) == seek) {
+			nstring += replace;
+			site += naof_seek_secs;
+		} else {
+			nstring += string[site];
+			site += 1;
+		}
+	}
+	return nstring;
+}
+
+let seek_string = function(seek, string) {
+	let naof_seek_secs = seek.length;
+	let naof_string_secs = string.length;
+	let naof_seeks = naof_string_secs - naof_seek_secs + 1;
+	if(naof_seeks <= 0) {
+		return undefined;
+	}
+	let site = 0;
+	while(true) {
+		if(site == naof_seeks) {
+			site = undefined;
+			break;
+		}
+		let cmps = string.slice(site, (site + naof_seek_secs));
+		if(cmps == seek) {
+			break;
+		}
+		site += 1;
+	}
+	return site;
+}
+
+let regcom = function(string) {
+	let nstring = "";
+	let naof_string_secs = string.length;
+	let site = 0;
+	while(true) {
+		if(site == naof_string_secs) {
+			break;
+		}
+		let con = string[site];
+		if(con == "\\") {
+			site += 1;
+			let ncon = string[site];
+			if(ncon == "n") {
+				nstring += "\n";
+				site += 1;
+			} else if(ncon == "t") {
+				nstring += "\t";
+				site += 1;
+			} else {
+				nstring += "\\";
+			}
+		} else {
+			nstring += con;
+			site += 1;
+		}
+	}
+	return nstring;
+}
+
+let nzeta = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+let lzeta = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+let uzeta = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+let szeta = [" ", "\t", "\n", "\\", "/", "<", ">", ",", ".", "?", "!", ";", ":", "{", "}", "[", "]", "-", "_", "+", "=", "@", "#", "$", "%", "^", "&", "*", "(", ")", "`", "~"]
+let szeta_secs = [32, 9, 10, 92, 47, 60, 62, 44, 46, 63, 33, 59, 58, 123, 125, 91, 93, 45, 95, 43, 61, 64, 35, 36, 37, 94, 38, 42, 40, 41, 96, 126]
+
+let index = function(vecter, seek) {
+	let naof_elements = vecter.length;
+	let site = 0;
+	while(true) {
+		if(site == naof_elements) {
+			break;
+		}
+		let element = vecter[site];
+		if(element == seek) {
+			return site;
+		}
+		site += 1;
+	}
+	return undefined;
+}
+
+let string_to_secs = function(string) {
+	let secs = [];
+	let naof_secs = string.length;
+	let site = 0;
+	while(true) {
+		if(site == naof_secs) {
+			break;
+		}
+		let sec = string[site]
+		site += 1;
+		let i = index(nzeta, sec);
+		if(i != undefined) {
+			secs.push(48 + i);
+			continue;
+		}
+		i = index(lzeta, sec);
+		if(i != undefined) {
+			secs.push(97 + i)
+			continue;
+		}
+		i = index(uzeta, sec);
+		if(i != undefined) {
+			secs.push(65 + i);
+			continue;
+		}
+		i = index(szeta, sec);
+		if(i != undefined) {
+			secs.push(szeta_secs[i]);
+			continue;
+		}
+		/*
+		*/
+	}
+	return secs;
+}
+
+/*
+let string0 = "\"abc\nabc\n\"";
+let seek_site = seek_string("\n", string0);
+log("seek-site | " + seek_site);
+string0 = "\"abc\"";
+log("gsub | " + gsub("\"", "\\\"", string0));
+*/
+
 let type_staved_clerkesses = {
 	init: function(naof_pad_entrees, window, webv) {
 		let tsc = {
 			init: function() {
 				let display = Gdk.Display.get_default();
 				this.clipboard = Gtk.Clipboard.get_default(display);
-				this.is_update_mode = true;
 				this.clipboard.connect("owner-change", this.on_type_staved_update);
 				this.clipboard.tsc = this;
 				this.pad = [];
 				this.com_pad_site = naof_pad_entrees;
 				this.window = window;
 				this.webv = webv;
+				this.is_in_set = false;
 			},
 			set_clipboard_text: function(text) {
-					this.clipboard.set_text(text, -1);
-					this.clipboard.store();
+				this.is_in_set = true;
+				this.clipboard.set_text(text, -1);
+				this.clipboard.store();
+				this.is_in_set = false;
 			},
 			get_clipboard_text: function() {
 				return this.clipboard.wait_for_text();
 			},
 			on_type_staved_update: function(clipboard, event) {
 				let tsc = clipboard.tsc
-				if(tsc.is_update_mode == false) {
+				//log("is-in-set | " + tsc.is_in_set);
+				if(tsc.is_in_set) {
 					return;
 				}
 				let new_entree = tsc.get_clipboard_text();
-				log("new-entree | " + new_entree);
 				let pad_site = tsc.pad.length;
 				if(pad_site >= tsc.com_pad_site) {
 					let naof_lets = pad_site - tsc.com_pad_site + 1;
 					tsc.pad = tsc.pad.slice(naof_lets, pad_site)
 				}
+				log("new-entree | " + new_entree);
 				if(new_entree == "") {
 					return;
 				}
 				let is_new = true;
-				let psite = 0;
+				let psite = pad_site - 1;
 				while(true) {
 					if(psite == pad_site) {
 						break;
@@ -71,23 +212,51 @@ let type_staved_clerkesses = {
 				tsc.pad.push(new_entree);
 				log("tsc.pad | " + tsc.pad);
 				pad_site = tsc.pad.length;
-				log("pad-site | " + pad_site);
+				//log("pad-site | " + pad_site);
 				let sjs = "";
 				sjs += "update_dom();";
-				log("sjs | " + sjs);
+				//log("sjs | " + sjs);
 				webv.run_javascript(sjs, null, (view, result) => {});
 				sjs = "tsc_pad = [];"
-				psite = 0;
-				while(true) {
-					if(psite == pad_site) {
-						break;
+				if(pad_site > 0) {
+					let pet = pad_site - 1;
+					psite = pet;
+					while(true) {
+						sjs += "tsc0 = [];";
+						let at_string = regcom(gsub("\"", "\\\"", tsc.pad[psite]));
+						log("at-string | " + string_to_secs(at_string));
+						let naof_esecs = at_string.length;
+						log("noaf-esecs | " + naof_esecs);
+						let seek_site = 0;
+						while(true) {
+							//log("seek-site | " + seek_site);
+							let str0 = at_string.slice(seek_site, (naof_esecs));
+							//log("str0 | " + str0);
+							//log("str0 | " + string_to_secs(str0));
+							let seek_site0 = seek_string("\n", str0);
+							//log("seek-site0 | " + seek_site0);
+							if(seek_site0 != undefined) {
+								let slstr = str0.slice(0, seek_site0);
+								//log("slstr | " + slstr);
+								sjs += "tsc_s0 = \"" + slstr + "\";";
+								seek_site += (seek_site0 + 1);
+								sjs += "tsc0.push(tsc_s0);"
+							} else {
+								//log("str0 | " + str0);
+								sjs += "tsc_s0 = \"" + str0 + "\"" + ";"
+								sjs += "tsc0.push(tsc_s0);"
+								break;
+							}
+						}
+						sjs += "tsc_pad.push(tsc0);"
+						if(psite == 0) {
+							break;
+						}
+						psite -= 1;
 					}
-					sjs += "tsc_pad.push(\"";
-					sjs += tsc.pad[psite];
-					sjs += "\");"
-					psite += 1;
 				}
 				sjs += "update_tsc_pad();"
+				log("sjs | " + sjs);
 				webv.run_javascript(sjs, null, (view, result) => {});
 			}
 			/*
@@ -126,7 +295,7 @@ manager.add_style_sheet(userStyleSheet);
 window.add(webView);
 let html = read_file("tsc.html");
 webView.load_html(html, null);
-let tsc = type_staved_clerkesses.init(100, window, webView);
+let tsc = type_staved_clerkesses.init(11, window, webView);
 
 let js = read_file("jypsy.js");
 js += read_file("tsc.js");
@@ -138,7 +307,7 @@ let sjs = function() {
 		//log("result | " + result);
 	});
 }
-GLib.timeout_add(GLib.PRIORITY_DEFAULT, 111, sjs);
+GLib.timeout_add(GLib.PRIORITY_DEFAULT, 311, sjs);
 
 let get_text_attribute = function(html, name) {
 	if((html == undefined) || (html == " ")) {
@@ -260,7 +429,11 @@ let click_com = function() {
 	let click_comh = read_com(click_com_html, [{name: "id", value: "clerk-com"}]);
 	//log("click-comh | " + click_comh);
 	if(click_comh != "") {
-		tsc.set_clipboard_text(click_comh);
+		//log("click-comh | " + click_comh);
+		let pad_id = parseInt(click_comh);
+		let pe = tsc.pad[pad_id];
+		//log("pe | " + pe);
+		tsc.set_clipboard_text(tsc.pad[pad_id]);
 		webView.run_javascript("reset_click_com();", null, (view, result) => {});
 	}
 	GLib.timeout_add(GLib.PRIORITY_DEFAULT, 111, click_com);

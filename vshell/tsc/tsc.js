@@ -2,6 +2,8 @@
 let nodes = [];
 let naof_nodes = 0;
 let tsc_pad = [];
+let tsc0 = [];
+let tsc_s0 = "";
 let update_dom = function() {
 	nodes = simnodes(all_nodes());
 	naof_nodes = nodes.length;
@@ -9,29 +11,44 @@ let update_dom = function() {
 }
 let update_tsc_pad = function() {
 	//alert("i sim.");
-	//alert("" + tsc_pad);
+	//alert("tsc-pad | " + tsc_pad);
 	let tsc_node = filter_nodes(nodes, [{name: "id", value: "tsc-0shell"}])[0];
 	//alert("tsc-node | " + tsc_node);
 	let paras_html = ""
 	let naof_types = tsc_pad.length;
 	//alert("naof-types | " + naof_types);
+	let et_id = naof_types - 1;
 	let psite = 0;
 	while(true) {
 		if(psite == naof_types) {
 			break;
 		}
 		//alert("psite | " + psite);
-		let para = "<p class=\"tsc-type\" id=\"type-" + psite + "\">"
-		para += psite;
-		para += " | ";
-		para += tsc_pad[psite];
-		para += "</p>"
+		let para = "<div class=\"tsc-type\" id=\"type-" + (et_id - psite) + "\">"
+		let pad = tsc_pad[psite];
+		//alert("pad | " + pad);
+		let naof_elements = pad.length;
+		let esite = 0;
+		while(true) {
+			if(esite == naof_elements) {
+				break;
+			}
+			para += "<p>"
+			if(esite == 0) {
+				para += psite;
+				para += " | ";
+			}
+			para += pad[esite];
+			para += "</p>"
+			esite += 1;
+		}
+		para += "</div>";
 		//alert("para | " + para);
 		paras_html += para;
 		//alert("para-html | " + para_html);
 		psite += 1;
 	}
-	//alert("para-html | " + para_html);
+	//alert("para-html | " + paras_html);
 	tsc_node.innerHTML = paras_html;
 	//alert("i sim.");
 	update_dom();
@@ -49,21 +66,19 @@ let update_tsc_pad = function() {
 			//alert("i sim.");
 			//alert("clicked | " + this.innerHTML);
 			let id = get_attribute(this, "id");
-			let click_com = filter_nodes(nodes, [{name: "id", value: "clerk-com"}])[0];
-			let out_text = this.innerText;
-			let naof_out_secs = out_text.length;
-			let osite = 0;
+			let naof_id_secs = id.length;
+			let hyph_site = 0;
 			while(true) {
-				if(osite == naof_out_secs) {
+				let con = id[hyph_site];
+				hyph_site += 1;
+				if(con == "-") {
 					break;
 				}
-				if(out_text[osite] == "|") {
-					osite += 2;
-					break;
-				}
-				osite += 1;
 			}
-			click_com.innerText = "" + this.innerText.slice(osite, naof_out_secs);
+			id = parseInt(id.slice(hyph_site, naof_id_secs));
+			//alert("id | " + id);
+			let click_com = filter_nodes(nodes, [{name: "id", value: "clerk-com"}])[0];
+			click_com.innerText = "" + id;
 		}
 		tsite += 1;
 	}
