@@ -182,6 +182,97 @@ window.filter_nodes = function(nodes, attributes) {
 	return fnodes;
 }
 
+let nzeta = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+let lzeta = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+let uzeta = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+let szeta = [" ", "\t", "\n", "\\", "/", "<", ">", ",", ".", "?", "!", ";", ":", "{", "}", "[", "]", "-", "_", "+", "=", "@", "#", "$", "%", "^", "&", "*", "(", ")", "`", "~"]
+let szeta_secs = [32, 9, 10, 92, 47, 60, 62, 44, 46, 63, 33, 59, 58, 123, 125, 91, 93, 45, 95, 43, 61, 64, 35, 36, 37, 94, 38, 42, 40, 41, 96, 126]
+
+let index = function(vecter, seek) {
+	let naof_elements = vecter.length;
+	let site = 0;
+	while(true) {
+		if(site == naof_elements) {
+			break;
+		}
+		let element = vecter[site];
+		if(element == seek) {
+			return site;
+		}
+		site += 1;
+	}
+	return undefined;
+}
+
+window.secs_to_string = function(secs) {
+	let string = "";
+	let naof_secs = secs.length;
+	let site = 0;
+	while(true) {
+		if(site == naof_secs) {
+			break;
+		}
+		let sec = secs[site]
+		site += 1;
+		if((sec >= 48) && (sec <= 57)) {
+			string += nzeta[(sec - 48)];
+			continue;
+		}
+		if((sec >= 97) && (sec <= 122)) {
+			string += lzeta[(sec - 97)];
+			continue;
+		}
+		if((sec >= 65) && (sec <= 90)) {
+			string += uzeta[(sec - 65)];
+			continue;
+		}
+		let i = index(szeta_secs, sec);
+		if(i != undefined) {
+			string += szeta[i];
+		}
+	}
+	return string;
+}
+
+window.secs_entree_to_secs = function(entree) {
+	let naof_entree_secs = entree.length;
+	let secs = [];
+	let ent0 = "";
+	let site = 0;
+	while(true) {
+		let sec0 = entree[site];
+		site += 1;
+		if(sec0 == "[") {
+			site += 1;
+			break;
+		}
+	}
+	while(true) {
+		let sec0 = entree[site];
+		let is_sec_com = false;
+		if(index(nzeta, sec0) == undefined) {
+			is_sec_com = true;
+		} else {
+			ent0 += sec0;
+		}
+		site += 1;
+		if(site == naof_entree_secs) {
+			is_sec_com = true
+		}
+		if(is_sec_com) {
+			let naof_ent0_secs = ent0.length;
+			if(naof_ent0_secs > 0) {
+				secs.push(parseInt(ent0));
+				ent0 = "";
+			}
+		}
+		if(site == naof_entree_secs) {
+			break;
+		}
+	}
+	return secs;
+}
+
 /*
 let x0 = 0xaed;
 let see_x0 = function() {

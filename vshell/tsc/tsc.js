@@ -38,7 +38,10 @@ window.update_tsc_pad = function() {
 				para += psite;
 				para += " | ";
 			}
-			para += pad[esite];
+			let parae = secs_entree_to_secs(pad[esite]);
+			parae = secs_to_string(parae);
+			//alert("parae | " + parae);
+			para += parae;
 			para += "</div>"
 			esite += 1;
 		}

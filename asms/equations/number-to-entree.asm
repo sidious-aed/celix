@@ -16,6 +16,18 @@ mq rsi entree
 aqs base
 mq rbx base
 
+aqs esite
+mq number r8
+cmp 0 r8
+st jne is-zero-com
+mov 30 r8
+mq entree rsi
+movs r8 0 rsi
+mov 1 rax
+mq rax esite
+st jmp write-number-com
+s is-zero-com
+
 ent fn droid/clerk-com.secs
 aqs file
 
@@ -53,7 +65,6 @@ st jmp seek-to-et-init
 s seek-to-et-com
 
 aqs sum
-aqs esite
 nao r8
 mq r8 esite
 s write-number-init

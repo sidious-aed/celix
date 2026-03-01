@@ -225,7 +225,9 @@ let type_staved_clerkesses = {
 					psite = pet;
 					while(true) {
 						sjs += "tsc0 = [];";
-						let at_string = regcom(gsub("\"", "\\\"", tsc.pad[psite]));
+						//let at_string = gsub("\"", "\\\"", tsc.pad[psite]);
+						//at_string = gsub("\\", "", tsc.pad[psite]);
+						let at_string = string_to_secs(tsc.pad[psite]);
 						log("at-string | " + string_to_secs(at_string));
 						let naof_esecs = at_string.length;
 						log("noaf-esecs | " + naof_esecs);
@@ -233,19 +235,20 @@ let type_staved_clerkesses = {
 						while(true) {
 							//log("seek-site | " + seek_site);
 							let str0 = at_string.slice(seek_site, (naof_esecs));
-							//log("str0 | " + str0);
-							//log("str0 | " + string_to_secs(str0));
-							let seek_site0 = seek_string("\n", str0);
+							log("str0 | " + str0);
+							log("str0 | " + string_to_secs(str0));
+							//let seek_site0 = seek_string("\n", str0);
+							let seek_site0 = index(str0, 10);
 							//log("seek-site0 | " + seek_site0);
 							if(seek_site0 != undefined) {
 								let slstr = str0.slice(0, seek_site0);
 								//log("slstr | " + slstr);
-								sjs += "tsc_s0 = \"" + slstr + "\";";
+								sjs += "tsc_s0 = \"[" + slstr + "]\";";
 								seek_site += (seek_site0 + 1);
 								sjs += "tsc0.push(tsc_s0);"
 							} else {
 								//log("str0 | " + str0);
-								sjs += "tsc_s0 = \"" + str0 + "\"" + ";"
+								sjs += "tsc_s0 = \"[" + str0 + "]\"" + ";"
 								sjs += "tsc0.push(tsc_s0);"
 								break;
 							}
@@ -278,7 +281,7 @@ Gtk.StyleContext.add_provider_for_screen(
 	Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 );
 
-let window = new Gtk.Window({title: "I Sim."});
+let window = new Gtk.Window({title: "Type Staving CLerkess"});
 window.get_style_context().add_class("generalp");
 window.set_default_size(800, 600);
 window.connect("destroy", Gtk.main_quit);
@@ -299,7 +302,9 @@ js += read_file("tsc.js");
 let js_manager = new WebKit2.UserContentManager();
 js_manager.add_script(new WebKit2.UserScript(js, WebKit2.UserContentInjectedFrames.ALL_FRAMES, WebKit2.UserScriptInjectionTime.END, null, null));
 let webView = WebKit2.WebView.new_with_user_content_manager(js_manager);
-//webView.run_javascript(js, null, null);
+//GLib.timeout_add(GLib.PRIORITY_DEFAULT, 511, function() {
+	//webView.run_javascript("alert(filter_nodes);", null, null);
+//});
 
 let manager = webView.get_user_content_manager();
 manager.add_style_sheet(userStyleSheet);

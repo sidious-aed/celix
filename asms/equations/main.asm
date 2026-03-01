@@ -146,6 +146,24 @@ mq equations rdx
 mq views r11
 addc views view-number r11
 dct r11
+
+aqs space0
+isr 18
+lq space0 r9
+mov aedaed r8
+mov r8 0 r9
+mov aed r8
+mov r8 8 r9
+mov aedaedaed r8
+mov r8 10 r9
+lent nao-relay rsi
+lq space0 rdi
+mov 18 rcx
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-space r11
+dct r11
 #init
 #com
 

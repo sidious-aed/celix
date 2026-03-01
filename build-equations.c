@@ -63,7 +63,6 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			break;
 		}
 		//printf("site | %lu\n", site);
-		printf("equations-site | %lu\n", equations_secs[2]);
 		quadrant_reference record = ((nm + 3) + (site * 3));
 		site += 1;
 		source name = record[0];
@@ -146,6 +145,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				syscall(unix_write, sites_chart, sites_chart_space, sites_chart_space_site);
 				add_to_vecter(&grid, nop, &equations_secs);
 				syscall(unix_close, secs_file);
+				printf("equations-site | %lu\n", equations_secs[2]);
 			}
 		}
 	}
