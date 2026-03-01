@@ -243,7 +243,6 @@ window.secs_entree_to_secs = function(entree) {
 		let sec0 = entree[site];
 		site += 1;
 		if(sec0 == "[") {
-			site += 1;
 			break;
 		}
 	}
