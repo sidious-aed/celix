@@ -1,6 +1,11 @@
 naof-grid-secs|1
-get-naof-secs|148
-entree-to-number|182
-com|2cb
-view-number|383
-number-to-entree|394
+get-vecter-record|2b9
+add-to-vecter|371
+add-string-to-vecter|429
+create-vecter|4e1
+get-naof-secs|599
+entree-to-number|5d3
+task|71c
+com|76b
+view-number|823
+number-to-entree|834

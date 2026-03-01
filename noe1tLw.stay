@@ -148,21 +148,6 @@ io.so.9
 -
 libc.so.6
 
------
-alert
------
-0Ntxw5a.alert
-dSZIz8p.alert
-VDRIUGi.alert
-
----
-swp
----
-.450tV98.stay.swp
-.build.c.swp
-.MHxKsxR.stay.swp
-.sequences.c.swp
-
 --
 md
 --
@@ -171,9 +156,17 @@ README.md
 ----
 stay
 ----
-0dWcVjK.stay
-450tV98.stay
-MHxKsxR.stay
+noe1tLw.stay
+
+---
+out
+---
+a.out
+
+-----
+alert
+-----
+WB8qCtQ.alert
 
 ---------
 gitignore
