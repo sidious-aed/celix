@@ -2,10 +2,10 @@
 # get-naof-secs
 # rdi | entree
 ##########################################################################################################
-# rsi | entree
-##########################################################################################################
 # com-init
 ##########################################################################################################
+push rbp
+mov rsp rbp
 sub 1000 rsp
 mov rdi r14
 s get-naof-secs-init
@@ -23,6 +23,7 @@ mov rdi rax
 # com-com
 ##########################################################################################################
 add 1000 rsp
+pop rbp
 ret
 
 #init
@@ -38,16 +39,16 @@ mov 41 rsi
 lent fn rdi
 mov 2 rax
 sys
-mq rax file
+mqb rax file
 # write
-mq file rdi
+mqb file rdi
 mov 8 rdx
-mq naof-secs rdx
-mq entree rsi
+mqb naof-secs rdx
+mqb entree rsi
 mov 1 rax
 sys
 # close
-mq file rdi
+mqb file rdi
 mov 3 rax
 sys
 #com

@@ -44,6 +44,45 @@ static const quad full_gnu_register_pairs_naof_secs[naof_gnu_full_register_pairs
 static const source_vecter motion_alus[naof_motion_alus] = {"je", "jne", "jbe", "ja", "js", "jb", "jle", "jge", "jg", "jns", "jo", "jae", "jl", "jp", "jmp", "jmpq"};
 static const quadrant motion_alus_naof_secs[naof_motion_alus] = {2, 3, 3, 2, 2, 2, 3, 3, 2, 3, 2, 3, 2, 2, 3, 4};
 
+// stagings
+static const sec push_register_signs_0[2] = {0x41, 0x50};
+static const sec push_register_signs_1[2] = {0x41, 0x51};
+static const sec push_register_signs_2[2] = {0x41, 0x52};
+static const sec push_register_signs_3[2] = {0x41, 0x53};
+static const sec push_register_signs_4[2] = {0x41, 0x54};
+static const sec push_register_signs_5[2] = {0x41, 0x55};
+static const sec push_register_signs_6[2] = {0x41, 0x56};
+static const sec push_register_signs_7[2] = {0x41, 0x57};
+static const sec push_register_signs_8[1] = {0x50};
+static const sec push_register_signs_9[1] = {0x53};
+static const sec push_register_signs_a[1] = {0x51};
+static const sec push_register_signs_b[1] = {0x52};
+static const sec push_register_signs_c[1] = {0x57};
+static const sec push_register_signs_d[1] = {0x56};
+static const sec push_register_signs_e[1] = {0x54};
+static const sec push_register_signs_f[1] = {0x55};
+static const source push_register_signs[16] = {push_register_signs_0, push_register_signs_1, push_register_signs_2, push_register_signs_3, push_register_signs_4, push_register_signs_5, push_register_signs_6, push_register_signs_7, push_register_signs_8, push_register_signs_9, push_register_signs_a, push_register_signs_b, push_register_signs_c, push_register_signs_d, push_register_signs_e, push_register_signs_f};
+static const quad push_register_signs_naof_secs[16] = {2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1};
+
+static const sec pop_register_signs_0[2] = {0x41, 0x58};
+static const sec pop_register_signs_1[2] = {0x41, 0x59};
+static const sec pop_register_signs_2[2] = {0x41, 0x5a};
+static const sec pop_register_signs_3[2] = {0x41, 0x5b};
+static const sec pop_register_signs_4[2] = {0x41, 0x5c};
+static const sec pop_register_signs_5[2] = {0x41, 0x5d};
+static const sec pop_register_signs_6[2] = {0x41, 0x5e};
+static const sec pop_register_signs_7[2] = {0x41, 0x5f};
+static const sec pop_register_signs_8[1] = {0x58};
+static const sec pop_register_signs_9[1] = {0x5b};
+static const sec pop_register_signs_a[1] = {0x59};
+static const sec pop_register_signs_b[1] = {0x5a};
+static const sec pop_register_signs_c[1] = {0x5f};
+static const sec pop_register_signs_d[1] = {0x5e};
+static const sec pop_register_signs_e[1] = {0x5c};
+static const sec pop_register_signs_f[1] = {0x5d};
+static const source pop_register_signs[16] = {pop_register_signs_0, pop_register_signs_1, pop_register_signs_2, pop_register_signs_3, pop_register_signs_4, pop_register_signs_5, pop_register_signs_6, pop_register_signs_7, pop_register_signs_8, pop_register_signs_9, pop_register_signs_a, pop_register_signs_b, pop_register_signs_c, pop_register_signs_d, pop_register_signs_e, pop_register_signs_f};
+static const quad pop_register_signs_naof_secs[16] = {2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1};
+
 // cmpairzeez
 static const sec cmp_cnst_reg_signs_0[3] = {0x49, 0x81, 0xf8};
 static const sec cmp_cnst_reg_signs_1[3] = {0x49, 0x81, 0xf9};
@@ -333,6 +372,7 @@ static const sec rep_movq_sign_secs[3] = {0xf3, 0x48, 0xa5};
 static const sec rep_movb_sign_secs[2] = {0xf3, 0xa4};
 static const sec rep_cmpq_sign_secs[3] = {0xf3, 0x48, 0xa7};
 static const sec rep_cmpb_sign_secs[2] = {0xf3, 0xa6};
+static const sec repz_cmp_sign_secs[2] = {0xf3, 0xa6};
 
 // logical and motion signs
 // stay-to-signs

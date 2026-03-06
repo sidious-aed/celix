@@ -78,6 +78,16 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				*/
 				source at_dest = obj_at + 18;
 				quad naof_dest_secs = sect_site - 20;
+				syscall(unix_write, 1, (at_dest + naof_dest_secs - 4), 4);
+				syscall(unix_write, 1, "\n", 1);
+				if(compair_spaces("@plt", 4, (at_dest + naof_dest_secs - 4), 4)) {
+					//getc(stdin);
+					naof_dest_secs -= 4;
+				}
+				if(compair_spaces("@@GLIBC_2.2.5", 0xd, (at_dest + naof_dest_secs - 0xd), 0xd)) {
+					//getc(stdin);
+					naof_dest_secs -= 0xd;
+				}
 				clerk_com_site = 0;
 				add_to_entree("from-destination | ", 19, clerk_com, &clerk_com_site);
 				add_to_entree((at_dest), (naof_dest_secs), clerk_com, &clerk_com_site);

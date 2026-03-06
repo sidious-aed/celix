@@ -1,1 +1,1 @@
-naof-secs $1 90
+naof 90 $0

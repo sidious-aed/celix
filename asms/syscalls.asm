@@ -1,4 +1,5 @@
 auto-quad-source stead-seconds
+lqb maps-name rdi
 auto-quad-source stead-micro-seconds
 auto-quad-source naof-seconds
 auto-quad-source naof-micro-seconds
@@ -25,28 +26,57 @@ auto-quad-source pts-meta-space
 auto-quad-source meta
 
 # nanosleep
-leeve-quad stead-seconds rdi
-set 23 rax
-syscall
+lqb stead-seconds rdi
+mov 23 rax
+sys
 
+aqs file
 # open-read
-naoify rsi
-leeve-entree file-name rdi
-set 2 rax
-syscall
-move-quad rax file
+nao rsi
+lent file-name rdi
+mov 2 rax
+sys
+mq rax file
 
 # read
-move-quad-to file rdi
-set 8 rdx
-leeve-quad clerk-space rsi
-set 0 rax
-syscall
+mq file rdi
+mov 8 rdx
+lq space rsi
+mov 0 rax
+sys
 
 # close
-move-quad-to file rdi
-set 3 rax
-syscall
+mq file rdi
+mov 3 rax
+sys
+
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+mq file-name rdi
+mov 2 rax
+sys
+mq rax file
+
+# open-append
+mov 1ff rdx
+mov 441 rsi
+lent file-name rdi
+mov 2 rax
+sys
+mq rax file
+
+# write
+mq file rdi
+mq naof-secs rdx
+mq genseed rsi
+mov 1 rax
+sys
+
+# close
+mq file rdi
+mov 3 rax
+sys
 
 # fork
 marker init-chirp-clerk
@@ -79,43 +109,6 @@ set 1 rdi
 set 1 rax
 syscall
 
-# open-append
-set 1ff rdx
-set 441 rsi
-leeve-entree file-name rdi
-set 2 rax
-syscall
-move-quad rax file
-
-ent fn droid/clerk-com.secs
-aqs file
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lent fn rdi
-mov 2 rax
-sys
-mq rax file
-
-# write
-mq file rdi
-mov 8 rdx
-lq naof-quads rsi
-mov 1 rax
-sys
-
-# write
-mq file rdi
-mov 8 rdx
-lq naof-secs rsi
-mov 1 rax
-sys
-
-# close
-mq file rdi
-mov 3 rax
-sys
-
 # arch_prctl
 set 9e rax
 # 1002 | set fs
@@ -146,18 +139,18 @@ set a rax
 syscall
 
 # unlink
-leeve-entree file-name rdi
-set 57 rax
-syscall
+mq file-name rdi
+mov 57 rax
+sys
 
 # lseek
-move-quad-to file rdi
-move-quad-to site rsi
+mq file rdi
+nao rsi
 # 0 | seek-origin
 # 2 | seek-completion
-set 2 rdx
-set 8 rax
-syscall
+mov 2 rdx
+mov 8 rax
+sys
 
 aqs stack-site
 # anonomous-mmap
@@ -196,9 +189,9 @@ set 28 rax
 syscall
 
 # getpid
-set 27 rax
-syscall
-move-quad rax pid
+mov 27 rax
+sys
+mqb rax pid
 
 # getcwd
 leeve-quad clerk-space rdi

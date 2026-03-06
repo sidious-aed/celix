@@ -52,13 +52,14 @@ quadrant main() {
 	system("gcc standard.lib machine.lib sequences.c -o sequences");
 	system("gcc standard.lib clerk.lib build-equations.c -o build-equations");
 	system("gcc standard.lib build-shell.c -o build-shell");
+	system("gcc standard.lib build-mshell.c -o build-mshell");
 	//system("gcc standard.lib view-assembly.c -o view-assembly");
 	// all respects to the awesome spec fulfilling dinasaurs.
 	// be to the spec demanders the non (in a prose of trends) of their docket issuances goes to.
 	//system("gcc standard.lib clerk.lib non-cltqs.c -o non-cltqs");
 
 	// main-shells
-	system("gcc standard.lib equations-main.c -o equations-main");
+	//system("gcc standard.lib equations-main.c -o equations-main");
 	//system("./sequences procs/i-sim.asm procs/i-sim.proc 0");
 	//system("./build-shell procs/i-sim.proc i-sim.c");
 	//system("gcc i-sim.c -o i-sim");

@@ -5,48 +5,66 @@
 # rdi | destination
 # rcx | naof-secs
 ##########################################################################################################
-# com-init
+# com
 ##########################################################################################################
+push rbp
+mov rsp rbp
 sub 1000 rsp
 aqs entree
-mq rsi entree
+mqb rsi entree
 aqs destination
-mq rdi destination
+mqb rdi destination
 aqs naof-entree-secs
-mq rcx naof-entree-secs
+mqb rcx naof-entree-secs
 aqs naof-secs-in-quad
 mov 8 r8
-mq r8 naof-secs-in-quad
+mqb r8 naof-secs-in-quad
 mov rcx rax
 nao rdx
-divq naof-secs-in-quad rcx
+divqb naof-secs-in-quad rcx
 aqs naof-quads
-mq rax naof-quads
-factq naof-secs-in-quad rax
-mq naof-entree-secs r9
+mqb rax naof-quads
+factqb naof-secs-in-quad rax
+mqb naof-entree-secs r9
 sub rax r9
 aqs naof-secs
-mq r9 naof-secs
+mqb r9 naof-secs
 aqs naof-quad-secs
-mq rax naof-quad-secs
+mqb rax naof-quad-secs
 
-mq naof-quads rcx
-mq entree rsi
-mq destination rdi
+mqb naof-quads rcx
+mqb entree rsi
+mqb destination rdi
 mzq
 
-mq entree rsi
-mq naof-quad-secs r8
+mqb entree rsi
+mqb naof-quad-secs r8
 add r8 rsi
-mq destination rdi
+mqb destination rdi
 add r8 rdi
-mq naof-secs rcx
+mqb naof-secs rcx
 mzs
 
+#init
+nao r9
+s com-secs-init
+movs 0 rsi r10
+movs r10 0 rdi
+add 1 rsi
+add 1 rdi
+cmp r8 r9
+st je com-secs-com
+add 1 r9
+st jmp com-secs-init
+s com-secs-com
+#com
+
 ##########################################################################################################
-# com-com
+# com
 ##########################################################################################################
+mqb naof-entree-secs rax
 add 1000 rsp
+pop rbp
 ret
 
 #init

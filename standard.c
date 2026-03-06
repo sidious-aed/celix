@@ -883,6 +883,9 @@ source get_grid_secs(writer grid, quadrant naof_secs, writer tab) {
 	tab[0] = grid_con;
 	qgrid[1] += naof_secs;
 	//printf("at com of get grid secs.\n");
+	/*
+	tab[0] = malloc(naof_secs);
+	*/
   return;
 }
 

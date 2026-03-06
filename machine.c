@@ -7,6 +7,7 @@ squad get_entree_site(source_vecter entrees, reader entrees_naof_secs, quad naof
       break;
     }
 		//printf("entrees[site] | %s\n", entrees[site]);
+		//printf("entrees_naof_secs[site] | %lu\n", entrees_naof_secs[site]);
     if(compair_spaces(entree, naof_entree_secs, entrees[site], entrees_naof_secs[site])) {
       return site;
     }
@@ -64,6 +65,24 @@ quad asm_dynamic_castl_stay_to(quad cast_site, source mod_register, quad naof_mo
 	quad ms_site = naof_sign_secs;
 	wide_com(&cast_site, (space + ms_site), 4);
 	ms_site += 4;
+	return ms_site;
+}
+
+quad asm_push_register(source register_name, quad naof_register_name_secs, source space) {
+	squad sign_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_general_registers, register_name, naof_register_name_secs);
+	//printf("sign-site | %lu\n", sign_site);
+	quad naof_sign_secs = push_register_signs_naof_secs[sign_site];
+	wide_com(push_register_signs[sign_site], space, naof_sign_secs);
+	quad ms_site = naof_sign_secs;
+	return ms_site;
+}
+
+quad asm_pop_register(source register_name, quad naof_register_name_secs, source space) {
+	squad sign_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_general_registers, register_name, naof_register_name_secs);
+	//printf("sign-site | %lu\n", sign_site);
+	quad naof_sign_secs = pop_register_signs_naof_secs[sign_site];
+	wide_com(pop_register_signs[sign_site], space, naof_sign_secs);
+	quad ms_site = naof_sign_secs;
 	return ms_site;
 }
 
@@ -304,6 +323,8 @@ quad asm_multiply_register_with_stack(quad cast_site, source register_name, quad
 }
 
 quad asm_multiply_registers(quad cast_site, source registers, quad naof_registers_secs, source space) {
+	//printf("registers | %s\n", registers);
+	//printf("naof-registers-secs | %lu\n", naof_registers_secs);
 	squad registers_site = get_entree_site(gnu_register_pairs, gnu_register_pairs_naof_secs, naof_mov_pair_registers, registers, naof_registers_secs);
 	//printf("registers-site | %lu\n", registers_site);
 	quad naof_sign_secs = multiply_registers_signs_naof_secs[registers_site];
@@ -385,6 +406,11 @@ quad asm_store_state(source space) {
 quad asm_restore_state(source space) {
 	wide_com(restore_state_sign_sec, space, 1);
 	return 1;
+}
+
+quad asm_repz_cmp(source space) {
+	wide_com(repz_cmp_sign_secs, space, 2);
+	return 2;
 }
 
 // z | spells intreague in tiger speak. and the questzeez here; is the meager gem of

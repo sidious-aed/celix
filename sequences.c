@@ -63,11 +63,12 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	writer cmetas = 0;
 	create_vecter(&grid, 0x18, 1000, &cmetas);
 	writer futures = 0;
-	create_vecter(&grid, 0x38, 1000, &futures);
+	create_vecter(&grid, 0x40, 1000, &futures);
 
 	quad bs = init_bs;
 	quad ms = 0; // ms | machine-site
 	quad sr = 0; // sr | stack-reference
+	quad bsr = 0; //
 	sec cp[10000]; // cp | clerk-space
 	quad cp_site = 0;
 	sec msecs[10000];
@@ -91,7 +92,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		}
 		source sect = (asms + site);
 		squad sect_site = seek_space("\n", 1, sect, (naof_asm_secs - site));
-		//syscall(unix_write, 1, sect, (sect_site + 1));
+		syscall(unix_write, 1, sect, (sect_site + 1));
 		site += (sect_site + 1);
 		if(compair_spaces((sect), 4, "#com", 4)) {
 			//printf("com of multi-comment.\n");
@@ -202,6 +203,10 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			cmetar[1] = comp1[1];
 			cmetar[2] = meta_name;
 			add_to_vecter(&grid, cmetar, &cmetas);
+		} else if(compair_spaces(comp0[0], comp0[1], "push", 4)) {
+			msite = asm_push_register(comp1[0], comp1[1], msecs);
+		} else if(compair_spaces(comp0[0], comp0[1], "pop", 3)) {
+			msite = asm_pop_register(comp1[0], comp1[1], msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "lea", 3)) {
 			if(naof_comps != 4) {
 				poly_alert("lea params are add-site, src-register, dest-register.");
@@ -271,6 +276,9 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				msite = asm_sub_registers(cp, cp_site, msecs);
 			} else {
 				msite = asm_sub_const_register(comp2[0], comp2[1], comp1[3], msecs);
+				if(compair_spaces(comp2[0], comp2[1], "rsp", 3)) {
+					bsr += comp1[3];
+				}
 			}
 		} else if(compair_spaces(comp0[0], comp0[1], "add", 3)) {
 			if(b16_site == code_b) {
@@ -350,6 +358,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				//syscall(unix_write, 1, "\n", 1);
 				msite = asm_and_registers(cp, cp_site, msecs);
 			} else {
+				printf("and-const | %lu\n", comp1[3]);
 				msite = asm_and_const_register(comp2[0], comp2[1], comp1[3], msecs);
 			}
 		} else if(compair_spaces(comp0[0], comp0[1], "xor", 3)) {
@@ -412,6 +421,24 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				}
 				qsite += 1;
 			}
+		} else if(compair_spaces(comp0[0], comp0[1], "factqb", 6)) {
+			cp_site = 0;
+			add_to_entree("rbp-", 4, cp, &cp_site);
+			add_to_entree(comp2[0], comp2[1], cp, &cp_site);
+			syscall(unix_write, 1, cp, cp_site);
+			syscall(unix_write, 1, "\n", 1);
+			quad qsite = 0;
+			while(true) {
+				if(qsite == quads[2]) {
+					break;
+				}
+				writer qua = (quads + 3) + (qsite * 3);
+				//printf("qua | %s\n", qua[0]);
+				if(compair_spaces(comp1[0], comp1[1], qua[0], qua[1])) {
+					msite = asm_multiply_registers((qua[2] - bsr), cp, (cp_site), msecs);
+				}
+				qsite += 1;
+			}
 		} else if(compair_spaces(comp0[0], comp0[1], "div", 3)) { // div | (unfacter|devide) | castl register with rax.
 			//printf("cast-site | %lu\n", comp1[3]);
 			msite = asm_divide_to_returns(comp1[3], comp2[0], comp2[1], msecs);
@@ -432,6 +459,21 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			}
 		/*
 		*/
+		} else if(compair_spaces(comp0[0], comp0[1], "divqb", 5)) { // divq | devide-quad-(auto-name-sourcing)
+			quad qsite = 0;
+			while(true) {
+				if(qsite == quads[2]) {
+					break;
+				}
+				writer qua = (quads + 3) + (qsite * 3);
+				//printf("qua | %s\n", qua[0]);
+				if(compair_spaces(comp1[0], comp1[1], qua[0], qua[1])) {
+					cp_site = 0;
+					//msite = asm_divide_castl_to_returns(qua[2], "rsp", 3, msecs);
+					msite = asm_divide_to_returns((qua[2] - bsr), "rbp", 3, msecs);
+				}
+				qsite += 1;
+			}
 		} else if(compair_spaces(comp0[0], comp0[1], "cmp", 3)) {
 			if(b16_site == code_b) {
 				cp_site = 0;
@@ -452,7 +494,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			add_to_vecter(&grid, stat, &stats);
 		} else if(compair_spaces(comp0[0], comp0[1], "st", 2)) { // st | (stay-to)
 			msite = asm_stay_to(comp1[0], comp1[1], bs, 0, msecs);
-			quad ct[6];
+			quad ct[8];
 			ct[0] = 2;
 			ct[1] = comp2[0];
 			ct[2] = comp2[1];
@@ -460,17 +502,18 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			ct[4] = bs;
 			ct[5] = comp1[0];
 			ct[6] = comp1[1];
+			ct[7] = 0;
 			add_to_vecter(&grid, ct, &futures);
 		} else if(compair_spaces(comp0[0], comp0[1], "dst", 3)) { // dst | (dynamic-stay-to)
 			cp_site = 0;
-			add_to_entree(comp1[0], comp1[1], cp, &cp_site);
+			add_to_entree("jmpq", 4, cp, &cp_site);
 			add_to_entree("-", 1, cp, &cp_site);
-			add_to_entree(comp2[0], comp2[1], cp, &cp_site);
+			add_to_entree(comp1[0], comp1[1], cp, &cp_site);
 			//syscall(unix_write, 1, cp, cp_site);
 			//syscall(unix_write, 1, "\n", 1);
-			msite = asm_dynamic_stay_to("jmpq-r11", 8, msecs);
+			msite = asm_dynamic_stay_to(cp, cp_site, msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "ct", 2)) { // ct | (call-to)
-			quad ct[6];
+			quad ct[8];
 			ct[0] = 1;
 			ct[1] = comp1[0];
 			ct[2] = comp1[1];
@@ -478,12 +521,15 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			ct[4] = bs;
 			ct[5] = 0;
 			ct[6] = 0;
+			ct[7] = 0;
 			add_to_vecter(&grid, ct, &futures);
 			msite = asm_call_to(bs, 0, msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "dct", 3)) { // dct | (dynamic-call-to)
 			msite = asm_dynamic_call_to(comp1[0], comp1[1], msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "sys", 3)) { // sys | syscall
 			msite = asm_syscall(msecs);
+		} else if(compair_spaces(comp0[0], comp0[1], "rcmp", 4)) { // rcmp | repz-compair
+			msite = asm_repz_cmp(msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "ret", 3)) { // ret | return
 			msite = asm_return(msecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "mzq", 3)) { // mzq | repz-mov-quads
@@ -531,6 +577,26 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				}
 				qsite += 1;
 			}
+		} else if(compair_spaces(comp0[0], comp0[1], "lqb", 3)) { // lq | leeve-quad
+			//printf("bsr | %lu\n", bsr);
+			quad qsite = 0;
+			while(true) {
+				if(qsite == quads[2]) {
+					break;
+				}
+				writer qua = (quads + 3) + (qsite * 3); // qua --- ke for aqsing <--> * sirindiplea ... like final fantasy
+				if(compair_spaces(comp1[0], comp1[1], qua[0], qua[1])) {
+					//printf("entree | %s\n", qua[0]);
+					cp_site = 0;
+					add_to_entree("rbp-", 4, cp, &cp_site);
+					add_to_entree(comp2[0], comp2[1], cp, &cp_site);
+					//syscall(unix_write, 1, cp, cp_site);
+					//syscall(unix_write, 1, "\n", 1);
+					msite = asm_lea_registers(cp, cp_site, (qua[2] - (bsr)), msecs);
+					//see_space("msecs", msecs, msite);
+				}
+				qsite += 1;
+			}
 		} else if(compair_spaces(comp0[0], comp0[1], "mq", 2)) { // mq | move-quad
 			quad is_castr = true;
 			source register_name = comp1[0];
@@ -575,6 +641,52 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				}
 				qsite += 1;
 			}
+		} else if(compair_spaces(comp0[0], comp0[1], "mqb", 3)) { // mq | move-quad
+			quad is_castr = true;
+			source register_name = comp1[0];
+			quad naof_register_name_secs = comp1[1];
+			source source_name = comp2[0];
+			quad naof_source_name_secs = comp2[1];
+			squad registers_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_gnu_registers, register_name, naof_register_name_secs);
+			if(registers_site == -1) {
+				is_castr = false;
+				source_name = comp1[0];
+				naof_source_name_secs = comp1[1];
+				register_name = comp2[0];
+				naof_register_name_secs = comp2[1];
+				registers_site = get_entree_site(gnu_registers, gnu_registers_naof_secs, naof_gnu_registers, register_name, naof_register_name_secs);
+				if(registers_site == -1) {
+					poly_alert("mq needs one of the two params to be a gnu-64-general register. and the other, a aqs.");
+				}
+			}
+			//printf("source-name | %s\n", source_name);
+			//printf("naof-source-name-secs | %lu\n", naof_source_name_secs);
+			//printf("is-castr | %lu\n", is_castr);
+			//printf("bsr | %lu\n", bsr);
+			quad qsite = 0;
+			while(true) {
+				if(qsite == quads[2]) {
+					break;
+				}
+				writer qua = (quads + 3) + (qsite * 3); // qua --- ke for aqsing <--> * sirindiplea ... like final fantasy
+				if(compair_spaces(source_name, naof_source_name_secs, qua[0], qua[1])) {
+					//printf("qua | %s\n", qua[0]);
+					//printf("qua | %lu\n", qua[2]);
+					cp_site = 0;
+					if(is_castr) {
+						add_to_entree(register_name, naof_register_name_secs, cp, &cp_site);
+						add_to_entree("-rbp", 4, cp, &cp_site);
+						msite = asm_mov_castr_registers(cp, cp_site, (qua[2] - bsr), msecs);
+						//see_space("msecs", msecs, msite);
+					} else {
+						add_to_entree("rbp-", 4, cp, &cp_site);
+						add_to_entree(register_name, naof_register_name_secs, cp, &cp_site);
+						msite = asm_mov_castl_registers(cp, cp_site, (qua[2] - bsr), msecs);
+						//see_space("msecs", msecs, msite);
+					}
+				}
+				qsite += 1;
+			}
 		} else if(compair_spaces(comp0[0], comp0[1], "secs", 4)) {
 			quad naof_csecs = (naof_comps - 1);
 			quad csec_site = 0;
@@ -590,8 +702,10 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			ms += (naof_csecs);
 		} else if(compair_spaces(comp0[0], comp0[1], "isr", 3)) { // isr | incriment-stack-reference
 			sr += comp1[3];
+		} else if(compair_spaces(comp0[0], comp0[1], "dslr", 4)) { // dslr | decriment-shakecelar
+			bsr += comp1[3];
 		} else if(compair_spaces(comp0[0], comp0[1], "lent", 4)) { // lent | leave-entree
-			quad lent[6];
+			quad lent[8];
 			source entree = 0;
 			get_grid_secs(&grid, (comp1[1] + 1), &entree);
 			wide_com(comp1[0], entree, comp1[1]);
@@ -602,9 +716,32 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			lent[4] = comp2[0];
 			lent[5] = comp2[1];
 			lent[6] = 0;
+			lent[7] = 0;
 			add_to_vecter(&grid, lent, &futures);
 			cp_site = 0;
 			add_to_entree("rsp", 3, cp, &cp_site);
+			add_to_entree("-", 1, cp, &cp_site);
+			add_to_entree(comp2[0], comp2[1], cp, &cp_site);
+			//syscall(unix_write, 1, cp, cp_site);
+			//syscall(unix_write, 1, "\n", 1);
+			msite = asm_lea_registers(cp, cp_site, 0, msecs);
+		} else if(compair_spaces(comp0[0], comp0[1], "lentb", 5)) { // lent | leave-entree
+			//printf("in lentb.\n");
+			quad lent[8];
+			source entree = 0;
+			get_grid_secs(&grid, (comp1[1] + 1), &entree);
+			wide_com(comp1[0], entree, comp1[1]);
+			lent[0] = 0; // entree-type
+			lent[1] = entree;
+			lent[2] = comp1[1];
+			lent[3] = ms;
+			lent[4] = comp2[0];
+			lent[5] = comp2[1];
+			lent[6] = 0;
+			lent[7] = 0xaed;
+			add_to_vecter(&grid, lent, &futures);
+			cp_site = 0;
+			add_to_entree("rbp", 3, cp, &cp_site);
 			add_to_entree("-", 1, cp, &cp_site);
 			add_to_entree(comp2[0], comp2[1], cp, &cp_site);
 			//syscall(unix_write, 1, cp, cp_site);
@@ -679,6 +816,75 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					break;
 				}
 			}
+		} else if(compair_spaces(comp0[0], comp0[1], "entb", 4)) { // ent | entree
+			//printf("com0 | %s\n", comp0[0]);
+			//printf("com1 | %s\n", comp1[0]);
+			source ent0 = (sect + comp0[1] + comp1[1] + 2);
+			quad naof_ent0_secs = sect_site - 2 - comp0[1] - comp1[1];
+			//printf("ent | %s", ent0);
+			//printf("naof-ent0-secs | %lu\n", naof_ent0_secs);
+			quad ent[2];
+			ent[0] = comp1[0];
+			ent[1] = comp1[1];
+			ent[2] = sr;
+			add_to_vecter(&grid, ent, &entrees);
+			quad ent_quad = 0;
+			quad quad_site = 0; // awesome or plenty fine set in is beyond defferent than of.
+			source ent_com = &ent_quad;
+			quad ent_site = 0;
+			while(true) {
+				quad is_qcom = false;
+				quad is_com = false;
+				sec con = ent0[ent_site];
+				if(con == '\\') {
+					ent_site += 1;
+					if(ent0[ent_site] == 'n') {
+						con = '\n';
+					} else if(ent0[ent_site] == 't') {
+						con = '\t';
+					} else if(ent0[ent_site] == '\\') {
+						con = '\\';
+					} else {
+						con = 16;
+					}
+				}
+				ent_com[quad_site] = con;
+				quad_site += 1;
+				if(quad_site == 8) {
+					is_qcom = true;
+				}
+				ent_site += 1;
+				if(ent_site == naof_ent0_secs) {
+					is_qcom = true;
+					is_com = true;
+				}
+				if(is_qcom) {
+					msite = asm_set_register(ent_quad, "r8", 2, msecs);
+					add_string_to_sec_vecter(&grid, msecs, msite, &mach);
+					bs += msite;
+					ms += (msite);
+					msite = asm_mov_castr_registers("r8-rbp", 6, (sr - bsr), msecs);
+					add_string_to_sec_vecter(&grid, msecs, msite, &mach);
+					bs += msite;
+					ms += (msite);
+					sr += 8;
+					ent_quad = 0;
+					quad_site = 0;
+				}
+				if(is_com) {
+					msite = asm_xor_registers("r8-r8", 5, msecs);
+					add_string_to_sec_vecter(&grid, msecs, msite, &mach);
+					bs += msite;
+					ms += (msite);
+					msite = asm_mov_castr_registers("r8-rbp", 6, (sr - bsr), msecs);
+					add_string_to_sec_vecter(&grid, msecs, msite, &mach);
+					bs += msite;
+					ms += (msite);
+					msite = 0;
+					sr += 8;
+					break;
+				}
+			}
 		}
 		if(msite > 0) {
 			//see_space("msecs", msecs, msite);
@@ -734,7 +940,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		if(site == futures[2]) {
 			break;
 		}
-		writer future = (futures + 3) + (site * 7);
+		writer future = (futures + 3) + (site * 8);
 		//see_space("future", future, 0x20);
 		if(future[0] == 0) {
 			//printf("entree-name | %s\n", future[1]);
@@ -749,12 +955,21 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				if(compair_spaces(future[1], future[2], ent[0], ent[1])) {
 					//printf("entree matched for lent.\n");
 					cp_site = 0;
-					add_to_entree("rsp", 3, cp, &cp_site);
+					if(future[7] == 0xaed) {
+						add_to_entree("rbp", 3, cp, &cp_site);
+					} else {
+						add_to_entree("rsp", 3, cp, &cp_site);
+					}
 					add_to_entree("-", 1, cp, &cp_site);
 					add_to_entree(future[4], future[5], cp, &cp_site);
 					//syscall(unix_write, 1, cp, cp_site);
 					//syscall(unix_write, 1, "\n", 1);
-					msite = asm_lea_registers(cp, cp_site, ent[2], msecs);
+					if(future[7] == 0xaed) {
+						//printf("bsr | %lu\n", bsr);
+						msite = asm_lea_registers(cp, cp_site, (ent[2] - bsr), msecs);
+					} else {
+						msite = asm_lea_registers(cp, cp_site, ent[2], msecs);
+					}
 					//printf("msecs | ");
 					//see_encoded(msecs, msite, 16);
 					//printf("\n");
@@ -786,6 +1001,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					//printf("stat matched for ct.\n");
 					//printf("stack-site | %lu\n", future[3]);
 					//printf("stat-stack-site | %lu\n", stat[2]);
+					//printf("bs | %lu\n", future[4]);
+					//printf("ds | %lu\n", stat[2]);
 					msite = asm_call_to(future[4], stat[2], msecs);
 					//printf("msecs | ");
 					//see_encoded(msecs, msite, 16);
@@ -818,6 +1035,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					//printf("stat matched for ct.\n");
 					//printf("stack-site | %lu\n", future[3]);
 					//printf("stat-stack-site | %lu\n", stat[2]);
+					//printf("bs | %lu\n", future[4]);
+					//printf("ds | %lu\N", stat[2]);
 					msite = asm_stay_to(future[5], future[6], future[4], stat[2], msecs);
 					//printf("msecs | ");
 					//see_encoded(msecs, msite, 16);
@@ -836,6 +1055,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				}
 				st_site += 1;
 			}
+			/*
+			*/
 		}
 		site += 1;
 	}

@@ -188,6 +188,7 @@ typedef short * dyno_reference;
 ///////////////////////////////////////////////////
 #define clerk_discreet 2              ////////////
 #define clerk_descreet 2               //////////
+#define clerk_shared 1                 //////////
 #define map_as_space 32                /////////
 #define map_rws 7                     ///////////
 #define map_cloe 0x22                 /////////

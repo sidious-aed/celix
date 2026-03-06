@@ -9,66 +9,75 @@
 ##########################################################################################################
 # view-number-init
 ##########################################################################################################
-sub 10000 rsp
-
+push rbp
+mov rsp rbp
+sub 1000 rsp
 aqs relay
-mq rsi relay
+mqb rsi relay
 aqs number
-mq rdi number
+mqb rdi number
 aqs base
-mq rbx base
+mqb rbx base
 aqs equations
-mq rdx equations
-ent jedao-sectioner  | 
-aqs view-number-space
-isr 1000
-aqs view-number-space-site
+mqb rdx equations
+aqs vn-entree
+isr 500
+aqs vn-entree-site
+nao r8
+mqb r8 vn-entree-site
 
-mq relay rdi
-mq equations r11
-addc equations get-naof-secs r11 # get-naof-secs
+aqs naof-relay-secs
+mqb relay rdi
+mqb equations r15
+addc equations get-naof-secs r15
+dct r15
+mqb rax naof-relay-secs
+mqb rax vn-entree-site
+
+mqb relay rsi
+lqb vn-entree rdi
+mqb naof-relay-secs rcx
+mqb equations r11
+addc equations com r11
 dct r11
 
-mq rax view-number-space-site
-mq relay rsi
-lq view-number-space rdi
-mq view-number-space-site rcx
-mq equations r11
-addc equations com r11 # com
-dct r11
+entb jedao-sectioner  | 
+aqs naof-jedao-sectioner-secs
+mov 3 r8
+mqb r8 naof-jedao-sectioner-secs
 
-lent jedao-sectioner rsi
-lq view-number-space rdi
-mq view-number-space-site r8
+lentb jedao-sectioner rsi
+lqb vn-entree rdi
+mqb vn-entree-site r8
 add r8 rdi
-mov 3 rcx
+mqb naof-jedao-sectioner-secs rcx
 add rcx r8
-mq r8 view-number-space-site
-mq equations r11
-addc equations com r11 # com
+mqb r8 vn-entree-site
+mqb equations r11
+addc equations com r11
 dct r11
 
-mq number rdi
-lq view-number-space rsi
-mq view-number-space-site r8
+mqb number rdi
+lqb vn-entree rsi
+mqb vn-entree-site r8
 add r8 rsi
-mq base rbx
-mq equations r11
-addc equations number-to-entree r11 # number-to-entree
-dct r11
-mq view-number-space-site r8
+mov 10 rbx
+mqb equations r8
+addc equations number-to-entree r8
+dct r8
+mqb vn-entree-site r8
 add rax r8
-mq r8 view-number-space-site
-lq view-number-space rsi
+mqb r8 vn-entree-site
+lqb vn-entree rsi
 add r8 rsi
 mov a r9
 movs r9 0 rsi
 add 1 r8
-mq r8 view-number-space-site
+mqb r8 vn-entree-site
 
 mov 1 rdi
-lq view-number-space rsi
-mq view-number-space-site rdx
+lqb vn-entree rsi
+mqb vn-entree-site rdx
 mov 1 rax
 sys
 #init
@@ -77,32 +86,8 @@ sys
 ##########################################################################################################
 # view-number-com
 ##########################################################################################################
-add 10000 rsp
+add 1000 rsp
+pop rbp
 ret
-
 #init
-ent fn droid/clerk-com.secs
-aqs file
-# unlink
-lent fn rdi
-mov 57 rax
-sys
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lent fn rdi
-mov 2 rax
-sys
-mq rax file
-# write
-mq file rdi
-mov 8 rdx
-mq naof-secs rdx
-mq entree rsi
-mov 1 rax
-sys
-# close
-mq file rdi
-mov 3 rax
-sys
 #com

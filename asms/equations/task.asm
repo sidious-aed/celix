@@ -4,17 +4,20 @@
 ##########################################################################################################
 # com-init
 ##########################################################################################################
+push rbp
+mov rsp rbp
 sub 1000 rsp
-
+aqs sret
+mqb r13 sret
 aqs time-0
 nao r8
-mq r8 time-0
+mqb r8 time-0
 aqs time-1
 mov aed r8
-mq r8 time-1
+mqb r8 time-1
 s task-init
-lq time-0 rdi
-lq time-0 rsi
+lqb time-0 rdi
+lqb time-0 rsi
 mov 23 rax
 sys
 st jmp task-init
@@ -23,8 +26,10 @@ s task-com
 ##########################################################################################################
 # com-com
 ##########################################################################################################
+mqb sret r13
 add 1000 rsp
-ret
+pop rbp
+dst r13
 
 #init
 ent fn droid/clerk-com.secs

@@ -108,6 +108,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				system(comand);
 			}
 			archive_grid secs_file = syscall(unix_open, secs_name, archive_read);
+			quad naof_secs_file_secs = syscall(unix_lseek, secs_file, 0, seek_completion);
+			syscall(unix_lseek, secs_file, 0, seek_origin);
 			//printf("secs-file | %lu\n", secs_file);
 			quadrant needs_zit_ziting = false;
 			if(secs_file == code_a) {
@@ -135,6 +137,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					add_string_to_sec_vecter(&grid, secs_space, secs_space_site, &equations_secs);
 					naof_ems_secs += secs_space_site;
 				}
+				syscall(unix_close, secs_file);
 				printf("at an equation.\n");
 				quadrant equations_secs_site = equations_secs[2];
 				sites_chart_space_site = 0;
@@ -157,6 +160,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	add_to_entree(".secs", 5, full_name, &full_name_site);
 	printf("full-name | %s\n", full_name);
 	syscall(unix_unlink, full_name);
+
 	ip_file ms = syscall(unix_open, full_name, archive_create|archive_write, archive_jypsy);
 	syscall(unix_write, ms, (equations_secs + 3), equations_secs[2]);
 	syscall(unix_close, ms);
@@ -164,6 +168,61 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	quad main_name_site = 0;
 	add_to_entree(mnode_name, mnode_name_site, main_name, &main_name_site);
 	add_to_entree("main.asm", 8, main_name, &main_name_site);
+
+	sec msh_cname[10000];
+	quad msh_cname_site = 0;
+	sec msh_name[10000];
+	quad msh_name_site = 0;
+	cs_site = 0;
+	//add_to_entree("mshell-name | ", 0xe, cs, &cs_site);
+	add_to_entree(full_name, (full_name_site - 4), msh_cname, &msh_cname_site);
+	add_to_entree("c", 1, msh_cname, &msh_cname_site);
+	//add_to_entree("\n", 1, cs, &cs_site);
+	//syscall(unix_write, 1, cs, cs_site);
+	add_to_entree(msh_cname, (msh_cname_site - 2), msh_name, &msh_name_site);
+	add_to_entree(".msh", (4), msh_name, &msh_name_site);
+	syscall(unix_unlink, msh_cname);
+	syscall(unix_unlink, msh_name);
+	comand_site = 0;
+	add_to_entree("./build-mshell ", 0xf, comand, &comand_site);
+	add_to_entree(msh_cname, msh_cname_site, comand, &comand_site);
+	add_to_entree(" ", 1, comand, &comand_site);
+	comand_site += number_to_entree(equations_secs[2], (comand + comand_site), 16);
+	add_to_entree("\n", 1, comand, &comand_site);
+	syscall(unix_write, 1, comand, comand_site);
+	comand_site -= 1;
+	comand[comand_site] = 0;
+	system(comand);
+	comand_site = 0;
+	add_to_entree("gcc ", 4, comand, &comand_site);
+	add_to_entree(msh_cname, msh_cname_site, comand, &comand_site);
+	add_to_entree(" -o ", 4, comand, &comand_site);
+	add_to_entree(msh_name, (msh_name_site), comand, &comand_site);
+	add_to_entree("\n", 1, comand, &comand_site);
+	syscall(unix_write, 1, comand, comand_site);
+	comand_site -= 1;
+	comand[comand_site] = 0;
+	system(comand);
+	comand_site = 0;
+	add_to_entree("place ", 6, comand, &comand_site);
+	add_to_entree(full_name, full_name_site, comand, &comand_site);
+	add_to_entree(" ", 1, comand, &comand_site);
+	add_to_entree(msh_name, (msh_name_site), comand, &comand_site);
+	add_to_entree(" 607", 4, comand, &comand_site);
+	add_to_entree("\n", 1, comand, &comand_site);
+	syscall(unix_write, 1, comand, comand_site);
+	comand_site -= 1;
+	comand[comand_site] = 0;
+	see_space("comand", comand, (comand_site + 1));
+	system(comand);
+	/*
+	*/
+	ip_file mshf = syscall(unix_open, msh_name, archive_read);
+	quad naof_mshf_secs = syscall(unix_lseek, mshf, 0, seek_completion);
+  source shell_map = syscall(unix_mmap, non, naof_mshf_secs, map_rws, clerk_descreet, mshf, non);
+	/*
+	*/
+	printf("main-name | %s\n", main_name);
 	ip_file mainf = syscall(unix_open, main_name, archive_read);
 	if(mainf != code_a) {
 		comand_site = 0;
@@ -174,8 +233,61 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		add_to_entree("main.secs 0", 11, comand, &comand_site);
 		printf("comand | %s\n", comand);
 		system(comand);
+
+		cs_site = 0;
+		add_to_entree(snode_name, snode_name_site, cs, &cs_site);
+		add_to_entree("main.secs", 9, cs, &cs_site);
+		printf("main-secs-name | %s\n", cs);
+		ip_file mainf = syscall(unix_open, cs, archive_read);
+		quad naof_mainf_secs = syscall(unix_lseek, mainf, 0, seek_completion);
+
+		wide_com("secs", main_name, 4);
+		msh_cname_site = 0;
+		add_to_entree(main_name, (main_name_site - 4), msh_cname, &msh_cname_site);
+		add_to_entree(".c", 2, msh_cname, &msh_cname_site);
+		//add_to_entree("\n", 1, cs, &cs_site);
+		//syscall(unix_write, 1, cs, cs_site);
+		msh_name_site = 0;
+		add_to_entree(msh_cname, (msh_cname_site - 2), msh_name, &msh_name_site);
+		add_to_entree(".msh", (4), msh_name, &msh_name_site);
+		syscall(unix_unlink, msh_cname);
+		syscall(unix_unlink, msh_name);
+		printf("msh-cname | %s\n", msh_cname);
+		printf("msh-name | %s\n", msh_name);
+		comand_site = 0;
+		add_to_entree("./build-mshell ", 0xf, comand, &comand_site);
+		add_to_entree(msh_cname, msh_cname_site, comand, &comand_site);
+		add_to_entree(" ", 1, comand, &comand_site);
+		comand_site += number_to_entree(naof_mainf_secs, (comand + comand_site), 16);
+		add_to_entree("\n", 1, comand, &comand_site);
+		syscall(unix_write, 1, comand, comand_site);
+		comand_site -= 1;
+		comand[comand_site] = 0;
+		system(comand);
+		comand_site = 0;
+		add_to_entree("gcc ", 4, comand, &comand_site);
+		add_to_entree(msh_cname, msh_cname_site, comand, &comand_site);
+		add_to_entree(" -o ", 4, comand, &comand_site);
+		add_to_entree(msh_name, (msh_name_site), comand, &comand_site);
+		add_to_entree("\n", 1, comand, &comand_site);
+		syscall(unix_write, 1, comand, comand_site);
+		comand_site -= 1;
+		comand[comand_site] = 0;
+		system(comand);
+		comand_site = 0;
+		add_to_entree("place ", 6, comand, &comand_site);
+		add_to_entree(cs, cs_site, comand, &comand_site);
+		add_to_entree(" ", 1, comand, &comand_site);
+		add_to_entree(msh_name, (msh_name_site), comand, &comand_site);
+		add_to_entree(" 607", 4, comand, &comand_site);
+		add_to_entree("\n", 1, comand, &comand_site);
+		syscall(unix_write, 1, comand, comand_site);
+		comand_site -= 1;
+		comand[comand_site] = 0;
+		see_space("comand", comand, (comand_site + 1));
+		system(comand);
+		/*
+		*/
 	}
-	/*
-	*/
 	return 0;
 }

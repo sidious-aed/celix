@@ -1,4 +1,7 @@
 sub 1000 rsp
+push rbp
+mov rsp rbp
+pop rbp
 aqs site
 isr 100
 aqs site-2
@@ -68,4 +71,5 @@ divq site-2
 factq site-2 r11
 cmp aed r8
 cmp r11 rsi
+rcmp
 add 1000 rsp

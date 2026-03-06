@@ -4,44 +4,43 @@
 # rdi | number
 # rsi | entree
 # rbx | base
+# r13 | sret
 ##########################################################################################################
 # com-init
 ##########################################################################################################
+push rbp
+mov rsp rbp
 sub 1000 rsp
-
 aqs number
-mq rdi number
+mqb rdi number
 aqs entree
-mq rsi entree
+mqb rsi entree
 aqs base
-mq rbx base
+mqb rbx base
 
 aqs esite
-mq number r8
+mqb number r8
 cmp 0 r8
 st jne is-zero-com
 mov 30 r8
-mq entree rsi
+mqb entree rsi
 movs r8 0 rsi
 mov 1 rax
-mq rax esite
+mqb rax esite
 st jmp write-number-com
 s is-zero-com
-
-ent fn droid/clerk-com.secs
-aqs file
 
 aqs et
 aqs bbreadth
 mov 1 rax
-mq rax bbreadth
+mqb rax bbreadth
 nao r8
 s seek-base-breadth-init
-mq bbreadth rax
-factq base rax
-mq rax bbreadth
+mqb bbreadth rax
+factqb base rax
+mqb rax bbreadth
 st jo seek-base-breadth-com
-mq rax et
+mqb rax et
 add 1 r8
 cmp 10 r8
 st je seek-base-breadth-com
@@ -49,32 +48,32 @@ st jmp seek-base-breadth-init
 s seek-base-breadth-com
 
 aqs focus
-mq et r8
-mq r8 focus
+mqb et r8
+mqb r8 focus
 s seek-to-et-init
-mq number rax
+mqb number rax
 nao rdx
-divq focus
+divqb focus
 cmp 0 rax
 st jne seek-to-et-com
-mq focus rax
+mqb focus rax
 nao rdx
-divq base
-mq rax focus
+divqb base
+mqb rax focus
 st jmp seek-to-et-init
 s seek-to-et-com
 
 aqs sum
 nao r8
-mq r8 esite
+mqb r8 esite
 s write-number-init
 
-mq number rax
+mqb number rax
 nao rdx
-divq focus
-mq rax sum
+divqb focus
+mqb rax sum
 
-mq sum rax
+mqb sum rax
 cmp 9 rax
 st ja a-scope-com
 add 30 rax
@@ -83,33 +82,36 @@ s a-scope-com
 add 57 rax
 s scopes-com
 
-mq esite r8
-mq entree rsi
+mqb esite r8
+mqb entree rsi
 add r8 rsi
 movs rax 0 rsi
 add 1 r8
-mq r8 esite
+mqb r8 esite
 
-mq number r9
-mq sum r10
-factq focus r10
+mqb number r9
+mqb sum r10
+factqb focus r10
 sub r10 r9
-mq r9 number
+mqb r9 number
 
-mq focus rax
+mqb focus rax
 nao rdx
-divq base
-mq rax focus
+divqb base
+mqb rax focus
 cmp 0 rax
 st je write-number-com
 st jmp write-number-init
 s write-number-com
+#init
+#com
 
 ##########################################################################################################
 # com-com
 ##########################################################################################################
-mq esite rax
+mqb esite rax
 add 1000 rsp
+pop rbp
 ret
 
 #init

@@ -47,3 +47,5 @@
 * plt-(sense-1) | an interpreter service of setting up relative links
 *                from a binary format and database
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+did we just find back to the short stack
+is push and pop a virtual-module to transfer.

@@ -88,6 +88,24 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	see_encoded(ms, ms_site, 16);
 	syscall(unix_write, 1, "\n", 1);
 
+	log_heading("push");
+	ms_site = asm_push_register("r11", 3, ms);
+	see_space("ms", ms, ms_site);
+	//syscall(unix_write, 1, "ms | ", 4);
+	printf("ms | ");
+	see_encoded(ms, ms_site, 16);
+	//syscall(unix_write, 1, "\n", 1);
+	printf("\n");
+
+	log_heading("pop");
+	ms_site = asm_pop_register("r11", 3, ms);
+	see_space("ms", ms, ms_site);
+	//syscall(unix_write, 1, "ms | ", 4);
+	printf("ms | ");
+	see_encoded(ms, ms_site, 16);
+	//syscall(unix_write, 1, "\n", 1);
+	printf("\n");
+
 	log_heading("lea");
 	ms_site = asm_lea_registers("r8-rsi", 6, 0xaed, ms);
 	//ms_site = asm_lea_registers("r11-rdi", 7, 0xaedaed, ms);
@@ -319,6 +337,13 @@ quadrant main(quadrant naof_params, source_vecter params) {
 
 	log_heading("syscall");
 	ms_site = asm_syscall(ms);
+	see_space("ms", ms, ms_site);
+	syscall(unix_write, 1, "ms | ", 4);
+	see_encoded(ms, ms_site, 16);
+	syscall(unix_write, 1, "\n", 1);
+
+	log_heading("repz-cmp");
+	ms_site = asm_repz_cmp(ms);
 	see_space("ms", ms, ms_site);
 	syscall(unix_write, 1, "ms | ", 4);
 	see_encoded(ms, ms_site, 16);
