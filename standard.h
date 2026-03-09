@@ -121,6 +121,7 @@ typedef short * dyno_reference;
 // #define place(s, d, naof_secs) memcpy(d, s, naof_secs)
 //#define place(entree, destination, naof_secs) cerindipitous_place(entree, destination, naof_secs)
 //#define naoify(space, naof_secs) bzero(space, naof_secs)
+#define see_space(relay, space, naof_secs) see_spaceb(relay, space, naof_secs, 10)
 #define naoify(space, naof_secs) { \
 	quadrant stack_naof_secs = naof_secs; \
 	quadrant naof_quads = stack_naof_secs / 8; \

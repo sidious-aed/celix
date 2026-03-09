@@ -61,7 +61,7 @@ mqb number rdi
 lqb vn-entree rsi
 mqb vn-entree-site r8
 add r8 rsi
-mov 10 rbx
+mqb base rbx
 mqb equations r8
 addc equations number-to-entree r8
 dct r8

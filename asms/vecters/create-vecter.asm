@@ -1,52 +1,52 @@
 ##########################################################################################################
 # com
 ##########################################################################################################
-# rsi | entree
-# rdi | destination
-# rcx | naof-secs
+# rdi | naof-element-secs
+# rsi | breadth
+# rdx | libc-site
+% libc
 ##########################################################################################################
 # com-init
 ##########################################################################################################
+push rbp
+mov rsp rbp
 sub 1000 rsp
-aqs entree
-mq rsi entree
-aqs destination
-mq rdi destination
-aqs naof-entree-secs
-mq rcx naof-entree-secs
-aqs naof-secs-in-quad
-mov 8 r8
-mq r8 naof-secs-in-quad
-mov rcx rax
-nao rdx
-divq naof-secs-in-quad rcx
-aqs naof-quads
-mq rax naof-quads
-factq naof-secs-in-quad rax
-mq naof-entree-secs r9
-sub rax r9
-aqs naof-secs
-mq r9 naof-secs
-aqs naof-quad-secs
-mq rax naof-quad-secs
+aqs naof-element-secs
+mqb rdi naof-element-secs
+aqs breadth
+mqb rsi breadth
+aqs libc-site
+mqb rdx libc-site
+aqs naof-vsecs
+mqb breadth r8
+factqb naof-element-secs r8
+add 18 r8
+mqb r8 naof-vsecs
 
-mq naof-quads rcx
-mq entree rsi
-mq destination rdi
-mzq
-
-mq entree rsi
-mq naof-quad-secs r8
-add r8 rsi
-mq destination rdi
-add r8 rdi
-mq naof-secs rcx
-mzs
+aqs v
+mqb naof-vsecs rdi
+mqb libc-site r11
+addc libc __libc_malloc r11
+dct r11
+mqb rax v
+mqb v r8
+# nesecs
+mqb naof-element-secs r9
+mov r9 0 r8
+# nes
+mqb breadth r9
+mov r9 8 r8
+# site
+nao r9
+mov r9 10 r8
 
 ##########################################################################################################
 # com-com
 ##########################################################################################################
+mqb v rax
+#mqb naof-vsecs rcx
 add 1000 rsp
+pop rbp
 ret
 
 #init

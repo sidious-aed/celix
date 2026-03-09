@@ -32,7 +32,8 @@ quadrant main() {
 	//system("gcc standard.lib get-bin-calls-chart.c -o get-bin-calls-chart");
 
 	// archives-ware
-	//system("gcc standard.lib view-space.c -o view-space");
+	system("gcc standard.lib view-space.c -o view-space");
+	system("gcc standard.lib view-space-file.c -o view-space-file");
 	//system("gcc standard.lib clerk.lib clear-desk.c -o clear-desk");
 	//system("gcc standard.lib clerk.lib list-files.c -o list-files");
 	//system("gcc standard.lib clerk.lib ngrep.c -o ngrep");
@@ -53,6 +54,7 @@ quadrant main() {
 	system("gcc standard.lib clerk.lib build-equations.c -o build-equations");
 	system("gcc standard.lib build-shell.c -o build-shell");
 	system("gcc standard.lib build-mshell.c -o build-mshell");
+	system("gcc standard.lib build-msh.c -o build-msh");
 	//system("gcc standard.lib view-assembly.c -o view-assembly");
 	// all respects to the awesome spec fulfilling dinasaurs.
 	// be to the spec demanders the non (in a prose of trends) of their docket issuances goes to.

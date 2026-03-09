@@ -7,12 +7,15 @@
 ##########################################################################################################
 push rbp
 mov rsp rbp
-sub 1000 rsp
+sub 40000 rsp
 aqs file-name
 mqb rdi file-name
 aqs file
 aqs naof-file-secs
 aqs snaped-space
+aqs rspace
+isr 30000
+aqs naof-file-secs2
 
 ##########################################################################################################
 # obtain-file-meta
@@ -24,6 +27,27 @@ mqb file-name rdi
 mov 2 rax
 sys
 mqb rax file
+
+#init
+nao r8
+mqb r8 naof-file-secs
+s seek-com-init
+# read
+mqb file rdi
+mov 30000 rdx
+lqb rspace rsi
+mov 0 rax
+sys
+cmp 0 rax
+st je seek-com-com
+mqb naof-file-secs r8
+add rax r8
+mqb r8 naof-file-secs
+st jmp seek-com-init
+s seek-com-com
+mqb naof-file-secs r8
+mqb r8 naof-file-secs2
+#com
 
 # lseek
 mqb file rdi
@@ -57,9 +81,9 @@ sys
 ##########################################################################################################
 # com-com
 ##########################################################################################################
-mqb snaped-space rax
 mqb naof-file-secs rcx
-add 1000 rsp
+mqb snaped-space rax
+add 40000 rsp
 pop rbp
 ret
 

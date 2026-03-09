@@ -668,7 +668,7 @@ vast see_quad(source relay, quad number, quad base) {
 	return;
 }
 
-vast see_space(source relay, source space, quadrant distance) {
+vast see_spaceb(source relay, source space, quadrant distance, quad base) {
   sec print_space[100];
   quadrant print_space_site;
   quadrant relay_distance = get_naof_secs(relay);
@@ -679,7 +679,7 @@ vast see_space(source relay, source space, quadrant distance) {
 		if(distance > 1) {
 			quadrant et = distance - 1;
 			while(true) {
-				print_space_site = number_to_entree(space[site], print_space, 10);
+				print_space_site = number_to_entree(space[site], print_space, base);
 				syscall(unix_write, 1, print_space, print_space_site);
 				syscall(unix_write, 1, ", ", 2);
 				site += 1;
@@ -688,7 +688,7 @@ vast see_space(source relay, source space, quadrant distance) {
 				}
 			}
 		}
-		print_space_site = number_to_entree(space[site], print_space, 10);
+		print_space_site = number_to_entree(space[site], print_space, base);
 		syscall(unix_write, 1, print_space, print_space_site);
   }
   syscall(unix_write, 1, "]\n", 2);

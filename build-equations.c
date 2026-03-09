@@ -124,7 +124,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				syscall(unix_write, 1, "<--> | need tweaks and or zit-zit fixes for ", 44);
 				syscall(unix_write, 1, record[0], record[2]);
 				syscall(unix_write, 1, "\n", 1);
-				break;
+				syscall(unix_exit_group, 0);
 			} else {
 				add_to_vecter(&grid, nop, &equations_secs);
 				quad equations_site = equations_secs[2];

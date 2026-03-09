@@ -28,11 +28,22 @@ mqb r14 equations
 aqs views
 mqb r15 views
 
+#init
 mov 1 rdi
 mqb entree rsi
 mqb naof-entree-secs rdx
 mov 1 rax
 sys
+entb rentree entree
+lentb rentree rsi
+mqb entree rdi
+mqb naof-entree-secs rcx
+mov a rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+#com
 
 ##########################################################################################################
 # calc-salt
@@ -189,7 +200,8 @@ mqb entree rsi
 mqb skey rdi
 mqb cyphered rbx
 mqb naof-quads r9
-mqb naof-entree-secs r9
+cmp 0 r9
+st je 8cyph-com
 nao r8
 nao r10
 nao r11
@@ -199,6 +211,7 @@ aqs kscope
 mqb naof-key-secs r13
 sub 8 r13
 mqb r13 kscope
+mqb naof-quads r9
 
 s 8cyph-init
 	mov r14 rax
@@ -235,6 +248,8 @@ mqb skey rdi
 mqb cyphered rbx
 add r14 rbx
 mqb naof-secs r9
+cmp 0 r9
+st je 1cyph-com
 nao r8
 nao r10
 nao r11

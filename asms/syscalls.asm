@@ -233,3 +233,12 @@ leeve-quad pts-meta-space rdx
 set 10 rax
 syscall
 marker stay-stead-init
+
+# chmod
+#tyrel@fearsome:~/celix$ base 700 8 10
+#base-10 | 1c0
+#tyrel@fearsome:~/celix$ base 770 8 10
+#base-10 | 1f8
+#tyrel@fearsome:~/celix$ base 777 8 10
+#base-10 | 1ff
+

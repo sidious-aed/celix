@@ -317,11 +317,11 @@ quadrant main(quadrant naof_params, source_vecter params) {
 							break;
 						}
 						squad segment_site = seek_space("\n", 1, cp, naof_rsecs);
-						//syscall(unix_write, 1, cp, (segment_site + 1));
+						syscall(unix_write, 1, cp, (segment_site + 1));
 						squad section_site = seek_space("|", 1, cp, segment_site);
 						if(compair_spaces(cp, section_site, comp2[0], comp2[1])) {
 							entree_to_number((cp + section_site + 1), (segment_site - section_site - 1), 16, &call_site);
-							//printf("call-site | %lu\n", call_site);
+							printf("call-site | %lu\n", call_site);
 							found_call_site = true;
 							break;
 						}

@@ -1,5 +1,5 @@
 ##########################################################################################################
-# equations-main
+# clerk-main <--> | (es) always mean(t).
 ##########################################################################################################
 % equations
 % views
@@ -21,6 +21,7 @@ mqb r11 vecters
 aqs clerk
 mqb r12 clerk
 
+entb jsect \n
 entb i-sim i sim.\n
 mov 1 rdi
 lentb i-sim rsi
@@ -154,8 +155,8 @@ sys
 aqs m0
 mov 1000 rdi
 mqb libc-site rdx
-mqb clerk r11
-addc clerk malloc r11
+mqb libc-site r11
+addc libc malloc r11
 dct r11
 mqb rax m0
 
@@ -276,8 +277,324 @@ mqb naof-i-sim27-secs rdx
 mov 1 rax
 sys
 
+##########################################################################################################
+# this ones big. the whole thing is wide.
+#		<--> | best proweles best brace ins gettable, gotten, these sorcery inclavituides.
+#			<--> | with the best brace ints, includes, the best next through to the nexts.
+#		<--> | trends, won to laws, where the laws victory and the eye therein,
+#			<--> | win the next walls down aon both sides.
+##########################################################################################################
+aqs lc
+aqs naof-ls-secs
+entb lcfile-name libc.so.6
+
+aqs nfile
+aqs naof-nfile-secs
+# open-read
+nao rsi
+lentb lcfile-name rdi
+mov 2 rax
+sys
+mqb rax nfile
+# lseek
+mqb nfile rdi
+nao rsi
+mov 2 rdx
+mov 8 rax
+sys
+mqb rax naof-nfile-secs
+# close
+mq nfile rdi
+mov 3 rax
+sys
+
+entb ronaof-lc-secs naof-lc-secs
+lentb ronaof-lc-secs rsi
+mqb naof-nfile-secs rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+lentb lcfile-name rdi
+mqb clerk r11
+addc clerk snap r11
+dct r11
+mqb rax lc
+mqb rcx naof-lc-secs
+#mqb naof-nfile-secs r8
+#mqb r8 naof-lc-secs
+
+entb rlc lc
+lentb rlc rsi
+mqb lc rdi
+mov 100 rcx
+mov a rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+entb rnaof-lc-secs naof-lc-secs
+lentb rnaof-lc-secs rsi
+mqb naof-lc-secs rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+mqb equations r11
+addc equations task r11
+#dct r11
+
+aqs lccyphered
+mqb lc rsi
+mqb naof-lc-secs rcx
+mov 100 rcx
+mov 1efd50 rcx
+mqb naof-nfile-secs rcx
+#mqb naof-lc-secs rcx
+mqb key rdi
+mqb naof-key-secs rdx
+mqb libc-site r13
+mqb equations r14
+mqb views r15
+mqb clerk r11
+addc clerk 81cyph r11
+dct r11
+mqb rax lccyphered
+
+entb rp nai. aht set two law. aht fitty nah. bra of a broom today.\n
+mov 1 rdi
+lentb rp rsi
+mov 3b rdx
+mov 1 rax
+sys
+
+entb rlcc lccyphered
+lentb rlcc rsi
+mqb lccyphered rdi
+mov 100 rcx
+mov a rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+aqs lcdecyphered
+mqb lccyphered rsi
+mov 1efd50 rcx
+#mqb naof-lc-secs rcx
+mqb naof-nfile-secs rcx
+mqb key rdi
+mqb naof-key-secs rdx
+mqb libc-site r13
+mqb equations r14
+mqb views r15
+mqb clerk r11
+addc clerk 81decyph r11
+dct r11
+mqb rax lcdecyphered
+
+entb rlcdec lcdecyphered
+lentb rlcdec rsi
+mqb lcdecyphered rdi
+mov 100 rcx
+mov a rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+aqs file
+entb ofilen lc.so.6
+# unlink
+lentb ofilen rdi
+mov 57 rax
+sys
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+lentb ofilen rdi
+mov 2 rax
+sys
+mqb rax file
+# write
+mqb file rdi
+mov 1efd50 rdx
+#mov 100 rdx
+mqb naof-lc-secs rdx
+mqb lcdecyphered rsi
+mov 1 rax
+sys
+# close
+mq file rdi
+mov 3 rax
+sys
 #init
 #com
+
+##########################################################################################################
+# access
+##########################################################################################################
+entb afn 81cyph.asm
+lentb afn rdi
+mov 1f8 rsi
+mov 5a rax
+sys
+
+lentb afn rdi
+# droid
+mov 1b rsi
+# tyrel
+mov 3e8 rsi
+# droid-com
+mov d2 rdx
+mov 5c rax
+sys
+
+##########################################################################################################
+# fileslv
+##########################################################################################################
+
+aqs lv
+entb node0 secs/equations
+lentb node0 rdi
+mqb equations rdx
+mqb vecters rbx
+mqb libc-site r14
+mqb views r15
+mqb clerk r11
+addc clerk fileslv r11
+dct r11
+mqb rax lv
+
+entb rnaof-lvs naof-lvs
+lentb rnaof-lvs rsi
+mqb lv rdi
+mov 10 rdi rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+aqs element
+aqs esite
+nao r8
+mqb r8 esite
+s print-lvs-init
+	mqb lv rdi
+	mqb esite rsi
+	mqb vecters r11
+	addc vecters get-element r11
+	dct r11
+	mqb rax element
+
+	mov 1 rdi
+	mqb element r8
+	mov 0 r8 rsi
+	mov 8 r8 rdx
+	mov 1 rax
+	sys
+
+	mov 1 rdi
+	lentb jsect rsi
+	mov 1 rdx
+	mov 1 rax
+	sys
+
+	mqb esite r8
+	add 1 r8
+	mqb r8 esite
+	mqb lv r9
+	mov 10 r9 r9
+	cmp r8 r9
+	st je print-lvs-com
+	st jmp print-lvs-init
+s print-lvs-com
+
+mqb lv rdi
+mqb libc-site r11
+addc libc __libc_free r11
+dct r11
+
+##########################################################################################################
+# stat
+##########################################################################################################
+
+aqs stats
+isr 200
+entb sfn i-sim0.entree
+lentb sfn rdi
+lqb stats rsi
+mov 4 rax
+sys
+
+entb rstat stat
+lentb rstat rsi
+mqb rbps rdi
+lqb stats
+mov 200 rcx
+mov 10 rdi r8
+add r8 rcx
+mov a rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+aqs user-id
+lqb stats rsi
+mov 1c rsi r8
+mov ffffffff r9
+and r9 r8
+mqb r8 user-id
+
+entb ruser-id user-id
+lentb ruser-id rsi
+mqb user-id rdi
+mov a rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+# <--> | 6 quads 3 times. first is last written by text editor. the last two are even pipe updated.
+entb rtime0 time0
+aqs tsite
+aqs time0
+nao r8
+mqb r8 tsite
+s print-times-init
+	lqb stats rsi
+	add 48 rsi
+	mqb tsite r8
+	add r8 rsi
+	mov 0 rsi r8
+	mqb r8 time0
+
+	lentb rtime0 rsi
+	mqb time0 rdi
+	mov a rbx
+	mqb equations rdx
+	mqb views r11
+	addc views view-number r11
+	dct r11
+
+	mqb tsite r8
+	add 8 r8
+	mqb r8 tsite
+	cmp 30 r8
+	st je print-times-com
+	st jmp print-times-init
+s print-times-com
+
+##########################################################################################################
+# com
+##########################################################################################################
 pop rbp
 ret
 

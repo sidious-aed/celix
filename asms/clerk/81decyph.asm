@@ -189,7 +189,8 @@ mqb entree rsi
 mqb skey rdi
 mqb cyphered rbx
 mqb naof-quads r9
-mqb naof-entree-secs r9
+cmp 0 r9
+st je 8cyph-com
 nao r8
 nao r10
 nao r11
@@ -235,6 +236,8 @@ mqb skey rdi
 mqb cyphered rbx
 add r14 rbx
 mqb naof-secs r9
+cmp 0 r9
+st je 1cyph-com
 nao r8
 nao r10
 nao r11
