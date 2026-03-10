@@ -2,99 +2,120 @@
 # genseed
 ##########################################################################################################
 % equations
+% vecters
 % views
 % clerk
+% libc
+dslr 1e8480
 ##########################################################################################################
 # init
 ##########################################################################################################
+push rbp
+mov rsp rbp
 sub 1000 rsp
 aqs equations
-mq r11 equations
+mqb r9 equations
 aqs views
-mq r12 views
+mqb r10 views
 aqs clerk
-mq r13 clerk
+mqb r11 clerk
 aqs naof-secs
-mq r14 naof-secs
+mqb r12 naof-secs
 aqs file-name
-mq r15 file-name
-aqs sret
-mq rbx sret
-aqs grid
-#init
-mq r9 grid
-mq grid rdi
-#com
-aqs genseed
-isr 10
-lq grid rdi
-nao r8
-mov r8 0 rdi
+mqb r13 file-name
+aqs naof-file-name-secs
+entb jsect \n
 
-#init
-ent relay0 naof-secs
-lent relay0 rsi
-mq naof-secs rdi
+entb rnaof-secs naof-secs
+lentb rnaof-secs rsi
+mqb naof-secs rdi
 mov 10 rbx
-mq equations rdx
-#com
-mq views r11
+mqb equations rdx
+mqb views r11
 addc views view-number r11
-#init
-lea 3 rip r13
-dst r11
-secs 90 90
-#com
+dct r11
+
+mqb file-name rdi
+mqb equations r15
+addc equations get-naof-secs r15
+dct r15
+mqb rax naof-file-name-secs
+
+mov 1 rdi
+mqb file-name rsi
+mqb naof-file-name-secs rdx
+mov 1 rax
+sys
+
+mov 1 rdi
+lentb jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+aqs libc-site
+mqb equations rdx
+mqb vecters rbx
+mqb views r12
+mqb clerk r11
+addc clerk get-libc-site r11
+dct r11
+mqb rax libc-site
+
+entb rlibc-site libc-site
+lentb rlibc-site rsi
+mqb libc-site rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
 
 ##########################################################################################################
 # obtain-genseed
 ##########################################################################################################
-lq grid rdi
-mq naof-secs rcx
-mq equations rdx
-mq clerk r11
-addc clerk genseed
-lea 3 rip r13
-dst r11
-mq rax genseed
+entb seedfn /dev/random
+aqs drf
+# open-read
+nao rsi
+lentb seedfn rdi
+mov 2 rax
+sys
+mqb rax drf
 
-#init
-ent relay1 genseed
-lent relay1 rsi
-mq genseed rdi
+entb rdrf drf
+lentb rdrf rsi
+mqb libc-site rdi
 mov 10 rbx
-mq equations rdx
-mq views r11
+mqb equations rdx
+mqb views r11
 addc views view-number r11
-lea 3 rip r13
-dst r11
-#com
+dct r11
 
-#init
-ent relay2 grid
-lent relay2 rsi
-lq grid rdi
-mov 0 rdi rdi
-mov 10 rbx
-mq equations rdx
-mq views r11
-addc views view-number r11
-lea 3 rip r13
-dst r11
-#com
+lqb equations rdi
+aqs sseed
+mqb naof-secs rdi
+mqb libc-site r11
+addc libc __libc_malloc r11
+dct r11
+mqb rax sseed
 
-ent genseed-relay exch-key
-lent genseed-relay rsi
-mq genseed rdi
-mq naof-secs rcx
+# read
+mqb drf rdi
+mqb naof-secs rdx
+mqb sseed rsi
+mov 0 rax
+sys
+
+entb rsseed sseed
+lentb rsseed rsi
+mqb sseed rdi
+mqb naof-secs rcx
 mov a rbx
-mq equations rdx
-mq views r11
+mqb equations rdx
+mqb views r11
 addc views view-space r11
-lea 3 rip r13
-dst r11
-#init
-#com
+dct r11
 
 ##########################################################################################################
 # stage-genseed
@@ -111,31 +132,35 @@ aqs file
 # open-write
 mov 1f8 rdx
 mov 41 rsi
-mq file-name rdi
+mqb file-name rdi
 mov 2 rax
 sys
-mq rax file
+mqb rax file
 
 # write
-mq file rdi
-mq naof-secs rdx
-mq genseed rsi
+mqb file rdi
+mqb naof-secs rdx
+mqb sseed rsi
 mov 1 rax
 sys
 
 # close
-mq file rdi
+mqb file rdi
 mov 3 rax
 sys
-#init
 #com
+
+# close
+mqb drf rdi
+mov 3 rax
+sys
 
 ##########################################################################################################
 # com
 ##########################################################################################################
-mq sret r13
 add 1000 rsp
-dst r13
+pop rbp
+ret
 
 #init
 ent fn droid/clerk-com.secs

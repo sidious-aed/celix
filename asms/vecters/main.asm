@@ -118,8 +118,6 @@ mqb equations rdx
 mqb views r11
 addc views view-number r11
 dct r11
-#init
-#com
 
 ##########################################################################################################
 # create-vecter
@@ -196,8 +194,6 @@ mqb equations rdx
 mqb views r11
 addc views view-space r11
 dct r11
-#init
-#com
 
 aqs naof-types
 mov 3 r8
@@ -267,8 +263,6 @@ s add-to-expansion-init
 	mqb views r11
 	addc views view-number r11
 	dct r11
-	#init
-	#com
 
 	lentb rv-meta rsi
 	mqb entreesv rdi
@@ -393,7 +387,6 @@ mqb views r11
 addc views view-number r11
 dct r11
 
-#init
 entb rrbp0 rbp0
 lentb rrbp0 rsi
 mqb rbps rdi
@@ -419,8 +412,6 @@ mqb equations rdx
 mqb views r11
 addc views view-number r11
 dct r11
-mqb rax rbps
-#com
 
 entb rrbp rbp
 lentb rrbp rsi

@@ -243,6 +243,80 @@ addc views view-space r11
 dct r11
 
 ##########################################################################################################
+# compair-space
+##########################################################################################################
+entb rcompair-spaces compair-spaces
+entb cent00 i sim.\n
+entb cent01 i sim.\n
+lentb cent00 rdi
+mov 7 rdx
+lentb cent01 rsi
+mov 7 rcx
+mqb equations r11
+addc equations compair-spaces r11
+dct r11
+
+lentb rcompair-spaces rsi
+mov rax rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+entb cent10 x sim.\n
+entb cent11 g sim.\n
+lentb cent10 rdi
+mov 7 rdx
+lentb cent11 rsi
+mov 7 rcx
+mqb equations r11
+addc equations compair-spaces r11
+dct r11
+
+lentb rcompair-spaces rsi
+mov rax rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+lentb cent00 rdi
+mov 6 rdx
+lentb cent01 rsi
+mov 7 rcx
+mqb equations r11
+addc equations compair-spaces r11
+dct r11
+
+lentb rcompair-spaces rsi
+mov rax rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+entb cent20 talkei talkei. airgo vah nah goo trim brader.\n
+entb cent21 talkei talkei. airgo vah nah goo trim brader.\n
+lentb cent20 rdi
+mov 2e rdx
+lentb cent21 rsi
+mov 2e rcx
+mqb equations r11
+addc equations compair-spaces r11
+dct r11
+
+lentb rcompair-spaces rsi
+mov rax rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+##########################################################################################################
 # seek-space
 ##########################################################################################################
 entb space1 talkei talkei. airgo vah nah goo trim brader.\n
@@ -312,6 +386,8 @@ mqb equations rdx
 mqb views r11
 addc views view-number r11
 dct r11
+#init
+#com
 
 ##########################################################################################################
 # com

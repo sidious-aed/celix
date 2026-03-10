@@ -4,9 +4,12 @@
 # rdi | node-name
 # rdx | equations
 # rbx | vecters
+# r14 | libc-site
+# r15 | views
 % equations
 % vecters
 % views
+% libc
 ##########################################################################################################
 # com
 ##########################################################################################################
@@ -46,14 +49,27 @@ mov 1 rdi
 mqb node-name rsi
 mqb node-name-site rdx
 mov 1 rax
-sys
+#sys
 
 entb jsect \n
 mov 1 rdi
 lentb jsect rsi
 mov 1 rdx
 mov 1 rax
-sys
+#sys
+
+entb rlibc-site libc-site
+lentb rlibc-site rsi
+mqb libc-site rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+#dct r11
+
+mqb equations r11
+addc equations task r11
+#dct r11
 
 aqs lv
 mov 18 rdi
@@ -82,6 +98,8 @@ aqs naof-rsecs
 aqs csite
 aqs ocsite
 aqs naof-frsecs
+aqs ffn
+aqs ffn-site
 aqs fn
 aqs naof-fn-secs
 aqs type
@@ -102,7 +120,7 @@ s obtain-node-fl-init
 	mqb equations rdx
 	mqb views r11
 	addc views view-space r11
-	dct r11
+	#dct r11
 
 	nao r8
 	mqb r8 csite
@@ -130,7 +148,7 @@ s obtain-node-fl-init
 		mqb equations rdx
 		mqb views r11
 		addc views view-space r11
-		dct r11
+		#dct r11
 
 		lqb cs rsi
 		mqb ocsite r8
@@ -167,19 +185,19 @@ s obtain-node-fl-init
 		mqb equations rdx
 		mqb views r11
 		addc views view-space r11
-		dct r11
+		#dct r11
 
 		mov 1 rdi
 		mqb fn rsi
 		mqb naof-fn-secs rdx
 		mov 1 rax
-		sys
+		#sys
 
 		mov 1 rdi
 		lentb jsect rsi
 		mov 1 rdx
 		mov 1 rax
-		sys
+		#sys
 
 		lentb rtype rsi
 		mqb type rdi
@@ -187,8 +205,69 @@ s obtain-node-fl-init
 		mqb equations rdx
 		mqb views r11
 		addc views view-number r11
+		#dct r11
+
+		mqb node-name-site rdi
+		mqb naof-fn-secs r8
+		add r8 rdi
+		mqb rdi ffn-site
+		add 1 rdi
+		mqb libc-site r11
+		addc libc __libc_malloc r11
+		dct r11
+		mqb rax ffn
+
+		mqb node-name rsi
+		mqb ffn rdi
+		mqb node-name-site rcx
+		mqb equations r11
+		addc equations com r11
 		dct r11
 
+		mqb fn rsi
+		mqb ffn rdi
+		mqb node-name-site r8
+		add r8 rdi
+		mqb naof-fn-secs rcx
+		mqb equations r11
+		addc equations com r11
+		dct r11
+		# <--> | maybe something duel stay here to check out later. ended up with r8 being a six-sec instead of naof-secs.
+		# though, maybe it was mergers, as i though we had and aqs for naof-ffn-secs but ... anyway.
+		#mqb naof-fn-secs r8
+		#mqb node-name-site r9
+		#add r9 r8
+		#mqb r8 naof-ffn-secs
+		mqb naof-fn-secs r12
+		mqb node-name-site r13
+		add r12 r13
+		mqb r13 ffn-site
+
+		entb rnaof-ffn-secs naof-ffn-secs
+		lentb rnaof-ffn-secs rsi
+		mqb ffn-site rdi
+		mov 10 rbx
+		mqb equations rdx
+		mqb views r11
+		addc views view-number r11
+		#dct r11
+
+		mov 1 rdi
+		mqb ffn rsi
+		mqb ffn-site rdx
+		mov 1 rax
+		#sys
+
+		mov 1 rdi
+		lentb jsect rsi
+		mov 1 rdx
+		mov 1 rax
+		#sys
+
+		mqb ffn r8
+		mqb r8 fn
+		mqb ffn-site r8
+		mqb r8 naof-fn-secs
 		mqb lv rdi
 		lqb fn rsi
 		mqb equations rdx
@@ -207,6 +286,8 @@ s obtain-node-fl-init
 
 	st jmp obtain-node-fl-init
 s obtain-node-fl-com
+#init
+#com
 
 ##########################################################################################################
 # com

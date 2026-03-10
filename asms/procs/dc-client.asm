@@ -20,18 +20,19 @@ aqs vecters
 mqb r11 vecters
 aqs clerk
 mqb r12 clerk
-
 entb jsect \n
 entb i-sim i sim.\n
+
 entb rfile file
-#init
 mov 1 rdi
 lentb i-sim rsi
 mov 7 rdx
 mov 1 rax
 sys
-#com
 
+##########################################################################################################
+# calc-nonce
+##########################################################################################################
 aqs time-seconds
 aqs time-microseconds
 aqs time-z0
@@ -96,8 +97,6 @@ mqb rn-site r8
 add r8 rsi
 nao r9
 movs r9 0 rsi
-#init
-#com
 
 mov 1 rdi
 lqb rn rsi
@@ -122,6 +121,9 @@ mqb views r11
 addc views view-space r11
 dct r11
 
+##########################################################################################################
+# write-request
+##########################################################################################################
 # unlink
 lqb rn rdi
 mov 57 rax
@@ -154,6 +156,8 @@ addc equations task r11
 mqb file rdi
 mov 3 rax
 sys
+#init
+#com
 
 ##########################################################################################################
 # com

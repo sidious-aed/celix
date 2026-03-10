@@ -458,9 +458,8 @@ sys
 ##########################################################################################################
 # fileslv
 ##########################################################################################################
-
 aqs lv
-entb node0 secs/equations
+entb node0 secs/equations/
 lentb node0 rdi
 mqb equations rdx
 mqb vecters rbx
@@ -506,6 +505,12 @@ s print-lvs-init
 	mov 1 rax
 	sys
 
+	mqb element r8
+	mov 0 r8 rdi
+	mqb libc-site r11
+	addc libc __libc_free r11
+	dct r11
+
 	mqb esite r8
 	add 1 r8
 	mqb r8 esite
@@ -520,6 +525,8 @@ mqb lv rdi
 mqb libc-site r11
 addc libc __libc_free r11
 dct r11
+#init
+#com
 
 ##########################################################################################################
 # stat
