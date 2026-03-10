@@ -277,6 +277,12 @@ s obtain-node-fl-init
 		dct r11
 		mqb rax entreesv
 
+		mqb ffn rsi
+		mqb naof-fn-secs r8
+		add r8 rsi
+		nao r8
+		movs r8 0 rsi
+
 		mqb naof-rsecs r8
 		mqb csite r9
 		cmp r8 r9

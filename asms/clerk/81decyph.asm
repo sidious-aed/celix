@@ -79,11 +79,24 @@ dct r11
 # malloc
 ##########################################################################################################
 aqs cyphered
+#init
 mqb naof-entree-secs rdi
 add 1 rdi
 mqb libc-site r11
 addc libc __libc_malloc r11
 dct r11
+mqb rax cyphered
+#com
+
+# anonomous-mmap
+nao rdi
+mqb naof-entree-secs rsi
+mov 7 rdx
+mov 22 r10
+nao r9
+nao r8
+mov 9 rax
+sys
 mqb rax cyphered
 
 entb rcyphered cyphered
@@ -95,11 +108,24 @@ mqb views r11
 addc views view-number r11
 dct r11
 
-aqs skey
+#init
 mqb naof-key-secs rdi
 mqb libc-site r11
 addc libc __libc_malloc r11
 dct r11
+mqb rax skey
+#com
+
+aqs skey
+# anonomous-mmap
+nao rdi
+mqb naof-key-secs rsi
+mov 7 rdx
+mov 22 r10
+nao r9
+nao r8
+mov 9 rax
+sys
 mqb rax skey
 
 entb rskey skey
@@ -110,6 +136,10 @@ mqb equations rdx
 mqb views r11
 addc views view-number r11
 dct r11
+
+mqb equations r11
+addc equations task r11
+#dct r11
 
 ##########################################################################################################
 # apply-salt
@@ -140,7 +170,7 @@ mov a rbx
 mqb equations rdx
 mqb views r11
 addc views view-space r11
-dct r11
+#dct r11
 
 ##########################################################################################################
 # calc81
@@ -263,7 +293,15 @@ s 1cyph-init
 	st je 1cyph-com
 	st jmp 1cyph-init
 s 1cyph-com
+
+##########################################################################################################
+# key-com
+##########################################################################################################
 #init
+mqb skey rdi
+mqb libc-site r11
+addc libc __libc_free r11
+dct r11
 #com
 
 ##########################################################################################################

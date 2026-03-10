@@ -30,6 +30,7 @@ entb hsec -
 entb cmp0 /proc/
 entb cmp1 /maps
 entb libc-name libc.so.6
+entb libc-name2 libc-2.27.so
 mqb r8 cmp0-site
 aqs pid
 aqs cs
@@ -198,7 +199,7 @@ s glc-init
 	mqb name rsi
 	mqb name-site rcx
 	mqb equations r11
-	addc equations seek-space r11
+	addc equations compair-spaces r11
 	dct r11
 	mqb rax sn-site
 
@@ -208,12 +209,35 @@ s glc-init
 	mqb equations rdx
 	mqb views r11
 	addc views view-number r11
-	#dct r11
+	dct r11
 
 	mqb sn-site rax
-	cmp 0 rax
-	st jne is-libc-com
+	cmp 1 rax
+	st je is-libc-init
 
+	lentb libc-name2 rdi
+	mov c rdx
+	mqb name rsi
+	mqb name-site rcx
+	mqb equations r11
+	addc equations compair-spaces r11
+	dct r11
+	mqb rax sn-site
+
+	lentb rsn-site rsi
+	mqb sn-site rdi
+	mov 10 rbx
+	mqb equations rdx
+	mqb views r11
+	addc views view-number r11
+	dct r11
+
+	mqb sn-site rax
+	cmp 1 rax
+	st je is-libc-init
+	st jmp is-libc-com
+
+	s is-libc-init
 	mov 1 rdi
 	mqb orsite r8
 	lqb cs rsi

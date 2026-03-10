@@ -104,7 +104,7 @@ mov 10 rbx
 mqb equations rdx
 mqb views r11
 addc views view-number r11
-dct r11
+#dct r11
 
 aqs skey
 mqb naof-key-secs rdi
@@ -120,7 +120,7 @@ mov 10 rbx
 mqb equations rdx
 mqb views r11
 addc views view-number r11
-dct r11
+#dct r11
 
 ##########################################################################################################
 # apply-salt
@@ -151,7 +151,7 @@ mov a rbx
 mqb equations rdx
 mqb views r11
 addc views view-space r11
-dct r11
+#dct r11
 
 ##########################################################################################################
 # calc81
@@ -181,7 +181,7 @@ mov 10 rbx
 mqb equations rdx
 mqb views r11
 addc views view-number r11
-dct r11
+#dct r11
 
 entb rnaof-secs naof-secs
 lentb rnaof-secs rsi
@@ -190,7 +190,7 @@ mov 10 rbx
 mqb equations rdx
 mqb views r11
 addc views view-number r11
-dct r11
+#dct r11
 
 ##########################################################################################################
 # 8cyph
@@ -277,6 +277,14 @@ s 1cyph-init
 s 1cyph-com
 #init
 #com
+
+##########################################################################################################
+# key-com
+##########################################################################################################
+mqb skey rdi
+mqb libc-site r11
+addc libc __libc_free r11
+dct r11
 
 ##########################################################################################################
 # com
