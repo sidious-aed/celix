@@ -1,9 +1,10 @@
 naof-grid-secs|1
 get-vecter-record|3b7
 seek-space|46f
-get-naof-secs|540
-compair-spaces|57f
-entree-to-number|60a
-task|712
-com|772
-number-to-entree|825
+cr|540
+get-naof-secs|5e9
+compair-spaces|62b
+entree-to-number|6b6
+task|7be
+com|81e
+number-to-entree|8d1

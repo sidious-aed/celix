@@ -269,6 +269,8 @@ mqb equations rdx
 mqb views r11
 addc views view-space r11
 dct r11
+#init
+#com
 
 ##########################################################################################################
 # compair-space
@@ -463,9 +465,9 @@ lentb rrule rsi
 mqb rule rdi
 mov 8 rdi rcx
 #lqb large-space rdi
-#mov 200 rcx
+mov 10000 rcx
 mov 10 rbx
-mov aed r10
+mov aed r11
 mqb equations rdx
 mqb views r11
 addc views view-space r11

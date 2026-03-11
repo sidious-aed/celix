@@ -13,7 +13,7 @@
 ##########################################################################################################
 push rbp
 mov rsp rbp
-sub 500000 rsp
+sub 40000 rsp
 aqs relay
 mqb rsi relay
 aqs space
@@ -38,19 +38,34 @@ mqb rdx equations
 entb jsect \n
 entb jedao-sectioner  | 
 aqs vs-space
-isr 500000
+isr 10000
 aqs bs
 isr 100
 aqs bs-site
-aqs slimit
-mov 4ffff3 r8
-mqb r8 slimit
 aqs vs-space-site
 nao r8
 mqb r8 vs-space-site
 aqs vspace
 lqb vs-space r8
 mqb r8 vspace
+
+mqb is-board r8
+cmp aed r8
+st jne run-board-for-vspace-com
+st jmp run-board-for-vspace-com
+s run-board-for-vspace-init
+	# anonomous-mmap
+	nao rdi
+	mqb naof-secs rsi
+	factqb board-expansion rsi
+	mov 7 rdx
+	mov 22 r10
+	nao r9
+	nao r8
+	mov 9 rax
+	sys
+	mqb rax vspace
+s run-board-for-vspace-com
 
 aqs naof-relay-secs
 mqb relay rdi
@@ -146,19 +161,6 @@ s view-secs-init
 #init
 #com
 
-	mqb vs-space-site r8
-	mqb slimit r9
-	cmp r8 r9
-	st jb at-limit-com
-	s at-limit-init
-		mov 1 rdi
-		mqb vspace rsi
-		mqb vs-space-site rdx
-		mov 1 rax
-		sys
-		nao r8
-		mqb r8 vs-space-site
-	s at-limit-com
 	st jmp view-secs-init
 s view-secs-com
 
@@ -189,7 +191,7 @@ mov 1 rax
 ##########################################################################################################
 # view-number-com
 ##########################################################################################################
-add 500000 rsp
+add 40000 rsp
 pop rbp
 ret
 

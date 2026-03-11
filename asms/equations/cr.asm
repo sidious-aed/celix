@@ -1,28 +1,49 @@
 ##########################################################################################################
-# get-naof-secs
-# rdi | entree
+# com
 ##########################################################################################################
-# com-init
+# rdi | naof-secs
+# rbx | is-init
+##########################################################################################################
+# com
 ##########################################################################################################
 push rbp
 mov rsp rbp
 sub 1000 rsp
-mov rdi r14
+aqs naof-secs
+mqb rdi naof-secs
+aqs rule
 nao r8
-s get-naof-secs-init
-	movs 0 rdi r8
-	cmp 0 r8
-	st je get-naof-secs-com
-	add 1 rdi
-	st jmp get-naof-secs-init
-s get-naof-secs-com
-sub r14 rdi
-mov rdi rax
-#init
-#com
+mqb r8 rule
+entb i-sim i sim.\n
+
+test 1 rbx
+st jne init-com
+
+s init-init
+	# anonomous-mmap
+	nao rdi
+	mov 3d0910 rsi
+	mov 7 rdx
+	mov 22 r10
+	nao r9
+	nao r8
+	mov 9 rax
+	sys
+	mqb rax rule
+
+	mqb rule r8
+	nao r9
+	mqb r9 0 r8
+	mov 3d0910 r9
+	mov r9 8 r8
+	st jmp cr-com
+s init-com
+
+s cr-com
 ##########################################################################################################
-# com-com
+# com
 ##########################################################################################################
+mqb rule rax
 add 1000 rsp
 pop rbp
 ret
@@ -40,16 +61,16 @@ mov 41 rsi
 lent fn rdi
 mov 2 rax
 sys
-mqb rax file
+mq rax file
 # write
-mqb file rdi
+mq file rdi
 mov 8 rdx
-mqb naof-secs rdx
-mqb entree rsi
+mq naof-secs rdx
+mq entree rsi
 mov 1 rax
 sys
 # close
-mqb file rdi
+mq file rdi
 mov 3 rax
 sys
 #com
