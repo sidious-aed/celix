@@ -26,7 +26,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 
 	//asm("push %rbp");
 	//asm("mov %rsp, %rbp");
-	asm("sub $0x1e8480, %rsp");
+	asm("sub $0x1000, %rsp");
 	register quadrant_reference rsp asm("rsp");
 	quadrant_reference stack = rsp;
 	stack[0] = map0;
@@ -39,7 +39,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	asm("mov 0x10(%rsp), %r10");
 	asm("add $0x607, %r10");
 	asm("callq *%r8");
-	asm("add $0x1e8480, %rsp");
+	asm("add $0x1000, %rsp");
 	//asm("pop %rbp");
 	return 0;
 }

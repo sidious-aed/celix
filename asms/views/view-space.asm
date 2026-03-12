@@ -13,7 +13,7 @@
 ##########################################################################################################
 push rbp
 mov rsp rbp
-sub 500000 rsp
+sub 600000 rsp
 aqs relay
 mqb rsi relay
 aqs space
@@ -52,6 +52,10 @@ aqs vspace
 lqb vs-space r8
 mqb r8 vspace
 
+mqb relay rsi
+mov 0 rsi rsi
+
+mqb relay r8
 aqs naof-relay-secs
 mqb relay rdi
 mqb equations r11
@@ -77,14 +81,13 @@ mqb r8 vs-space-site
 mqb equations r11
 addc equations com r11
 dct r11
-#init
-#com
 
 mqb vspace rsi
 mqb vs-space-site r8
 add r8 rsi
-mov 5b r8
-movs r8 0 rsi
+mov 5b r9
+#mov 5d r9
+movs r9 0 rsi
 add 1 r8
 mqb r8 vs-space-site
 
@@ -143,8 +146,6 @@ s view-secs-init
 		add 2 r8
 		mqb r8 vs-space-site
 	s vsect-com
-#init
-#com
 
 	mqb vs-space-site r8
 	mqb slimit r9
@@ -166,14 +167,13 @@ mqb vspace rsi
 mqb vs-space-site r8
 add r8 rsi
 mov 5d r9
+#mov 5b r9
 movs r9 0 rsi
 mov a r9
 add 1 rsi
 movs r9 0 rsi
 add 2 r8
 mqb r8 vs-space-site
-#init
-#com
 
 mov 1 rdi
 mqb vspace rsi
@@ -185,11 +185,13 @@ lentb jsect rsi
 mov 1 rdx
 mov 1 rax
 #sys
+#init
+#com
 
 ##########################################################################################################
 # view-number-com
 ##########################################################################################################
-add 500000 rsp
+add 600000 rsp
 pop rbp
 ret
 

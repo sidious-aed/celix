@@ -3,12 +3,13 @@
 ##########################################################################################################
 % equations
 % views
-dslr 1e8480
 ##########################################################################################################
 # init
 ##########################################################################################################
 push rbp
 mov rsp rbp
+sub 1e8480 rsp
+dslr 1e8480
 aqs equations
 mqb r9 equations
 aqs views
@@ -419,8 +420,13 @@ dct r11
 # cr
 ##########################################################################################################
 entb rrule rule
+entb rmemo0 memo0
 aqs rule
+aqs mem0
+aqs mem1
+aqs mem2
 
+#init
 # anonomous-mmap
 nao rdi
 mov 3d0910 rsi
@@ -430,7 +436,6 @@ nao r9
 nao r8
 mov 9 rax
 sys
-
 lentb rrule rsi
 mov rax rdi
 mov 10 rbx
@@ -439,6 +444,7 @@ mqb views r11
 addc views view-number r11
 dct r11
 mqb rax rule
+#com
 
 #nao rbx
 nao rax
@@ -456,16 +462,132 @@ mqb views r11
 addc views view-number r11
 dct r11
 
+aqs vsecsf
+mov 3d00 r8
+mqb r8 vsecsf
+aqs naof-vsecs
+mqb rule r10
+mov 8 r10 rax
+nao rdx
+divqb vsecsf
+mqb rax naof-vsecs
+
 aqs large-space
 isr 20000
 
 lentb rrule rsi
 mqb rule rdi
 mov 8 rdi rcx
+mqb naof-vsecs rcx
 #lqb large-space rdi
-#mov 200 rcx
+#mov 20000 rcx
 mov 10 rbx
 mov aed r10
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+aqs memo0
+nao rbx
+mov 3d0900 rdi
+mqb equations r11
+addc equations cr r11
+dct r11
+mqb rax memo0
+mqb rax mem0
+
+lentb rmemo0 rsi
+mqb memo0 rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+lentb rrule rsi
+mqb rule rdi
+mov 100 rcx
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+nao rbx
+mov 100 rdi
+mqb equations r11
+addc equations cr r11
+dct r11
+mqb rax memo0
+mqb rbx rule
+mqb rax mem1
+
+lentb rmemo0 rsi
+mqb memo0 rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+lentb rrule rsi
+mqb rule rdi
+mov 100 rcx
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+nao rbx
+mov 100 rdi
+mqb equations r11
+addc equations cr r11
+dct r11
+mqb rax memo0
+mqb rbx rule
+mqb rax mem2
+
+lentb rmemo0 rsi
+mqb memo0 rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+mqb rax memo0
+mqb rbx memo0
+
+lentb rrule rsi
+mqb rule rdi
+mov 100 rcx
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+nao rbx
+mov 895440 rdi
+mqb equations r11
+addc equations cr r11
+dct r11
+mqb rax memo0
+mqb rbx rule
+
+lentb rmemo0 rsi
+mqb memo0 rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+lentb rrule rsi
+mqb rule rdi
+mov 100 rcx
+mov 10 rbx
 mqb equations rdx
 mqb views r11
 addc views view-space r11
@@ -473,9 +595,75 @@ dct r11
 #init
 #com
 
+lentb rrule rsi
+mqb rule rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+
+nao rbx
+mov 100 rdi
+mqb equations r11
+addc equations cr r11
+dct r11
+mqb rax memo0
+mqb rbx rule
+
+lentb rmemo0 rsi
+mqb memo0 rdi
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-number r11
+dct r11
+mqb rax memo0
+mqb rbx memo0
+
+lentb rrule rsi
+mqb rule rdi
+mov 100 rcx
+mov 10 rbx
+mqb equations rdx
+mqb views r11
+addc views view-space r11
+dct r11
+
+mqb equations r11
+addc equations task r11
+#dct r11
+
+entb d-sim dwerbp dwerbp. in housa mie toe mar.\n
+lentb d-sim rsi
+mqb mem0 rdi
+mov 25 rcx
+mqb equations r11
+addc equations com r11
+dct r11
+lentb d-sim rsi
+mqb mem1 rdi
+mov 25 rcx
+mqb equations r11
+addc equations com r11
+dct r11
+mov 1 rdi
+mqb mem0 rsi
+mov 25 rdx
+mov 1 rax
+sys
+mov 1 rdi
+mqb mem1 rsi
+mov 25 rdx
+mov 1 rax
+sys
+#init
+#com
+
 ##########################################################################################################
 # com
 ##########################################################################################################
+add 1e8480 rsp
 pop rbp
 ret
 

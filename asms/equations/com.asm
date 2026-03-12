@@ -5,7 +5,7 @@
 # rdi | destination
 # rcx | naof-secs
 ##########################################################################################################
-# com
+# init
 ##########################################################################################################
 push rbp
 mov rsp rbp
@@ -16,34 +16,51 @@ aqs destination
 mqb rdi destination
 aqs naof-entree-secs
 mqb rcx naof-entree-secs
+
+##########################################################################################################
+# calc-naofs
+##########################################################################################################
 aqs naof-secs-in-quad
 mov 8 r8
 mqb r8 naof-secs-in-quad
+mqb naof-entree-secs rcx
 mov rcx rax
 nao rdx
 divqb naof-secs-in-quad rcx
 aqs naof-quads
 mqb rax naof-quads
 factqb naof-secs-in-quad rax
+aqs naof-quad-secs
+mqb rax naof-quad-secs
 mqb naof-entree-secs r9
 sub rax r9
 aqs naof-secs
 mqb r9 naof-secs
-aqs naof-quad-secs
-mqb rax naof-quad-secs
 
+##########################################################################################################
+# coms
+##########################################################################################################
 mqb naof-quads rcx
+cmp 0 rcx
+st je com-quads-com
 mqb entree rsi
 mqb destination rdi
+mqb naof-quads rcx
 mzq
+s com-quads-com
 
+mqb naof-secs rcx
+cmp 0 rcx
+st je com-secs-com
 mqb entree rsi
 mqb naof-quad-secs r8
 add r8 rsi
 mqb destination rdi
 add r8 rdi
-mqb naof-secs rcx
 mzs
+s com-secs-com
+#init
+#com
 
 #init
 nao r9
@@ -66,30 +83,28 @@ mqb naof-entree-secs rax
 add 1000 rsp
 pop rbp
 ret
-
 #init
-ent fn droid/clerk-com.secs
+entb fn droid/clerk-com.secs
 aqs file
 # unlink
-lent fn rdi
+lentb fn rdi
 mov 57 rax
 sys
 # open-write
 mov 1f8 rdx
 mov 41 rsi
-lent fn rdi
+lentb fn rdi
 mov 2 rax
 sys
-mq rax file
+mqb rax file
 # write
-mq file rdi
+mqb file rdi
 mov 8 rdx
-mq naof-secs rdx
-mq entree rsi
+lqb naof-entree-secs rsi
 mov 1 rax
 sys
 # close
-mq file rdi
+mqb file rdi
 mov 3 rax
 sys
 #com
