@@ -3,9 +3,12 @@ push rbp
 mov rsp rbp
 pop rbp
 aqs site
+adde 0.sites i-sim2 r10 r11
+adde 0.sites i-sim2 r10
 isr 100
 aqs site-2
 ent i-sim $1 talkei talkie.
+sst je arbitrary-stat 
 mov $0 r15
 lq site-2 rcx
 mov aedaed rbx
@@ -17,6 +20,7 @@ mov 1af4e3 r12
 #mov r12 r13 r14 r13 r12
 mov r12 r13
 mov aed000 r8
+s arbitrary-stat
 mov aed r9
 add r8 r9
 mov aedaed r8

@@ -7,48 +7,45 @@
 ##########################################################################################################
 # com-init
 ##########################################################################################################6push rbp
-push rbp
-mov rsp rbp
 sub 1000 rsp
 aqs entree
-mqb rdi entree
+mq rdi entree
 aqs naof-entree-secs
-mqb rdx naof-entree-secs
+mq rdx naof-entree-secs
 aqs seek
-mqb rsi seek
+mq rsi seek
 aqs naof-seek-secs
-mqb rcx naof-seek-secs
+mq rcx naof-seek-secs
 aqs is-equal
 nao r8
-mqb r8 is-equal
+mq r8 is-equal
 #st jmp compair-spaces-com
 
 ##########################################################################################################
 # not-if-not-equal-naof-secs
 ##########################################################################################################
-mqb naof-entree-secs r8
-mqb naof-seek-secs r9
+mq naof-entree-secs r8
+mq naof-seek-secs r9
 cmp r8 r9
 st jne compair-spaces-com
 
 ##########################################################################################################
 # seek-space
 ##########################################################################################################
-mqb entree rsi
-mqb seek rdi
-mqb naof-entree-secs rcx
+mq entree rsi
+mq seek rdi
+mq naof-entree-secs rcx
 nao rdx
 rcmp
 st jne compair-spaces-com
 mov 1 r8
-mqb r8 is-equal
+mq r8 is-equal
 s compair-spaces-com
 ##########################################################################################################
 # com
 ##########################################################################################################
-mqb is-equal rax
+mq is-equal rax
 add 1000 rsp
-pop rbp
 ret
 
 #init

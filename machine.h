@@ -398,6 +398,24 @@ static const sec stay_to_signs_d[1] = {0xe8};
 static const source stay_to_signs[14] = {stay_to_signs_0, stay_to_signs_1, stay_to_signs_2, stay_to_signs_3, stay_to_signs_4, stay_to_signs_5, stay_to_signs_6, stay_to_signs_7, stay_to_signs_8, stay_to_signs_9, stay_to_signs_a, stay_to_signs_b, stay_to_signs_c, stay_to_signs_d};
 static const quad stay_to_signs_naof_secs[14] = {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1};
 
+// short-stay-tos
+static const sec short_stay_to_sings_0[1] = {0xeb};
+static const sec short_stay_to_sings_1[1] = {0x74};
+static const sec short_stay_to_sings_2[1] = {0x75};
+static const sec short_stay_to_sings_3[1] = {0x77};
+static const sec short_stay_to_sings_4[1] = {0x73};
+static const sec short_stay_to_sings_5[1] = {0x72};
+static const sec short_stay_to_sings_6[1] = {0x76};
+static const sec short_stay_to_sings_7[1] = {0x7f};
+static const sec short_stay_to_sings_8[1] = {0x7d};
+static const sec short_stay_to_sings_9[1] = {0x7c};
+static const sec short_stay_to_sings_a[1] = {0x7e};
+static const sec short_stay_to_sings_b[1] = {0x78};
+static const sec short_stay_to_sings_c[1] = {0x70};
+static const sec short_stay_to_sings_d[1] = {0x78};
+static const source short_stay_to_sings[14] = {short_stay_to_sings_0, short_stay_to_sings_1, short_stay_to_sings_2, short_stay_to_sings_3, short_stay_to_sings_4, short_stay_to_sings_5, short_stay_to_sings_6, short_stay_to_sings_7, short_stay_to_sings_8, short_stay_to_sings_9, short_stay_to_sings_a, short_stay_to_sings_b, short_stay_to_sings_c, short_stay_to_sings_d};
+static const quad short_stay_to_sings_naof_secs[14] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+
 // dynamic
 #define naof_dynamic_asm_signs 0x20
 static const source dynamic_asm_signs[0x20] = {"jmpq-r8", "jmpq-r9", "jmpq-r10", "jmpq-r11", "jmpq-r12", "jmpq-r13", "jmpq-r14", "jmpq-r15", "jmpq-rax", "jmpq-rbx", "jmpq-rcx", "jmpq-rdx", "jmpq-rsi", "jmpq-rdi", "jmpq-rsp", "jmpq-rbp", "callq-r8", "callq-r9", "callq-r10", "callq-r11", "callq-r12", "callq-r13", "callq-r14", "callq-r15", "callq-rax", "callq-rbx", "callq-rcx", "callq-rdx", "callq-rsi", "callq-rdi", "callq-rsp", "callq-rbp"};

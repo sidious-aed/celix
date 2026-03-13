@@ -123,6 +123,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			writer file_meta = ((files_for_type + 3) + (fsite * 2));
 			syscall(unix_write, 1, file_meta[0], file_meta[1]);
 			syscall(unix_write, 1, "\n", 1);
+			see_space("nsecs", (file_meta[0]), file_meta[1]);
 			fsite += 1;
 		}
 		syscall(unix_write, 1, "\n", 1);

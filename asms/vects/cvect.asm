@@ -33,6 +33,7 @@ mqb naof-gsecs rdi
 mqb equations r11
 addc equations cr r11
 dct r11
+#init
 mqb rax vect
 
 mqb vect r8
@@ -42,7 +43,6 @@ mqb naof-esecs r9
 mov r9 8 r8
 mqb breadth r9
 mov r9 10 r8
-#init
 #com
 
 ##########################################################################################################

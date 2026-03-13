@@ -29,6 +29,25 @@ quad asm_stay_to(source asm_sign, quad naof_asm_sign_secs, quad stack_site, quad
 	return ms_site;
 }
 
+quad asm_short_stay_to(source asm_sign, quad naof_asm_sign_secs, quad stack_site, quad com_stay_site, source space) {
+	squad motion = com_stay_site - stack_site;
+	printf("motion | %lu\n", motion);
+	if(motion > 0xff) {
+		syscall(unix_write, 1, "short stays motion needs other method to stay-to.\n", 50);
+		syscall(unix_exit_group, non);
+	}
+	squad sign_site = get_entree_site(stay_to_asm_signs, stay_to_asm_signs_naof_secs, naof_stay_to_asm_signs, asm_sign, naof_asm_sign_secs);
+	//printf("sign-site | %lu\n", sign_site);
+	quad naof_sign_secs = short_stay_to_sings_naof_secs[sign_site];
+	motion -= (naof_sign_secs + 1);
+	wide_com(short_stay_to_sings[sign_site], space, naof_sign_secs);
+	quad ms_site = naof_sign_secs;
+	wide_com(&motion, (space + ms_site), 1);
+	ms_site += 1;
+	//printf("ms-site | %lu\n", ms_site);
+	return ms_site;
+}
+
 quad asm_dynamic_stay_to(source mod_register, quad naof_mod_register_secs, source space) {
 	squad sign_site = get_entree_site(dynamic_asm_signs, dynamic_asm_signs_naof_secs, naof_dynamic_asm_signs, mod_register, naof_mod_register_secs);
 	//printf("sign-site | %lu\n", sign_site);

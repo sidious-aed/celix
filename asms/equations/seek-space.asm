@@ -7,69 +7,45 @@
 ##########################################################################################################
 # com-init
 ##########################################################################################################
-push rbp
-mov rsp rbp
 sub 1000 rsp
 aqs entree
-mqb rdi entree
+mq rdi entree
 aqs naof-entree-secs
-mqb rdx naof-entree-secs
+mq rdx naof-entree-secs
 aqs seek
-mqb rsi seek
+mq rsi seek
 aqs naof-seek-secs
-mqb rcx naof-seek-secs
-
-#init
-mov 1 rdi
-mqb entree rsi
-mqb naof-entree-secs rdx
-mov 1 rax
-sys
-mov 1 rdi
-mqb seek rsi
-mqb naof-seek-secs rdx
-mov 1 rax
-sys
-#com
+mq rcx naof-seek-secs
 
 ##########################################################################################################
 # calc-naof-seeks
 ##########################################################################################################
 aqs naof-seeks
-mqb naof-seek-secs r8
-mqb naof-entree-secs r9
+mq naof-seek-secs r8
+mq naof-entree-secs r9
 sub r8 r9
 add 1 r9
-mqb r9 naof-seeks
-
-#init
-entb i-sim i sim.\n
-mov 1 rdi
-lentb i-sim rsi
-mov 7 rdx
-mov 1 rax
-sys
-#com
+mq r9 naof-seeks
 
 ##########################################################################################################
 # seek-space
 ##########################################################################################################
 aqs seek-site
 nao r8
-mqb r8 seek-site
-mqb naof-seeks r9
+mq r8 seek-site
+mq naof-seeks r9
 s seek-space-init
-	mqb entree rsi
+	mq entree rsi
 	add r8 rsi
-	mqb seek rdi
-	mqb naof-seek-secs rcx
+	mq seek rdi
+	mq naof-seek-secs rcx
 	rcmp
 
 	st je seek-space-com
-	mqb seek-site r8
-	mqb naof-seeks r9
+	mq seek-site r8
+	mq naof-seeks r9
 	add 1 r8
-	mqb r8 seek-site
+	mq r8 seek-site
 	cmp r9 r8
 	st je set-non-init
 
@@ -79,16 +55,15 @@ s seek-space-init
 	st jmp set-non-com
 	s set-non-init
 	mov ffffffffffffffff r8
-	mqb r8 seek-site
+	mq r8 seek-site
 s set-non-com
 
 ##########################################################################################################
 # com-com
 ##########################################################################################################
-mq naof-seeks r10
-mqb seek-site rax
+#mq naof-seeks r10
+mq seek-site rax
 add 1000 rsp
-pop rbp
 ret
 
 #init
@@ -113,5 +88,27 @@ sys
 # close
 mq file rdi
 mov 3 rax
+sys
+#com
+
+#init
+ent i-sim i sim.\n
+mov 1 rdi
+lent i-sim rsi
+mov 7 rdx
+mov 1 rax
+sys
+#com
+
+#init
+mov 1 rdi
+mq entree rsi
+mq naof-entree-secs rdx
+mov 1 rax
+sys
+mov 1 rdi
+mq seek rsi
+mq naof-seek-secs rdx
+mov 1 rax
 sys
 #com

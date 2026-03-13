@@ -6,40 +6,37 @@
 ##########################################################################################################
 # init
 ##########################################################################################################
-push rbp
-mov rsp rbp
-sub 1e8480 rsp
-dslr 1e8480
+sub 4c4b40 rsp
 aqs equations
-mqb r9 equations
+mq r9 equations
 aqs views
-mqb r10 views
+mq r10 views
 
-entb sectioner \n
-entb jsect \n
+ent sectioner \n
+ent jsect \n
 aqs naof-sectioner-secs
 mov 1 r8
-mqb r8 naof-sectioner-secs
-entb i-sim talkei talkei. i sim. ka tic boo tic but.\n
+mq r8 naof-sectioner-secs
+ent i-sim talkei talkei. i sim. ka tic boo tic but.\n
 aqs naof-i-sim-secs
 mov 2a r8
-mqb r8 naof-i-sim-secs
+mq r8 naof-i-sim-secs
 
 mov 1 rdi
-lentb i-sim rsi
-mqb naof-i-sim-secs rdx
+lent i-sim rsi
+mq naof-i-sim-secs rdx
 mov 1 rax
 sys
 
-entb libc-name /home/tyrel/celix-dst/libc.so.6
+ent libc-name /home/tyrel/celix-dst/libc.so.6
 mov 1 rdi
-lentb libc-name rsi
+lent libc-name rsi
 mov 1f rdx
 mov 1 rax
 sys
 
 mov 1 rdi
-lentb jsect rsi
+lent jsect rsi
 mov 1 rdx
 mov 1 rax
 sys
@@ -49,15 +46,15 @@ sys
 ##########################################################################################################
 aqs i-sim-2
 isr 100
-lentb i-sim rsi
-lqb i-sim-2 rdi
-mqb naof-i-sim-secs rcx
-mqb equations r11
+lent i-sim rsi
+lq i-sim-2 rdi
+mq naof-i-sim-secs rcx
+mq equations r11
 addc equations com r11
 dct r11
 
 mov 1 rdi
-lqb i-sim-2 rsi
+lq i-sim-2 rsi
 mov 2a rdx
 mov 1 rax
 sys
@@ -67,29 +64,29 @@ sys
 ##########################################################################################################
 aqs general-code
 mov aedaed r8
-mqb r8 general-code
+mq r8 general-code
 aqs b16-entree
 isr 100
 aqs naof-secs
 
 #mov aedaed rdi
-mqb general-code rdi
-lqb b16-entree rsi
+mq general-code rdi
+lq b16-entree rsi
 mov 10 rbx
-mqb equations r8
+mq equations r8
 addc equations number-to-entree r8
 dct r8
-mqb rax naof-secs
+mq rax naof-secs
 
 mov 1 rdi
-lqb b16-entree rsi
-mqb naof-secs rdx
+lq b16-entree rsi
+mq naof-secs rdx
 mov 1 rax
 sys
 
 mov 1 rdi
-lentb sectioner rsi
-mqb naof-sectioner-secs rdx
+lent sectioner rsi
+mq naof-sectioner-secs rdx
 mov 1 rax
 sys
 
@@ -98,37 +95,37 @@ sys
 ##########################################################################################################
 aqs b16-number
 ent b16-nentree aed27
-lentb b16-nentree rsi
+lent b16-nentree rsi
 mov 5 rcx
 mov 10 rbx
-mqb equations r12
+mq equations r12
 addc equations entree-to-number r12
 dct r12
-mqb rax b16-number
+mq rax b16-number
 
 aqs b16-number-entree
 isr 100
-mqb b16-number rdi
-lqb b16-number-entree rsi
+mq b16-number rdi
+lq b16-number-entree rsi
 mov 24 rbx
-mqb equations r8
+mq equations r8
 addc equations number-to-entree r8
 dct r8
-mqb rax naof-secs
+mq rax naof-secs
 
 aqs clerical-space
 isr 200
 aqs clerical-space-site
-mqb rax clerical-space-site
+mq rax clerical-space-site
 
-lqb b16-number-entree rsi
-lqb clerical-space rdi
-mqb naof-secs rcx
-mqb equations r11
+lq b16-number-entree rsi
+lq clerical-space rdi
+mq naof-secs rcx
+mq equations r11
 addc equations com r11
 dct r11
-lqb clerical-space rsi
-mqb clerical-space-site r8
+lq clerical-space rsi
+mq clerical-space-site r8
 add r8 rsi
 mov a r9
 mov r9 0 rsi
@@ -136,41 +133,41 @@ add 1 rsi
 nao r9
 mov r9 0 rsi
 add 1 r8
-mqb r8 clerical-space-site
+mq r8 clerical-space-site
 
 mov 1 rdi
-lqb clerical-space rsi
-mqb clerical-space-site rdx
+lq clerical-space rsi
+mq clerical-space-site rdx
 mov 1 rax
 sys
 
 ##########################################################################################################
 # get-naof-secs
 ##########################################################################################################
-entb russian-breadth talkei talkei. airgo vah nah goo trim bradder.\n
+ent russian-breadth talkei talkei. airgo vah nah goo trim bradder.\n
 aqs naof-russian-breadth-secs
-lentb russian-breadth rdi
-mqb equations r15
+lent russian-breadth rdi
+mq equations r15
 addc equations get-naof-secs r15
 dct r15
-mqb rax naof-russian-breadth-secs
+mq rax naof-russian-breadth-secs
 
 mov 1 rdi
-lentb russian-breadth rsi
+lent russian-breadth rsi
 mqb naof-russian-breadth-secs rdx
 mov 1 rax
 sys
-mqb rax naof-russian-breadth-secs
+mq rax naof-russian-breadth-secs
 
-mqb naof-russian-breadth-secs rdi
-mqb equations rdi
-lqb clerical-space rsi
+mq naof-russian-breadth-secs rdi
+mq equations rdi
+lq clerical-space rsi
 mov 10 rbx
-mqb equations r11
+mq equations r11
 addc equations number-to-entree r11
 dct r11
-mqb rax clerical-space-site
-lqb clerical-space rsi
+mq rax clerical-space-site
+lq clerical-space rsi
 add rax rsi
 mov a r8
 movs r8 0 rsi
@@ -180,20 +177,20 @@ movs r8 0 rsi
 add 1 rax
 
 mov 1 rdi
-lqb clerical-space rsi
+lq clerical-space rsi
 mov rax rdx
 mov 1 rax
 sys
 
-mqb naof-russian-breadth-secs rdi
-mqb views rdi
-lqb clerical-space rsi
+mq naof-russian-breadth-secs rdi
+mq views rdi
+lq clerical-space rsi
 mov 10 rbx
-mqb equations r11
+mq equations r11
 addc equations number-to-entree r11
 dct r11
-mqb rax clerical-space-site
-lqb clerical-space rsi
+mq rax clerical-space-site
+lq clerical-space rsi
 add rax rsi
 mov a r8
 movs r8 0 rsi
@@ -203,7 +200,7 @@ movs r8 0 rsi
 add 1 rax
 
 mov 1 rdi
-lqb clerical-space rsi
+lq clerical-space rsi
 mov rax rdx
 mov 1 rax
 sys
@@ -211,29 +208,29 @@ sys
 ##########################################################################################################
 # view-number
 ##########################################################################################################
-entb relay0 number
-lentb relay0 rsi
+ent relay0 number
+lent relay0 rsi
 mov aedaed rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
 ##########################################################################################################
 # view-space
 ##########################################################################################################
-entb rview-space view-space\n
-entb rspace space
+ent rview-space view-space\n
+ent rspace space
 mov 1 rdi
-lentb rview-space rsi
+lent rview-space rsi
 mov b rdx
 mov 1 rax
 sys
 
 aqs space0
 isr 18
-lqb space0 r9
+lq space0 r9
 mov aedaed r8
 mov r8 0 r9
 mov aed r8
@@ -241,430 +238,350 @@ mov r8 8 r9
 mov aedaedaed r8
 mov r8 10 r9
 
-lentb rspace rsi
-lqb space0 rdi
+lent rspace rsi
+lq space0 rdi
 mov 20 rcx
 mov 10 rbx
 nao r10
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-space r11
 dct r11
 
-lentb rspace rsi
-lqb space0 rdi
+lent rspace rsi
+lq space0 rdi
 mov 20 rcx
 mov a rbx
 nao r10
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-space r11
 dct r11
 
-lentb rspace rsi
-lqb space0 rdi
+lent rspace rsi
+lq space0 rdi
 mov 20 rcx
 mov 24 rbx
 nao r10
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-space r11
 dct r11
 
 ##########################################################################################################
 # compair-space
 ##########################################################################################################
-entb rcompair-spaces compair-spaces
-entb cent00 i sim.\n
-entb cent01 i sim.\n
-lentb cent00 rdi
+ent rcompair-spaces compair-spaces
+ent cent00 i sim.\n
+ent cent01 i sim.\n
+lent cent00 rdi
 mov 7 rdx
-lentb cent01 rsi
+lent cent01 rsi
 mov 7 rcx
-mqb equations r11
+mq equations r11
 addc equations compair-spaces r11
 dct r11
 
-lentb rcompair-spaces rsi
+lent rcompair-spaces rsi
 mov rax rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
-entb cent10 x sim.\n
-entb cent11 g sim.\n
-lentb cent10 rdi
+ent cent10 x sim.\n
+ent cent11 g sim.\n
+lent cent10 rdi
 mov 7 rdx
-lentb cent11 rsi
+lent cent11 rsi
 mov 7 rcx
-mqb equations r11
+mq equations r11
 addc equations compair-spaces r11
 dct r11
 
-lentb rcompair-spaces rsi
+lent rcompair-spaces rsi
 mov rax rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
-lentb cent00 rdi
+lent cent00 rdi
 mov 6 rdx
-lentb cent01 rsi
+lent cent01 rsi
 mov 7 rcx
-mqb equations r11
+mq equations r11
 addc equations compair-spaces r11
 dct r11
 
-lentb rcompair-spaces rsi
+lent rcompair-spaces rsi
 mov rax rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
-entb cent20 talkei talkei. airgo vah nah goo trim brader.\n
-entb cent21 talkei talkei. airgo vah nah goo trim brader.\n
-lentb cent20 rdi
+ent cent20 talkei talkei. airgo vah nah goo trim brader.\n
+ent cent21 talkei talkei. airgo vah nah goo trim brader.\n
+lent cent20 rdi
 mov 2e rdx
-lentb cent21 rsi
+lent cent21 rsi
 mov 2e rcx
-mqb equations r11
+mq equations r11
 addc equations compair-spaces r11
 dct r11
 
-lentb rcompair-spaces rsi
+lent rcompair-spaces rsi
 mov rax rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
 ##########################################################################################################
 # seek-space
 ##########################################################################################################
-entb space1 talkei talkei. airgo vah nah goo trim brader.\n
+ent space1 talkei talkei. airgo vah nah goo trim brader.\n
 aqs naof-space1-secs
 mov 2e r8
-mqb r8 naof-space1-secs
-entb seek1 airgo
+mq r8 naof-space1-secs
+#init
+ent seek1 airgo
 aqs naof-seek1-secs
 mov 5 r8
-mqb r8 naof-seek1-secs
-
+mq r8 naof-seek1-secs
+#com
+ent seek1 ah goo trim br
+aqs naof-seek1-secs
+mov e r8
+mq r8 naof-seek1-secs
 mov 1 rdi
 lent space1 rsi
-mqb naof-space1-secs rdx
+mq naof-space1-secs rdx
 mov 1 rax
 #sys
 
 aqs naof-seeks
 aqs seek-site
-lentb space1 rdi
-mqb naof-space1-secs rdx
-lentb seek1 rsi
-mqb naof-seek1-secs rcx
-mqb equations r11
+lent space1 rdi
+mq naof-space1-secs rdx
+lent seek1 rsi
+mq naof-seek1-secs rcx
+mq equations r11
 addc equations seek-space r11
 dct r11
-mqb r10 naof-seeks
-mqb rax seek-site
+mq r10 naof-seeks
+mq rax seek-site
 
-entb rnaof-seeks naof-seeks
-lentb rnaof-seeks rsi
-mqb naof-seeks rdi
+ent rseek-site seek-site
+lent rseek-site rsi
+mq seek-site rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
-entb rseek-site seek-site
-lentb rseek-site rsi
-mqb seek-site rdi
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-number r11
-dct r11
-
-entb libc-name0 /home/tyrel/celix-dst/libc.so.6
-entb libc-name1 /home/tyrel/celix-dst/libc.so.6
+ent libc-name0 /home/tyrel/celix-dst/libc.so.6
+ent libc-name1 /home/tyrel/celix-dst/libc.so.6
 aqs naof-libc-name-secs
 mov 1f r8
-mqb r8 naof-libc-name-secs
+mq r8 naof-libc-name-secs
 
-lentb libc-name0 rdi
-mqb naof-libc-name-secs rdx
-lentb libc-name0 rsi
-mqb naof-libc-name-secs rcx
-mqb equations r11
+lent libc-name0 rdi
+mq naof-libc-name-secs rdx
+lent libc-name0 rsi
+mq naof-libc-name-secs rcx
+mq equations r11
 addc equations seek-space r11
 dct r11
-mqb rax seek-site
+mq rax seek-site
 
-lentb rseek-site rsi
-mqb seek-site rdi
+lent rseek-site rsi
+mq seek-site rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
+#init
+#com
 
 ##########################################################################################################
 # cr
 ##########################################################################################################
-entb rrule rule
-entb rmemo0 memo0
-aqs rule
-aqs mem0
-aqs mem1
-aqs mem2
-
-#init
-# anonomous-mmap
-nao rdi
-mov 3d0910 rsi
-mov 7 rdx
-mov 22 r10
-nao r9
+ent rstack-site stack-site
+ent rcodea codea
+ent rcs cs
+aqs cs
+isr 3d0908
+lq cs rdi
 nao r8
-mov 9 rax
-sys
-lentb rrule rsi
-mov rax rdi
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-number r11
-dct r11
-mqb rax rule
-#com
+#mov f4220 r8
+mov r8 0 rdi
+mov 3d0900 r8
+mov r8 8 rdi
+aqs codea
+mov aedaed r8
+mq r8 codea
+lq cs rsi
+mov aed r8
+mov r8 f4240 rsi
 
-#nao rbx
-nao rax
-mov 1 rbx
-mqb equations r11
-addc equations cr r11
-dct r11
-mqb rax rule
-
-lentb rrule rsi
-mqb rule rdi
+lent rcodea rsi
+mq codea rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
-aqs vsecsf
-mov 3d00 r8
-mqb r8 vsecsf
-aqs naof-vsecs
-mqb rule r10
-mov 8 r10 rax
-nao rdx
-divqb vsecsf
-mqb rax naof-vsecs
-
-aqs large-space
-isr 20000
-
-lentb rrule rsi
-mqb rule rdi
-mov 8 rdi rcx
-mqb naof-vsecs rcx
-#lqb large-space rdi
-#mov 20000 rcx
-mov 10 rbx
-mov aed r10
-mqb equations rdx
-mqb views r11
+lent rcs rsi
+lq cs rdi
+mov 20 rcx
+mov a rbx
+nao r10
+mq equations rdx
+mq views r11
 addc views view-space r11
 dct r11
 
 aqs memo0
-nao rbx
-mov 3d0900 rdi
-mqb equations r11
+lq cs rdi
+mov 100 rsi
+mq equations r11
 addc equations cr r11
 dct r11
-mqb rax memo0
-mqb rax mem0
+mq rax memo0
 
-lentb rmemo0 rsi
-mqb memo0 rdi
+lent rstack-site rsi
+mq memo0 rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
-lentb rrule rsi
-mqb rule rdi
-mov 100 rcx
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-space r11
-dct r11
-
-nao rbx
-mov 100 rdi
-mqb equations r11
+aqs memo1
+lq cs rdi
+mov 100 rsi
+mq equations r11
 addc equations cr r11
 dct r11
-mqb rax memo0
-mqb rbx rule
-mqb rax mem1
+mq rax memo1
 
-lentb rmemo0 rsi
-mqb memo0 rdi
+lent rstack-site rsi
+mq memo1 rdi
 mov 10 rbx
-mqb equations rdx
-mqb views r11
+mq equations rdx
+mq views r11
 addc views view-number r11
 dct r11
 
-lentb rrule rsi
-mqb rule rdi
-mov 100 rcx
-mov 10 rbx
-mqb equations rdx
-mqb views r11
+lent space1 rsi
+mq memo0 rdi
+mov 2e rcx
+mq equations r11
+addc equations com r11
+dct r11
+
+lent space1 rsi
+mq memo1 rdi
+mov 2e rcx
+mq equations r11
+addc equations com r11
+dct r11
+
+lent rcs rsi
+lq cs rdi
+mov 210 rcx
+mov a rbx
+nao r10
+mq equations rdx
+mq views r11
 addc views view-space r11
 dct r11
 
-nao rbx
-mov 100 rdi
-mqb equations r11
+##########################################################################################################
+# view-wide-space
+##########################################################################################################
+ent rlibcs libcs
+
+aqs libc-space
+lq cs rdi
+mov 1efd50 rsi
+#mov 800 rsi
+mq equations r11
 addc equations cr r11
 dct r11
-mqb rax memo0
-mqb rbx rule
-mqb rax mem2
+mq rax libc-space
 
-lentb rmemo0 rsi
-mqb memo0 rdi
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-number r11
-dct r11
-mqb rax memo0
-mqb rbx memo0
-
-lentb rrule rsi
-mqb rule rdi
-mov 100 rcx
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-space r11
-dct r11
-
-nao rbx
-mov 895440 rdi
-mqb equations r11
-addc equations cr r11
-dct r11
-mqb rax memo0
-mqb rbx rule
-
-lentb rmemo0 rsi
-mqb memo0 rdi
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-number r11
-dct r11
-
-lentb rrule rsi
-mqb rule rdi
-mov 100 rcx
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-space r11
+mq libc-space rdi
+mov 3dfaa rcx
+mov aed rbx
+mq equations r11
+addc equations seed r11
 dct r11
 #init
 #com
 
-lentb rrule rsi
-mqb rule rdi
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-number r11
-dct r11
+#init
+# <--> | seems to do with memory module.
+mq libc-space rsi
+mov rsi rdi
+add 1efd50 rdi
+mov aedaed r9
+nao r8
+s seed-init
+	mov r9 0 rsi
+	#mov r8 0 rsi
+	add 8 rsi
+	cmp rsi rdi
+	#add 1 r8
+	#st je seed-com
+	sst je seed-com
+	#st jmp seed-init
+	sst jmp seed-init
+s seed-com
+#com
+#init
+# <--> | might be bizzarly to do with the mmaps for a bin.
+mq libc-space rsi
+nao r8
+s seed-init
+	mov aed r10
+	#nao r10
+	#mov rsi r8
+	mov r8 0 rsi
+	#mov r8 0 rsi
+	#mov r10 0 rsi
+	add 8 rsi
+	add 1 r8
+	#cmp r8 3dfaa
+	cmp r8 500
+	st je seed-com
+	st jmp seed-init
+s seed-com
+#com
 
-nao rbx
-mov 100 rdi
-mqb equations r11
-addc equations cr r11
-dct r11
-mqb rax memo0
-mqb rbx rule
-
-lentb rmemo0 rsi
-mqb memo0 rdi
-mov 10 rbx
-mqb equations rdx
-mqb views r11
-addc views view-number r11
-dct r11
-mqb rax memo0
-mqb rbx memo0
-
-lentb rrule rsi
-mqb rule rdi
-mov 100 rcx
-mov 10 rbx
-mqb equations rdx
-mqb views r11
+lent rlibcs rsi
+mq libc-space rdi
+mov 24 rbx
+mov 1efd50 rcx
+#mov 300 rcx
+mq equations rdx
+mq views r11
 addc views view-space r11
 dct r11
-
-mqb equations r11
-addc equations task r11
-#dct r11
-
-entb d-sim dwerbp dwerbp. in housa mie toe mar.\n
-lentb d-sim rsi
-mqb mem0 rdi
-mov 25 rcx
-mqb equations r11
-addc equations com r11
-dct r11
-lentb d-sim rsi
-mqb mem1 rdi
-mov 25 rcx
-mqb equations r11
-addc equations com r11
-dct r11
-mov 1 rdi
-mqb mem0 rsi
-mov 25 rdx
-mov 1 rax
-sys
-mov 1 rdi
-mqb mem1 rsi
-mov 25 rdx
-mov 1 rax
-sys
-#init
-#com
 
 ##########################################################################################################
 # com
 ##########################################################################################################
-add 1e8480 rsp
-pop rbp
+add 4c4b40 rsp
 ret
 
 #init

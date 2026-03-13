@@ -71,6 +71,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	quad bsr = 0; //
 	sec cp[10000]; // cp | clerk-space
 	quad cp_site = 0;
+	sec cs[10000]; // cs | clerk-space-2
+	quad cs_site = 0;
 	sec msecs[10000];
 	quad is_in_multy_comment = false;
 	quad msite = 0;
@@ -176,6 +178,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		writer comp1 = (components + 3) + (5);
 		writer comp2 = (components + 3) + (10);
 		writer comp3 = (components + 3) + (15);
+		writer comp4 = (components + 3) + (20);
 		cp_site = 0;
 		//printf("is-in-multy-comment | %lu\n", is_in_multy_comment);
 		//printf("module-name | %s\n", comp0[0]);
@@ -348,6 +351,62 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				syscall(unix_exit_group, 0);
 			}
 			msite = asm_add_const_register(comp3[0], comp3[1], call_site, msecs);
+		} else if(compair_spaces(comp0[0], comp0[1], "adde", 4)) {
+			ip_file entsitesf = syscall(unix_open, comp1[0], archive_read);
+			if(entsitesf == code_a) {
+				cp_site = 0;
+				add_to_entree("<--> could not open entrees file ", 33, cp, &cp_site);
+				add_to_entree(comp1[0], comp1[1], cp, &cp_site);
+				poly_alert(cp);
+				syscall(unix_exit_group, 0);
+			}
+			quad asfe = code_a;
+			quad ansfe = code_a;
+			quad es = 0;
+			while(true) {
+				syscall(unix_lseek, entsitesf, es, seek_origin);
+				quad nrs = syscall(unix_read, entsitesf, cs, 10000);
+				if(nrs == 0) {
+					break;
+				}
+				squad nnls = seek_space("\n", 1, cs, nrs);
+				if(nnls == code_a || nnls == code_b) {
+					break;
+				}
+				squad nss = seek_space("|", 1, cs, nnls);
+				//syscall(unix_write, 1, "at-name | ", 10);
+				//syscall(unix_write, 1, (cs), nss);
+				//syscall(unix_write, 1, "\n", 1);
+				//syscall(unix_write, 1, "at-site | ", 10);
+				//syscall(unix_write, 1, (cs + nss), (nnls - nss));
+				//syscall(unix_write, 1, "\n", 1);
+				es += (nnls + 1);
+				if(compair_spaces(cs, nss, comp2[0], comp2[1])) {
+					//printf("entree found.\n");
+					nss += 1;
+					squad naof_site_secs = seek_space("|", 1, (cs + nss), (nnls - nss));
+					entree_to_number((cs + nss), (naof_site_secs), 16, &asfe);
+					nss += (naof_site_secs + 1);
+					entree_to_number((cs + nss), (nnls - nss), 16, &ansfe);
+					break;
+				}
+			}
+			syscall(unix_close, entsitesf);
+			if(asfe == code_a) {
+				cp_site = 0;
+				add_to_entree("<--> could not find entrees code-named ", 0x27, cp, &cp_site);
+				add_to_entree(comp2[0], comp2[1], cp, &cp_site);
+				poly_alert(cp);
+				syscall(unix_exit_group, 0);
+			} else {
+				//printf("es | %lu\n", es);
+				//printf("asfe | %lu\n", asfe);
+				//printf("ansfe | %lu\n", ansfe);
+				msite = asm_add_const_register(comp3[0], comp3[1], asfe, msecs);
+				if(naof_comps == 5) {
+					msite += asm_set_register(ansfe, comp4[0], comp4[1], (msecs + msite));
+				}
+			}
 		} else if(compair_spaces(comp0[0], comp0[1], "and", 3)) {
 			if(b16_site == code_b) {
 				cp_site = 0;
@@ -496,6 +555,18 @@ quadrant main(quadrant naof_params, source_vecter params) {
 			msite = asm_stay_to(comp1[0], comp1[1], bs, 0, msecs);
 			quad ct[8];
 			ct[0] = 2;
+			ct[1] = comp2[0];
+			ct[2] = comp2[1];
+			ct[3] = ms;
+			ct[4] = bs;
+			ct[5] = comp1[0];
+			ct[6] = comp1[1];
+			ct[7] = 0;
+			add_to_vecter(&grid, ct, &futures);
+		} else if(compair_spaces(comp0[0], comp0[1], "sst", 3)) { // st | (stay-to)
+			msite = asm_short_stay_to(comp1[0], comp1[1], bs, 0, msecs);
+			quad ct[8];
+			ct[0] = 3;
 			ct[1] = comp2[0];
 			ct[2] = comp2[1];
 			ct[3] = ms;
@@ -1021,7 +1092,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				}
 				st_site += 1;
 			}
-		} else if(future[0] == 2) {
+		} else if((future[0] == 2) || (future[0] == 3)) {
 			//printf("entree-name | %s\n", future[1]);
 			//printf("naof-entree-secs | %lu\n", future[2]);
 			quad st_site = 0;
@@ -1036,8 +1107,15 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					//printf("stack-site | %lu\n", future[3]);
 					//printf("stat-stack-site | %lu\n", stat[2]);
 					//printf("bs | %lu\n", future[4]);
-					//printf("ds | %lu\N", stat[2]);
-					msite = asm_stay_to(future[5], future[6], future[4], stat[2], msecs);
+					//printf("ds | %lu\n", stat[2]);
+					//printf("fmode | %lu\n", future[0]);
+					if(future[0] == 2) {
+						msite = asm_stay_to(future[5], future[6], future[4], stat[2], msecs);
+					} else if(future[0] == 3) {
+						msite = asm_short_stay_to(future[5], future[6], future[4], stat[2], msecs);
+					}
+					//printf("msite | %lu\n", msite);
+					//see_space("msecs", msecs, msite);
 					//printf("msecs | ");
 					//see_encoded(msecs, msite, 16);
 					//printf("\n");

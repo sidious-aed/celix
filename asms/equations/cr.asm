@@ -3,237 +3,67 @@
 ##########################################################################################################
 # cr
 # --
-# at init setus up self-pass at the sparchives-as-buss potentialages.
+# a stack based clerk floor memory zonages thingy.
 # --
-# rdi | naof-secs
-# rbx | is-init
+# rdi | clerk-space
+# rsi | naof-secs
 ##########################################################################################################
 # com
 ##########################################################################################################
 push rbp
 mov rsp rbp
 sub 1000 rsp
+aqs cs
+mqb rdi cs
 aqs naof-secs
-mqb rdi naof-secs
-aqs rule
-nao r8
-mqb r8 rule
-aqs sim
-mqb r8 sim
-entb i-sim i sim.\n
-entb spsimfn droid/cr.sim
-entb rmode0 mode is just.\n
-entb rmode1 in expansion.\n
-aqs eintandra-site
-mov e r11
-mqb r11 eintandra-site
-aqs jrule
-# alias jingle
-aqs extends
-nao r8
-mqb r8 extends
-aqs crf
-mov 2 r8
-mqb r8 crf
+mqb rsi naof-secs
+aqs cs-site
+mov 0 rdi r8
+mqb r8 cs-site
+aqs cs-breadth
+mov 8 rdi r8
+mqb r8 cs-breadth
 
-cmp 1 rbx
-st jne init-com
+##########################################################################################################
+# insure-grid-allowances
+##########################################################################################################
+entb unallowance-message clerk space does not have allowance for request.\n
+mq cs-site r8
+mq naof-secs r9
+add r8 r9
+mq cs-breadth r10
+cmp r9 r10
+st ja unallowance-com
+	mov 1 rdi
+	lent unallowance-message rsi
+	mov 31 rdx
+	mov 1 rax
+	sys
 
-s init-init
-	# anonomous-mmap
 	nao rdi
-	mov 3d0910 rsi
-	mov 7 rdx
-	mov 22 r10
-	nao r9
-	nao r8
-	mov 9 rax
+	mov e7 rax
 	sys
-	mqb rax rule
-	mqb rax extends
-
-	mqb rule r8
-	nao r9
-	mov r9 0 r8
-	mqb r9 jrule
-	mov 3d0900 r9
-	mov r9 8 r8
-
-	mov 1 rdi
-	lentb spsimfn rsi
-	mov c rdx
-	mov 1 rax
-	#sys
-
-	# unlink
-	lentb spsimfn rdi
-	mov 57 rax
-	sys
-	# open-write
-	mov 1f8 rdx
-	mov 41 rsi
-	lentb spsimfn rdi
-	mov 2 rax
-	sys
-	mqb rax sim
-	# write
-	mqb sim rdi
-	mov 8 rdx
-	lqb rule rsi
-	mov 1 rax
-	sys
-	# close
-	mqb sim rdi
-	mov 3 rax
-	sys
-	st jmp cr-com
-s init-com
+s unallowance-com
 
 ##########################################################################################################
-# jinit
+# allocate-inhashanzibra
 ##########################################################################################################
+aqs as
+mq cs rdi
+mq cs-site r8
+add r8 rdi
+add 10 rdi
+mq rdi as
+mq cs rdi
+mov 0 rdi r8
+mq naof-secs r9
+add r9 r8
+mov r8 0 rdi
 
-# open-read
-nao rsi
-lentb spsimfn rdi
-mov 2 rax
-sys
-mqb rax sim
-# read
-mqb sim rdi
-mov 8 rdx
-lqb rule rsi
-mov 0 rax
-sys
-# close
-mq sim rdi
-mov 3 rax
-sys
-
-##########################################################################################################
-# calc-4-logic
-##########################################################################################################
-aqs mode
-mqb naof-secs r10
-mqb rule r8
-# site
-mov 0 r8 r11
-# site
-# breadth
-mov 8 r8 r12
-# breadth
-add r10 r11
-cmp r11 r12
-st jae set-m1-com
-mov 1 r8
-mqb r8 mode
-st jmp set-m0-com
-s set-m1-com
-nao r8
-mqb r8 mode
-s set-m0-com
-
-mqb mode r10
-cmp 0 r10
-st je mode0-init
-cmp 1 r10
-st je mode1-init
-
-##########################################################################################################
-# mode-1 expansion
-##########################################################################################################
-s mode1-init
-	mov 1 rdi
-	lentb rmode1 rsi
-	mqb eintandra-site rdx
-	mov 1 rax
-	sys
-
-	# anonomous-mmap
-	nao rdi
-	mqb rule rsi
-	# breadth
-	mov 8 rsi rsi
-	factqb crf rsi
-	mqb rsi jrule
-	add 10 rsi
-	mov 7 rdx
-	mov 22 r10
-	nao r9
-	nao r8
-	mov 9 rax
-	sys
-	mqb rax rule
-	mqb rax extends
-
-	# unlink
-	lentb spsimfn rdi
-	mov 57 rax
-	sys
-	# open-write
-	mov 1f8 rdx
-	mov 41 rsi
-	lentb spsimfn rdi
-	mov 2 rax
-	sys
-	mqb rax sim
-	# write
-	mqb sim rdi
-	mov 8 rdx
-	lqb rule rsi
-	mov 1 rax
-	sys
-	# close
-	mqb sim rdi
-	mov 3 rax
-	sys
-
-	mqb rule r8
-	nao r9
-	mov r9 0 r8
-	mqb jrule r9
-	mov r9 8 r8
-s mode1-com
-
-##########################################################################################################
-# mode-0 expansion
-##########################################################################################################
-s mode0-init
-	mov 1 rdi
-	lentb rmode0 rsi
-	mqb eintandra-site rdx
-	mov 1 rax
-	sys
-
-	mqb rule rax
-	mov 0 rax r9
-	add 10 r9
-	add r9 rax
-	mqb rax extends
-s mode0-com
-
-##########################################################################################################
-# calc-jrule
-##########################################################################################################
-mqb rule r8
-mov 0 r8 r10
-mqb naof-secs r9
-add r9 r10
-mov r10 0 r8
-mqb r10 jrule
-#init
-mov r10 r11
-mqb r11 jrule
-mqb jrule r10
-mov r10 0 r8
-#com
-
-s cr-com
 ##########################################################################################################
 # com
 ##########################################################################################################
-mqb extends rax
-mqb rule rbx
+mq as rax
 add 1000 rsp
 pop rbp
 ret

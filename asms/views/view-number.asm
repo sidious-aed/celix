@@ -9,75 +9,73 @@
 ##########################################################################################################
 # view-number-init
 ##########################################################################################################
-push rbp
-mov rsp rbp
 sub 1000 rsp
 aqs relay
-mqb rsi relay
+mq rsi relay
 aqs number
-mqb rdi number
+mq rdi number
 aqs base
-mqb rbx base
+mq rbx base
 aqs equations
-mqb rdx equations
+mq rdx equations
 aqs vn-entree
 isr 500
 aqs vn-entree-site
 nao r8
-mqb r8 vn-entree-site
+mq r8 vn-entree-site
 
 aqs naof-relay-secs
-mqb relay rdi
-mqb equations r15
+mq relay rdi
+mq equations r15
 addc equations get-naof-secs r15
 dct r15
-mqb rax naof-relay-secs
-mqb rax vn-entree-site
+mq rax naof-relay-secs
+mq rax vn-entree-site
 
-mqb relay rsi
-lqb vn-entree rdi
-mqb naof-relay-secs rcx
-mqb equations r11
+mq relay rsi
+lq vn-entree rdi
+mq naof-relay-secs rcx
+mq equations r11
 addc equations com r11
 dct r11
 
-entb jedao-sectioner  | 
+ent jedao-sectioner  | 
 aqs naof-jedao-sectioner-secs
 mov 3 r8
-mqb r8 naof-jedao-sectioner-secs
+mq r8 naof-jedao-sectioner-secs
 
-lentb jedao-sectioner rsi
-lqb vn-entree rdi
-mqb vn-entree-site r8
+lent jedao-sectioner rsi
+lq vn-entree rdi
+mq vn-entree-site r8
 add r8 rdi
-mqb naof-jedao-sectioner-secs rcx
+mq naof-jedao-sectioner-secs rcx
 add rcx r8
-mqb r8 vn-entree-site
-mqb equations r11
+mq r8 vn-entree-site
+mq equations r11
 addc equations com r11
 dct r11
 
-mqb number rdi
-lqb vn-entree rsi
-mqb vn-entree-site r8
+mq number rdi
+lq vn-entree rsi
+mq vn-entree-site r8
 add r8 rsi
-mqb base rbx
-mqb equations r8
+mq base rbx
+mq equations r8
 addc equations number-to-entree r8
 dct r8
-mqb vn-entree-site r8
+mq vn-entree-site r8
 add rax r8
-mqb r8 vn-entree-site
-lqb vn-entree rsi
+mq r8 vn-entree-site
+lq vn-entree rsi
 add r8 rsi
 mov a r9
 movs r9 0 rsi
 add 1 r8
-mqb r8 vn-entree-site
+mq r8 vn-entree-site
 
 mov 1 rdi
-lqb vn-entree rsi
-mqb vn-entree-site rdx
+lq vn-entree rsi
+mq vn-entree-site rdx
 mov 1 rax
 sys
 #init
@@ -87,7 +85,6 @@ sys
 # view-number-com
 ##########################################################################################################
 add 1000 rsp
-pop rbp
 ret
 #init
 #com

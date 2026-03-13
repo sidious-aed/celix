@@ -7,82 +7,65 @@
 ##########################################################################################################
 # init
 ##########################################################################################################
-push rbp
-mov rsp rbp
 sub 1000 rsp
 aqs entree
-mqb rsi entree
+mq rsi entree
 aqs destination
-mqb rdi destination
+mq rdi destination
 aqs naof-entree-secs
-mqb rcx naof-entree-secs
+mq rcx naof-entree-secs
 
 ##########################################################################################################
 # calc-naofs
 ##########################################################################################################
 aqs naof-secs-in-quad
 mov 8 r8
-mqb r8 naof-secs-in-quad
-mqb naof-entree-secs rcx
+mq r8 naof-secs-in-quad
+mq naof-entree-secs rcx
 mov rcx rax
 nao rdx
-divqb naof-secs-in-quad rcx
+divq naof-secs-in-quad rcx
 aqs naof-quads
-mqb rax naof-quads
-factqb naof-secs-in-quad rax
+mq rax naof-quads
+factq naof-secs-in-quad rax
 aqs naof-quad-secs
-mqb rax naof-quad-secs
-mqb naof-entree-secs r9
+mq rax naof-quad-secs
+mq naof-entree-secs r9
 sub rax r9
 aqs naof-secs
-mqb r9 naof-secs
+mq r9 naof-secs
 
 ##########################################################################################################
 # coms
 ##########################################################################################################
-mqb naof-quads rcx
+mq naof-quads rcx
 cmp 0 rcx
 st je com-quads-com
-mqb entree rsi
-mqb destination rdi
-mqb naof-quads rcx
-mzq
+	mq entree rsi
+	mq destination rdi
+	mq naof-quads rcx
+	mzq
 s com-quads-com
 
-mqb naof-secs rcx
+mq naof-secs rcx
 cmp 0 rcx
 st je com-secs-com
-mqb entree rsi
-mqb naof-quad-secs r8
-add r8 rsi
-mqb destination rdi
-add r8 rdi
-mzs
+	mq entree rsi
+	mq naof-quad-secs r8
+	add r8 rsi
+	mq destination rdi
+	add r8 rdi
+	mzs
 s com-secs-com
 #init
-#com
-
-#init
-nao r9
-s com-secs-init
-movs 0 rsi r10
-movs r10 0 rdi
-add 1 rsi
-add 1 rdi
-cmp r8 r9
-st je com-secs-com
-add 1 r9
-st jmp com-secs-init
-s com-secs-com
 #com
 
 ##########################################################################################################
 # com
 ##########################################################################################################
-mqb naof-entree-secs rax
 add 1000 rsp
-pop rbp
 ret
+
 #init
 entb fn droid/clerk-com.secs
 aqs file

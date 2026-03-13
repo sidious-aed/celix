@@ -56,6 +56,7 @@ addc vects cvect r11
 dct r11
 mqb rax vect
 
+#init
 lentb rvect rsi
 mqb vect rdi
 mov 10 rbx
@@ -72,8 +73,6 @@ mqb equations rdx
 mqb views r11
 addc views view-space r11
 dct r11
-#init
-#com
 
 ##########################################################################################################
 # atv (if m were short for memo) <--> * maybe meant warm even.
@@ -146,14 +145,35 @@ mov 1 rax
 sys
 
 ##########################################################################################################
-# com
+# aon atv and expansion. (slow chappei or chappeiess is many realsm of regain.) <--> * prose of a..
 ##########################################################################################################
-add 1e8480 rsp
-pop rbp
-ret
+entb raon-atv-and-expansion aon atv and expansion.\n
+mov 1 rdi
+lentb raon-atv-and-expansion rsi
+mov 17 rdx
+mov 1 rax
+sys
 
-#init
-ent fn droid/clerk-com.secs
+aqs vipsm
+nao rbx
+mov 10 rdi
+mov 2 rsi
+mqb equations rdx
+mqb vects r11
+addc vects cvect r11
+dct r11
+mqb rax vipsm
+
+aqs bsite
+nao r8
+mqb r8 bsite
+aqs psm
+aqs bfact
+mov aed r8
+mqb r8 bfact
+s load-vipsm-init
+
+ent fn droid/clerk-com0.secs
 aqs file
 # unlink
 lentb fn rdi
@@ -169,14 +189,41 @@ mqb rax file
 # write
 mqb file rdi
 mov 8 rdx
-lq b16-number rsi
+lqb vipsm rsi
 mov 1 rax
 sys
 # close
 mqb file rdi
 mov 3 rax
 sys
+
+	mqb bsite r8
+	factqb bfact r8
+	mqb r8 psm
+
+	mqb vipsm rdi
+	lqb bsite rsi
+	mqb equations rdx
+	mqb vects r11
+	addc vects atv r11
+	dct r11
+
+	mqb bsite r8
+	add 1 r8
+	mqb r8 bsite
+	cmp 4 r8
+	st je load-vipsm-com
+	st jmp load-vipsm-init
+s load-vipsm-com
 #com
+
+##########################################################################################################
+# com
+##########################################################################################################
+mqb nvect rax
+add 1e8480 rsp
+pop rbp
+ret
 
 #init
 aqs time-secs

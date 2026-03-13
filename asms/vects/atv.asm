@@ -30,6 +30,30 @@ mqb r9 breadth
 entb rexpansion expanding vect.\n
 entb rae adding element.\n
 
+entb fn droid/clerk-com1.secs
+aqs file
+# unlink
+lentb fn rdi
+mov 57 rax
+sys
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+lentb fn rdi
+mov 2 rax
+sys
+mqb rax file
+# write
+mqb file rdi
+mov 8 rdx
+lqb vect rsi
+mov 1 rax
+sys
+# close
+mqb file rdi
+mov 3 rax
+sys
+
 mqb vsite r10
 add 1 r10
 mqb breadth r11
@@ -40,6 +64,32 @@ lentb rexpansion rsi
 mov 10 rdx
 mov 1 rax
 sys
+
+aqs naof-gsecs
+mqb vsite r10
+factqb naof-esecs r10
+add 10 r10
+mqb r10 naof-gsecs
+aqs naof-bsecs
+mqb vsite r10
+factqb breadth r10
+add 10 r10
+mqb r10 naof-bsecs
+
+aqs nvect
+nao rbx
+mqb naof-bsecs rdi
+mqb equations r11
+addc equations cr r11
+dct r11
+mqb rax nvect
+
+mqb vect rsi
+mqb nvect rdi
+mqb naof-gsects rcx
+mqb equations r11
+addc equations com r11
+dct r11
 s expansion-com
 
 ##########################################################################################################
@@ -83,27 +133,4 @@ pop rbp
 ret
 
 #init
-entb fn droid/clerk-com.secs
-aqs file
-# unlink
-lentb fn rdi
-mov 57 rax
-sys
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lentb fn rdi
-mov 2 rax
-sys
-mqb rax file
-# write
-mqb file rdi
-mov 8 rdx
-lqb naof-esecs rsi
-mov 1 rax
-sys
-# close
-mqb file rdi
-mov 3 rax
-sys
 #com

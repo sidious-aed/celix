@@ -7,21 +7,19 @@
 ##########################################################################################################
 # com-init
 ##########################################################################################################
-push rbp
-mov rsp rbp
 sub 1000 rsp
 aqs entree
-mqb rsi entree
+mq rsi entree
 aqs naof-secs
-mqb rcx naof-secs
+mq rcx naof-secs
 aqs base
-mqb rbx base
+mq rbx base
 aqs esite
 sub 1 rcx
-mqb rcx esite
+mq rcx esite
 aqs number
 nao r8
-mqb r8 number
+mq r8 number
 
 #init
 entb jsec \n
@@ -40,17 +38,17 @@ sys
 aqs sec0
 aqs focus
 mov 1 r8
-mqb r8 focus
+mq r8 focus
 s clerical-entree-to-number-init
 	nao r9
-	mqb entree rsi
-	mqb esite r8
+	mq entree rsi
+	mq esite r8
 	add r8 rsi
 	movs 0 rsi r9
-	mqb r9 sec0
+	mq r9 sec0
 
 
-	mqb sec0 r9
+	mq sec0 r9
 	cmp 39 r9
 	st ja scope-a-com
 	sub 30 r9
@@ -58,23 +56,23 @@ s clerical-entree-to-number-init
 	s scope-a-com
 	sub 57 r9
 	s scopes-com
-	mqb r9 sec0
+	mq r9 sec0
 
-	mqb sec0 r9
-	factqb focus r9
-	mqb number r10
+	mq sec0 r9
+	factq focus r9
+	mq number r10
 	add r9 r10
-	mqb r10 number
+	mq r10 number
 
-	mqb focus r11
-	factqb base r11
-	mqb r11 focus
+	mq focus r11
+	factq base r11
+	mq r11 focus
 
-	mqb esite r12
+	mq esite r12
 	cmp 0 r12
 	st je clerical-entree-to-number-com
 	sub 1 r12
-	mqb r12 esite
+	mq r12 esite
 	st jmp clerical-entree-to-number-init
 s clerical-entree-to-number-com
 #init
@@ -83,9 +81,8 @@ s clerical-entree-to-number-com
 ##########################################################################################################
 # com-com
 ##########################################################################################################
-mqb number rax
+mq number rax
 add 1000 rsp
-pop rbp
 ret
 
 #init

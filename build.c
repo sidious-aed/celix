@@ -35,14 +35,14 @@ quadrant main() {
 	system("gcc standard.lib view-space.c -o view-space");
 	system("gcc standard.lib view-space-file.c -o view-space-file");
 	//system("gcc standard.lib clerk.lib clear-desk.c -o clear-desk");
-	//system("gcc standard.lib clerk.lib list-files.c -o list-files");
+	system("gcc standard.lib clerk.lib list-files.c -o list-files");
 	//system("gcc standard.lib clerk.lib ngrep.c -o ngrep");
 	//system("gcc standard.lib seek-file-site.c -o seek-file-site");
 	//system("gcc standard.lib file-secs-sites.c -o file-secs-sites");
 
 	// clerk-wide-ware (es always mean-(t))
 	//system("gcc standard.lib objects.lib get-object-file.c -o get-object-file");
-	//system("gcc standard.lib objects.lib sequences-secsv.c -o sequences-secsv");
+	system("gcc standard.lib objects.lib sequences-secsv.c -o sequences-secsv");
 	//system("gcc standard.lib c-pairs.c -o c-pairs");
 	//system("gcc standard.lib abstract.c -o abstract");
 	//system("gcc standard.lib abstract-pairs.c -o abstract-pairs");
@@ -68,5 +68,6 @@ quadrant main() {
 	//system("./sequences assemblies/equations.asm secs/equations.secs 0");
 	//system("./sequences procs/equations-main.asm procs/equations-main.proc 0");
 	//system("./build-shell procs/equations-main.proc equations-main.c");
+	system("gcc standard.lib statents.c -o statents");
   return 0;
 }
