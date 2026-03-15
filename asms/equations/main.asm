@@ -520,14 +520,13 @@ addc equations cr r11
 dct r11
 mq rax libc-space
 
+#init
 mq libc-space rdi
 mov 3dfaa rcx
 mov aed rbx
 mq equations r11
 addc equations seed r11
 dct r11
-#init
-#com
 
 #init
 # <--> | seems to do with memory module.
@@ -572,7 +571,7 @@ lent rlibcs rsi
 mq libc-space rdi
 mov 24 rbx
 mov 1efd50 rcx
-#mov 300 rcx
+mov 300 rcx
 mq equations rdx
 mq views r11
 addc views view-space r11

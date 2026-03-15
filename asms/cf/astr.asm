@@ -1,108 +1,116 @@
 ##########################################################################################################
-# cr
-##########################################################################################################
-# cr
-# --
-# a stack based clerk floor memory zonages thingy.
-# --
-# rdi | clerk-space
-# rsi | naof-secs
-##########################################################################################################
 # com
 ##########################################################################################################
-push rbp
-mov rsp rbp
+# rdi | vect
+# rsi | string
+# rcx | naof-string-secs
+# rbx | cs
+# rdx | equations
+% equations
+##########################################################################################################
+# init
+##########################################################################################################
 sub 1000 rsp
+aqs vect
+mq rdi vect
+aqs string
+mq rsi string
+aqs naof-string-secs
+mq rcx naof-string-secs
 aqs cs
-mqb rdi cs
-aqs naof-secs
-mqb rsi naof-secs
-aqs cs-site
+mq rbx cs
+aqs equations
+mq rdx equations
+aqs vsite
+aqs vnaof-esecs
+aqs vscope
+mq vect rdi
 mov 0 rdi r8
-mqb r8 cs-site
-aqs cs-breadth
+mq r8 vsite
 mov 8 rdi r8
-mqb r8 cs-breadth
+mq r8 vnaof-esecs
+mov 10 rdi r8
+mq r8 vscope
 
 ##########################################################################################################
-# insure-grid-allowances
+# expansion
 ##########################################################################################################
-entb unallowance-message clerk space does not have allowance for request.\n
-mq cs-site r8
-mq naof-secs r9
-add r8 r9
-mq cs-breadth r10
-cmp r9 r10
-st ja unallowance-com
-	mov 1 rdi
-	lent unallowance-message rsi
-	mov 31 rdx
-	mov 1 rax
-	sys
+aqs naof-gsecs
+aqs vspancef
+mov 2 r8
+mq r8 vspancef
 
-	nao rdi
-	mov e7 rax
-	sys
-s unallowance-com
+mq vsite r11
+mq naof-string-secs r12
+add r12 r11
+mq vscope r12
+cmp r11 r12
+st jae expansion-com
 
-##########################################################################################################
-# allocate-inhashanzibra
-##########################################################################################################
-aqs as
-mq cs rdi
-mq cs-site r8
-add r8 rdi
-add 10 rdi
-mq rdi as
-mq cs rdi
-mov 0 rdi r8
-mq naof-secs r9
-add r9 r8
-mov r8 0 rdi
-
-##########################################################################################################
-# com
-##########################################################################################################
-mq as rax
-add 1000 rsp
-pop rbp
-ret
-
-#init
-entb fn droid/clerk-com.secs
-aqs file
-# unlink
-lentb fn rdi
-mov 57 rax
-sys
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lentb fn rdi
-mov 2 rax
-sys
-mqb rax file
-# write
-mqb file rdi
-mov 8 rdx
-lqb jrule rsi
+ent rexpansion avect expansion.\n
+mov 1 rdi
+lent rexpansion rsi
+mov 11 rdx
 mov 1 rax
 sys
-# close
-mqb file rdi
-mov 3 rax
-sys
 
-aqs pt0
-aqs pt1
-s see-task-init
-	lqb pt0 rdi
-	lqb pt0 rsi
-	mov 23 rax
-	sys
-	st jmp see-task-init
-s see-task-com
-#com
+mq vect r10
+aqs naof-csecs
+mq vsite r11
+add 18 r11
+mq r11 naof-csecs
+
+mq vscope r11
+mq naof-string-secs r12
+add r12 r11
+factq vspancef r11
+mq r11 vscope
+mov r11 10 r10
+add 18 r11
+mq r11 naof-gsecs
+
+aqs ovect
+mq vect r8
+mq r8 ovect
+mq cs rdi
+mq naof-gsecs rsi
+mq equations r11
+addc equations cr r11
+dct r11
+mq rax vect
+
+mq ovect rsi
+mq vect rdi
+mq naof-csecs rcx
+mq equations r11
+addc equations com r11
+dct r11
+
+s expansion-com
+##########################################################################################################
+# add-element
+##########################################################################################################
+mq string rsi
+mq vect rdi
+mov 0 rdi r8
+add r8 rdi
+add 18 rdi
+mq naof-string-secs rcx
+mq equations r11
+addc equations com r11
+dct r11
+
+mq vect r10
+mq vsite r11
+mq naof-string-secs r8
+add r8 r11
+mov r11 0 r10
+##########################################################################################################
+# com
+##########################################################################################################
+mq vect rax
+add 1000 rsp
+ret
 
 #init
 ent fn droid/clerk-com.secs
@@ -121,33 +129,13 @@ mq rax file
 # write
 mq file rdi
 mov 8 rdx
-lq naof-secs rsi
+lq vnaof-esecs rsi
 mov 1 rax
 sys
 # write
 mq file rdi
 mov 8 rdx
-lq naof-secs rsi
-mov 1 rax
-sys
-aqs cmp0
-aqs cmp1
-mq cs-site r8
-mq naof-secs r9
-add r8 r9
-mq cs-breadth r10
-mq r9 cmp0
-mq r10 cmp1
-# write
-mq file rdi
-mov 8 rdx
-lq cmp0 rsi
-mov 1 rax
-sys
-# write
-mq file rdi
-mov 8 rdx
-lq cmp1 rsi
+lq naof-csecs rsi
 mov 1 rax
 sys
 # close

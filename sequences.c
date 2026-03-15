@@ -641,6 +641,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				}
 				writer qua = (quads + 3) + (qsite * 3); // qua --- ke for aqsing <--> * sirindiplea ... like final fantasy
 				if(compair_spaces(comp1[0], comp1[1], qua[0], qua[1])) {
+					printf("lq matched with %s\n", qua[0]);
 					cp_site = 0;
 					add_to_entree("rsp-", 4, cp, &cp_site);
 					add_to_entree(comp2[0], comp2[1], cp, &cp_site);
