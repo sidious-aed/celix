@@ -15,6 +15,7 @@ mq r10 views
 aqs cf
 mq r11 cf
 ent i-sim i sim.\n
+ent jsect \n
 
 mov 1 rdi
 lent i-sim rsi
@@ -307,7 +308,7 @@ addc views view-space r11
 dct r11
 
 ##########################################################################################################
-# avec
+# astr
 ##########################################################################################################
 ent rstr0 str0
 
@@ -573,6 +574,125 @@ lent chart-name rsi
 mq cf r11
 addc cf ac r11
 dct r11
+
+##########################################################################################################
+# gcharts
+##########################################################################################################
+ent rnaof-records naof-records
+ent rgc gc
+ent rmode mode
+aqs gc
+aqs naof-records
+aqs cmode
+
+lent chart-name rdi
+mq equations rdx
+mq views rbx
+mq cf r11
+addc cf gc r11
+dct r11
+mq rax gc
+mq rdx naof-records
+
+lent rgc rsi
+mq gc rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+lent rnaof-records rsi
+mq naof-records rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mq str0 rdi
+nao r9
+mov r9 0 rdi
+
+mq gc rdi
+mov 2 rsi
+mq str0 r12
+lq cs rbx
+mq equations rdx
+mq views r13
+mq cf r14
+mq cf r11
+addc cf gcas r11
+dct r11
+mq rax cmode
+
+lent rmode rsi
+mq cmode rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq str0 rsi
+mov 0 rsi rdx
+add 18 rsi
+mov 1 rax
+sys
+
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+mq str0 rdi
+nao r9
+mov r9 0 rdi
+
+mq gc rdi
+lent kname r9
+mov 4 r10
+#lent sr0-name rsi
+#mov c rcx
+lent sr1-name rsi
+mov 11 rcx
+mq str0 r12
+lq cs rbx
+mq equations rdx
+mq views r13
+mq cf r14
+mq cf r11
+addc cf gcbk r11
+dct r11
+mq rax cmode
+
+lent rmode rsi
+mq cmode rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq str0 rsi
+mov 0 rsi rdx
+add 18 rsi
+mov 1 rax
+sys
+
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+# close
+mq cf rdi
+mov 3 rax
+sys
 
 ##########################################################################################################
 # com

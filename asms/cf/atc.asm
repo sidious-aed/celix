@@ -1,5 +1,5 @@
 ##########################################################################################################
-# atc
+# atc | add-to-chart
 ##########################################################################################################
 # rdi | chart
 # rcx | key
@@ -38,6 +38,7 @@ ent jedao-sectioniser |
 ent record-come \n
 aqs b16s
 isr 200
+aqs key-com-site
 
 ##########################################################################################################
 # write-collumn-keyage
@@ -120,6 +121,10 @@ addc cf astr r11
 dct r11
 mq rax chart
 
+mq chart rsi
+mov 0 rsi r11
+mq r11 key-com-site
+
 mq chart rdi
 mq value rsi
 mq naof-value-secs rcx
@@ -161,6 +166,8 @@ s close-record-com
 # com
 ##########################################################################################################
 mq chart rax
+#mq key-com-site r10
+mq key-com-site rbx
 add 1000 rsp
 ret
 

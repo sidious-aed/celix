@@ -15,5 +15,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	//system("./sequences asms/procs/dc-client.asm secs/procs/dc-client.secs 0");
 	//system("./build-msh asms/procs/dc-client.asm");
 	//system("./build-msh asms/procs/dc-server.asm");
+	system("./sequences asms/procs/chart-binary.asm secs/procs/chart-binary.secs 0");
+	system("./build-msh asms/procs/chart-binary.asm");
   return 0;
 }

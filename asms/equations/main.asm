@@ -365,7 +365,7 @@ mq naof-space1-secs rdx
 mov 1 rax
 #sys
 
-aqs naof-seeks
+#aqs naof-seeks
 aqs seek-site
 lent space1 rdi
 mq naof-space1-secs rdx
@@ -374,7 +374,6 @@ mq naof-seek1-secs rcx
 mq equations r11
 addc equations seek-space r11
 dct r11
-mq r10 naof-seeks
 mq rax seek-site
 
 ent rseek-site seek-site
@@ -410,6 +409,41 @@ addc views view-number r11
 dct r11
 #init
 #com
+
+ent cname charts/shianeckareckeis.chart
+aqs crs
+isr 100
+aqs cf
+# open-read
+nao rsi
+lent cname rdi
+mov 2 rax
+sys
+mq rax cf
+# read
+mq cf rdi
+mov 100 rdx
+lqcrsrsi
+mov 0 rax
+sys
+lq crs rdi
+mov rax rdx
+lent jsect rsi
+mov 1 rcx
+mq equations r11
+addc equations seek-space r11
+dct r11
+lent rseek-site rsi
+mov rax rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+# close
+mq cf rdi
+mov 3 rax
+sys
 
 ##########################################################################################################
 # cr

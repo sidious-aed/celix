@@ -16,6 +16,40 @@ aqs seek
 mq rsi seek
 aqs naof-seek-secs
 mq rcx naof-seek-secs
+ent jsect \n
+
+mq naof-entree-secs rdx
+cmp 0 rdx
+st je set-non-init
+
+##########################################################################################################
+# vparams
+##########################################################################################################
+#init
+mov 1 rdi
+mq seek rsi
+mq naof-seek-secs rdx
+mov 1 rax
+sys
+
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+mov 1 rdi
+mq entree rsi
+mq naof-entree-secs rdx
+mov 1 rax
+sys
+
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#com
 
 ##########################################################################################################
 # calc-naof-seeks
@@ -50,12 +84,12 @@ s seek-space-init
 	st je set-non-init
 
 	st jmp seek-space-init
-	s seek-space-com
+s seek-space-com
 
-	st jmp set-non-com
-	s set-non-init
-	mov ffffffffffffffff r8
-	mq r8 seek-site
+st jmp set-non-com
+s set-non-init
+mov ffffffffffffffff r8
+mq r8 seek-site
 s set-non-com
 
 ##########################################################################################################

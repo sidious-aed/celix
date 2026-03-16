@@ -33,6 +33,7 @@ mq naof-secs r9
 add r8 r9
 mq cs-breadth r10
 cmp r9 r10
+#st jmp unallowance-com
 st ja unallowance-com
 	mov 1 rdi
 	lent unallowance-message rsi
