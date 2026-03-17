@@ -166,8 +166,7 @@ s close-record-com
 # com
 ##########################################################################################################
 mq chart rax
-#mq key-com-site r10
-mq key-com-site rbx
+mq key-com-site r10
 add 1000 rsp
 ret
 

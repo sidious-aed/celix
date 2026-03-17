@@ -17,5 +17,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	//system("./build-msh asms/procs/dc-server.asm");
 	system("./sequences asms/procs/chart-binary.asm secs/procs/chart-binary.secs 0");
 	system("./build-msh asms/procs/chart-binary.asm");
+	system("./sequences asms/procs/chart-elf.asm secs/procs/chart-elf.secs 0");
+	system("./build-msh asms/procs/chart-elf.asm");
   return 0;
 }

@@ -20,10 +20,6 @@ aqs naof-binary-name-secs
 mq r13 naof-binary-name-secs
 aqs objdfn
 mq r14 objdfn
-aqs cname
-mq rsi cname
-aqs cname-site
-mq rcx cname-site
 aqs system-cs
 mq r14 system-cs
 ent i-sim i sim. ka tic boo tic but.\n
@@ -56,6 +52,9 @@ isr 400
 aqs cs
 isr 500
 ent cname-com .bc
+aqs cname
+isr 200
+aqs cname-site
 aqs base-space
 isr 200
 aqs base-space-site
@@ -85,8 +84,26 @@ mov r8 0 rdi
 mov 3d0900 r8
 mov r8 8 rdi
 
+mq binary-name rsi
+lq cname rdi
+mq naof-binary-name-secs rcx
+mq equations r11
+addc equations com r11
+dct r11
+mq binary-name rsi
+lent cname-com rsi
+lq cname rdi
+mq naof-binary-name-secs r8
+add r8 rdi
+add 3 r8
+mq r8 cname-site
+mov 3 rcx
+mq equations r11
+addc equations com r11
+dct r11
+
 mov 1 rdi
-mq cname rsi
+lq cname rsi
 mq cname-site rdx
 mov 1 rax
 sys
@@ -133,16 +150,6 @@ ent kdname dname
 aqs kdname-site
 mov 5 r8
 mq r8 kdname-site
-
-ent ksegment segment
-aqs ksegment-site
-mov 7 r8
-mq r8 ksegment-site
-
-ent ksection section
-aqs ksection-site
-mov 7 r8
-mq r8 ksection-site
 
 ##########################################################################################################
 # chartify-objd
@@ -204,7 +211,7 @@ isr 400
 aqs secs-secs-space-site
 
 mq binc rdi
-mq cname rsi
+lq cname rsi
 mq cf r11
 addc cf sc r11
 dct r11
@@ -540,12 +547,8 @@ s sections-init
 			addc cf atc r14
 			dct r14
 			mq rax binc0
-			mq r10 lsecs-com-key-com-site
-			aqs lsecs-com-key-com-site-site
-			mov 0 rax r8
-			sub r10 r8
-			sub 1 r8
-			mq r8 lsecs-com-key-com-site-site
+			#mq r10 lsecs-com-key-com-site
+			mq rbx lsecs-com-key-com-site
 
 			mq plsecs-com-site r8
 			mq r8 lsecs-com-site
@@ -717,7 +720,6 @@ s sections-init
 				mov 1 rax
 				#sys
 			s set-dname-com
-			st jmp set-dname-com-nao-dname-com
 			s set-dname-com-nao-dname-init
 				nao r8
 				mq r8 naof-dname-secs
@@ -967,12 +969,17 @@ s sections-init
 			mov 1 rax
 			#sys
 
+			nao r12
+			mq naof-params-secs r8
+			cmp 0 r8
+			st jne set-for-alu-module-to-be-record-com-com
+				mov 1 r12
+			s set-for-alu-module-to-be-record-com-com
 			mq binc0 rdi
 			lent kalu-module rcx
 			mq kalu-module-site r10
 			mq at-alu-module rsi
 			mq naof-alu-module-secs r11
-			nao r12
 			lq cs rbx
 			mq equations rdx
 			mq cf r13
@@ -984,12 +991,29 @@ s sections-init
 			mq naof-params-secs r8
 			cmp 0 r8
 			st je add-params-to-record-com
+				nao r8
+				nao r12
+				mq naof-dname-secs r8
+				cmp 0 r8
+				st je incr-recod-columns-after-params-0-com
+					add 1 r8
+				s incr-recod-columns-after-params-0-com
+				mq naof-destination-secs r8
+				cmp 0 r8
+				st je incr-recod-columns-after-params-1-com
+					add 1 r8
+				s incr-recod-columns-after-params-1-com
+				cmp 0 r8
+				st je set-params-as-record-com-init
+				st jmp set-params-as-record-com-com
+				s set-params-as-record-com-init
+					mov 1 r12
+				s set-params-as-record-com-com
 				mq binc0 rdi
 				lent kparams rcx
 				mq kparams-site r10
 				mq params-init rsi
 				mq naof-params-secs r11
-				nao r12
 				lq cs rbx
 				mq equations rdx
 				mq cf r13
@@ -1003,12 +1027,19 @@ s sections-init
 			cmp 0 r8
 			st je add-destination-to-record-com
 			s add-destination-to-record-init
+				nao r12
+				mq naof-dname-secs r8
+				cmp 0 r8
+				st je set-destination-as-record-com-init
+				st jmp set-destination-as-record-com-com
+				s set-destination-as-record-com-init
+					mov 1 r12
+				s set-destination-as-record-com-com
 				mq binc0 rdi
 				lent kdestination rcx
 				mq kdestination-site r10
 				mq destination-init rsi
 				mq naof-destination-secs r11
-				nao r12
 				lq cs rbx
 				mq equations rdx
 				mq cf r13
@@ -1022,12 +1053,12 @@ s sections-init
 			cmp 0 r8
 			st je add-dname-to-record-com
 			s add-dname-to-record-init
+				mov 1 r12
 				mq binc0 rdi
 				lent kdname rcx
 				mq kdname-site r10
 				mq at-dname rsi
 				mq naof-dname-secs r11
-				nao r12
 				lq cs rbx
 				mq equations rdx
 				mq cf r13
@@ -1036,34 +1067,6 @@ s sections-init
 				dct r14
 				mq rax binc0
 			s add-dname-to-record-com
-
-			mq binc0 rdi
-			lent ksegment rcx
-			mq ksegment-site r10
-			lq segment-name rsi
-			mq segment-name-site r11
-			nao r12
-			lq cs rbx
-			mq equations rdx
-			mq cf r13
-			mq cf r14
-			addc cf atc r14
-			dct r14
-			mq rax binc0
-
-			mq binc0 rdi
-			lent ksection rcx
-			mq ksegment-site r10
-			lq section-name rsi
-			mq section-name-site r11
-			mov 1 r12
-			lq cs rbx
-			mq equations rdx
-			mq cf r13
-			mq cf r14
-			addc cf atc r14
-			dct r14
-			mq rax binc0
 
 			mov 1 rdi
 			mq binc0 rsi
@@ -1090,7 +1093,7 @@ s sections-init
 				st je apend-binc-init
 				s write0-init
 					mq binc rdi
-					mq cname rsi
+					lq cname rsi
 					mq cf r11
 					addc cf ac r11
 					dct r11
@@ -1117,49 +1120,11 @@ s sections-init
 					st jmp apend-binc-com
 				s write0-com
 				s apend-binc-init
-
 					nao r8
 					mq r8 is-comb
 					mq combbinc rsi
 					nao r9
 					mov r9 0 rsi
-
-					ent bnsecs nsecs | 
-					mov 1 rdi
-					lent bnsecs rsi
-					mov 8 rdx
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					mq at-secs rsi
-					mq at-secs-site rdx
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					lent jsect rsi
-					mov 1 rdx
-					mov 1 rax
-					#sys
-
-					ent bosecs osecs | 
-					mov 1 rdi
-					lent bosecs rsi
-					mov 8 rdx
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					mq binc rsi
-					mq lsecs-com-key-com-site r8
-					add 18 rsi
-					add r8 rsi
-					mq lsecs-com-key-com-site-site rdx
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					lent jsect rsi
-					mov 1 rdx
-					mov 1 rax
-					#sys
 
 					mq combbinc rdi
 					mq binc rsi
@@ -1172,27 +1137,31 @@ s sections-init
 					dct r11
 					mq rax combbinc
 
+					mq osecs-site r8
+					mq r8 secs-secs-space-site
 					lq secs-secs-space rdi
 					mq binc rsi
 					add 18 rsi
 					mq lsecs-com-key-com-site r8
 					add r8 rsi
-					mq lsecs-com-key-com-site-site rcx
-					mq rcx secs-secs-space-site
+					mq osecs-site rcx
 					mq equations r11
 					addc equations com r11
 					dct r11
 
-					lq secs-secs-space rsi
+					lq secs-secs-space rdi
 					mq secs-secs-space-site r8
-					add r8 rsi
-					mov 20 r9
-					movs r9 0 rsi
+					add r8 rdi
 					add 1 r8
 					mq r8 secs-secs-space-site
+					lent ssect rsi
+					mov 1 rcx
+					mq equations r11
+					addc equations com r11
+					dct r11
 
-					mq secs-secs-space-site r8
 					lq secs-secs-space rdi
+					mq secs-secs-space-site r8
 					add r8 rdi
 					mq at-secs rsi
 					mq at-secs-site rcx
@@ -1201,52 +1170,6 @@ s sections-init
 					mq equations r11
 					addc equations com r11
 					dct r11
-
-					ent bsecs-secs secs-secs | 
-					mov 1 rdi
-					lent bsecs-secs rsi
-					mov c rdx
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					lq secs-secs-space rsi
-					mq secs-secs-space-site rdx
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					lent jsect rsi
-					mov 1 rdx
-					mov 1 rax
-					#sys
-
-					aqs naof-comb-asm-secs
-					lq secs-secs-space rsi
-					mq secs-secs-space-site r8
-					mov rsi rdi
-					add r8 rdi
-					mov 1 r8
-					nao r9
-					s incr-comb-secs-init
-						movs 0 rsi r9
-						cmp 20 r9
-						st jne incr-secs-site-com
-							add 1 r8
-						s incr-secs-site-com
-						add 1 rsi
-						cmp rsi rdi
-						st je incr-comb-secs-com
-						st jmp incr-comb-secs-init
-					s incr-comb-secs-com
-					mq r8 naof-comb-asm-secs
-
-					ent rnaof-comb-asm-secs naof-comb-asm-secs
-					lent rnaof-comb-asm-secs rsi
-					mq naof-comb-asm-secs rdi
-					mov 10 rbx
-					mq equations rdx
-					mq views r11
-					addc views view-number r11
-					#dct r11
 
 					mq combbinc rdi
 					lent kbin-secs rcx
@@ -1260,9 +1183,50 @@ s sections-init
 					mq cf r14
 					addc cf atc r14
 					dct r14
-					mq rax binc0
+					mq rax combbinc
 
-					mq naof-comb-asm-secs rdi
+					mov 1 rdi
+					mq combbinc rsi
+					mov 0 rsi rdx
+					add 18 rsi
+					mov 1 rax
+					#sys
+					mov 1 rdi
+					lent jsect rsi
+					mov 1 rdx
+					mov 1 rax
+					#sys
+
+					aqs naof-comb-secs
+					lq secs-secs-space rsi
+					mq secs-secs-space-site r8
+					mov rsi rdi
+					add r8 rdi
+					nao r9
+					mov 1 r10
+					s calc-naof-asm-secs-for-comb-init
+						movs 0 rsi r9
+						cmp 20 r9
+						st jne incr-naof-comb-secs-com
+							add 1 r10
+						s incr-naof-comb-secs-com
+						cmp rsi rdi
+						st je calc-naof-asm-secs-for-comb-com
+						add 1 rsi
+						st jmp calc-naof-asm-secs-for-comb-init
+					s calc-naof-asm-secs-for-comb-com
+					mq r10 naof-comb-secs
+
+					ent rnaof-comb-secs naof-comb-secs
+					lent rnaof-comb-secs rsi
+					mq naof-comb-secs rdi
+					mov 10 rbx
+					mq equations rdx
+					mq views r11
+					addc views view-number r11
+					#dct r11
+
+					mq naof-comb-secs rdi
 					lq base-space rsi
 					mov 10 rbx
 					mq equations r8
@@ -1284,6 +1248,16 @@ s sections-init
 					dct r14
 					mq rax combbinc
 
+					mov 1 rdi
+					mq binc rsi
+					mov 0 rsi rdx
+					add 18 rsi
+					mq naof-asm-secs-com-site r8
+					add r8 rsi
+					sub r8 rdx
+					mov 1 rax
+					!sys
+
 					mq naof-asm-secs-com-site r8
 					mq combbinc rdi
 					mq binc rsi
@@ -1298,26 +1272,8 @@ s sections-init
 					dct r11
 					mq rax combbinc
 
-					ent bcombinc combinc | 
-					mov 1 rdi
-					lent bcombinc rsi
-					mov a rdx
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					mq combbinc rsi
-					mov 0 rsi rdx
-					add 18 rsi
-					mov 1 rax
-					#sys
-					mov 1 rdi
-					lent jsect rsi
-					mov 1 rdx
-					mov 1 rax
-					#sys
-
 					mq combbinc rdi
-					mq cname rsi
+					lq cname rsi
 					mq cf r11
 					addc cf ac r11
 					dct r11
@@ -1357,7 +1313,7 @@ mq at-asm-site r8
 cmp 1 r8
 st jne append-mode-et-com
 	mq binc rdi
-	mq cname rsi
+	lq cname rsi
 	mq cf r11
 	addc cf ac r11
 	dct r11
