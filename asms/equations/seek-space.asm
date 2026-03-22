@@ -60,6 +60,8 @@ mq naof-entree-secs r9
 sub r8 r9
 add 1 r9
 mq r9 naof-seeks
+cmp 0 r9
+st jl set-non-init
 
 ##########################################################################################################
 # seek-space
@@ -69,6 +71,7 @@ nao r8
 mq r8 seek-site
 mq naof-seeks r9
 s seek-space-init
+	mq seek-site r8
 	mq entree rsi
 	add r8 rsi
 	mq seek rdi
@@ -95,34 +98,12 @@ s set-non-com
 ##########################################################################################################
 # com-com
 ##########################################################################################################
-#mq naof-seeks r10
+mq naof-seeks r10
 mq seek-site rax
 add 1000 rsp
 ret
 
 #init
-ent fn droid/clerk-com.secs
-aqs file
-# unlink
-lent fn rdi
-mov 57 rax
-sys
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lent fn rdi
-mov 2 rax
-sys
-mq rax file
-mq file rdi
-mov 8 rdx
-lq seek-site rsi
-mov 1 rax
-sys
-# close
-mq file rdi
-mov 3 rax
-sys
 #com
 
 #init

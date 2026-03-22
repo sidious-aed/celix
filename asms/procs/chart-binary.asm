@@ -90,6 +90,16 @@ mq cname rsi
 mq cname-site rdx
 mov 1 rax
 sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+# unlink
+mq cname rdi
+mov 57 rax
+sys
 
 mq equations r11
 addc equations task r11

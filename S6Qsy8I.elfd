@@ -1,0 +1,335 @@
+ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           Advanced Micro Devices X86-64
+  Version:                           0x1
+  Entry point address:               0x1090
+  Start of program headers:          64 (bytes into file)
+  Start of section headers:          177424 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               64 (bytes)
+  Size of program headers:           56 (bytes)
+  Number of program headers:         7
+  Size of section headers:           64 (bytes)
+  Number of section headers:         27
+  Section header string table index: 26
+
+Section Headers:
+  [Nr] Name              Type             Address           Offset
+       Size              EntSize          Flags  Link  Info  Align
+  [ 0]                   NULL             0000000000000000  00000000
+       0000000000000000  0000000000000000           0     0     0
+  [ 1] .note.gnu.build-i NOTE             00000000000001c8  000001c8
+       0000000000000024  0000000000000000   A       0     0     4
+  [ 2] .hash             HASH             00000000000001f0  000001f0
+       00000000000000d4  0000000000000004   A       4     0     8
+  [ 3] .gnu.hash         GNU_HASH         00000000000002c8  000002c8
+       00000000000000f8  0000000000000000   A       4     0     8
+  [ 4] .dynsym           DYNSYM           00000000000003c0  000003c0
+       0000000000000330  0000000000000018   A       5     1     8
+  [ 5] .dynstr           STRTAB           00000000000006f0  000006f0
+       0000000000000224  0000000000000000   A       0     0     1
+  [ 6] .gnu.version      VERSYM           0000000000000914  00000914
+       0000000000000044  0000000000000002   A       4     0     2
+  [ 7] .gnu.version_d    VERDEF           0000000000000958  00000958
+       00000000000000a4  0000000000000000   A       5     5     8
+  [ 8] .rela.dyn         RELA             0000000000000a00  00000a00
+       00000000000003d8  0000000000000018   A       4     0     8
+  [ 9] .rela.plt         RELA             0000000000000dd8  00000dd8
+       00000000000000a8  0000000000000018  AI       4    20     8
+  [10] .plt              PROGBITS         0000000000000e80  00000e80
+       0000000000000080  0000000000000010  AX       0     0     16
+  [11] .plt.got          PROGBITS         0000000000000f00  00000f00
+       0000000000000008  0000000000000008  AX       0     0     8
+  [12] .text             PROGBITS         0000000000000f10  00000f10
+       0000000000020640  0000000000000000  AX       0     0     16
+  [13] .rodata           PROGBITS         0000000000021560  00021560
+       00000000000046a0  0000000000000000   A       0     0     32
+  [14] .stapsdt.base     PROGBITS         0000000000025c00  00025c00
+       0000000000000001  0000000000000000   A       0     0     1
+  [15] .eh_frame_hdr     PROGBITS         0000000000025c04  00025c04
+       0000000000000674  0000000000000000   A       0     0     4
+  [16] .eh_frame         PROGBITS         0000000000026278  00026278
+       00000000000024a4  0000000000000000   A       0     0     8
+  [17] .data.rel.ro      PROGBITS         0000000000229680  00029680
+       00000000000007e4  0000000000000000  WA       0     0     32
+  [18] .dynamic          DYNAMIC          0000000000229e68  00029e68
+       0000000000000170  0000000000000010  WA       5     0     8
+  [19] .got              PROGBITS         0000000000229fd8  00029fd8
+       0000000000000010  0000000000000008  WA       0     0     8
+  [20] .got.plt          PROGBITS         000000000022a000  0002a000
+       0000000000000050  0000000000000008  WA       0     0     8
+  [21] .data             PROGBITS         000000000022a060  0002a060
+       0000000000000f78  0000000000000000  WA       0     0     32
+  [22] .bss              NOBITS           000000000022afe0  0002afd8
+       0000000000000190  0000000000000000  WA       0     0     32
+  [23] .note.stapsdt     NOTE             0000000000000000  0002afd8
+       00000000000003e4  0000000000000000           0     0     4
+  [24] .gnu.warning.llse PROGBITS         0000000000000000  0002b3c0
+       000000000000003f  0000000000000000           0     0     32
+  [25] .gnu_debuglink    PROGBITS         0000000000000000  0002b400
+       0000000000000010  0000000000000000           0     0     4
+  [26] .shstrtab         STRTAB           0000000000000000  0002b410
+       0000000000000100  0000000000000000           0     0     1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  l (large), p (processor specific)
+
+There are no section groups in this file.
+
+Program Headers:
+  Type           Offset             VirtAddr           PhysAddr
+                 FileSiz            MemSiz              Flags  Align
+  LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000
+                 0x000000000002871c 0x000000000002871c  R E    0x200000
+  LOAD           0x0000000000029680 0x0000000000229680 0x0000000000229680
+                 0x0000000000001958 0x0000000000001af0  RW     0x200000
+  DYNAMIC        0x0000000000029e68 0x0000000000229e68 0x0000000000229e68
+                 0x0000000000000170 0x0000000000000170  RW     0x8
+  NOTE           0x00000000000001c8 0x00000000000001c8 0x00000000000001c8
+                 0x0000000000000024 0x0000000000000024  R      0x4
+  GNU_EH_FRAME   0x0000000000025c04 0x0000000000025c04 0x0000000000025c04
+                 0x0000000000000674 0x0000000000000674  R      0x4
+  GNU_STACK      0x0000000000000000 0x0000000000000000 0x0000000000000000
+                 0x0000000000000000 0x0000000000000000  RW     0x10
+  GNU_RELRO      0x0000000000029680 0x0000000000229680 0x0000000000229680
+                 0x0000000000000980 0x0000000000000980  R      0x1
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     .note.gnu.build-id .hash .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_d .rela.dyn .rela.plt .plt .plt.got .text .rodata .stapsdt.base .eh_frame_hdr .eh_frame 
+   01     .data.rel.ro .dynamic .got .got.plt .data .bss 
+   02     .dynamic 
+   03     .note.gnu.build-id 
+   04     .eh_frame_hdr 
+   05     
+   06     .data.rel.ro .dynamic .got 
+
+Dynamic section at offset 0x29e68 contains 19 entries:
+  Tag        Type                         Name/Value
+ 0x000000000000000e (SONAME)             Library soname: [ld-linux-x86-64.so.2]
+ 0x0000000000000004 (HASH)               0x1f0
+ 0x000000006ffffef5 (GNU_HASH)           0x2c8
+ 0x0000000000000005 (STRTAB)             0x6f0
+ 0x0000000000000006 (SYMTAB)             0x3c0
+ 0x000000000000000a (STRSZ)              548 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000003 (PLTGOT)             0x22a000
+ 0x0000000000000002 (PLTRELSZ)           168 (bytes)
+ 0x0000000000000014 (PLTREL)             RELA
+ 0x0000000000000017 (JMPREL)             0xdd8
+ 0x0000000000000007 (RELA)               0xa00
+ 0x0000000000000008 (RELASZ)             984 (bytes)
+ 0x0000000000000009 (RELAENT)            24 (bytes)
+ 0x000000006ffffffc (VERDEF)             0x958
+ 0x000000006ffffffd (VERDEFNUM)          5
+ 0x000000006ffffff0 (VERSYM)             0x914
+ 0x000000006ffffff9 (RELACOUNT)          39
+ 0x0000000000000000 (NULL)               0x0
+
+Relocation section '.rela.dyn' at offset 0xa00 contains 41 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+0000002298c8  000000000008 R_X86_64_RELATIVE                    116a0
+0000002298d0  000000000008 R_X86_64_RELATIVE                    12a70
+0000002298d8  000000000008 R_X86_64_RELATIVE                    b260
+0000002298e0  000000000008 R_X86_64_RELATIVE                    13f30
+0000002298e8  000000000008 R_X86_64_RELATIVE                    148b0
+0000002298f0  000000000008 R_X86_64_RELATIVE                    16bc0
+0000002298f8  000000000008 R_X86_64_RELATIVE                    13a90
+000000229900  000000000008 R_X86_64_RELATIVE                    1b3f0
+000000229980  000000000008 R_X86_64_RELATIVE                    22efb
+0000002299b8  000000000008 R_X86_64_RELATIVE                    255c8
+0000002299f0  000000000008 R_X86_64_RELATIVE                    22f0d
+000000229a20  000000000008 R_X86_64_RELATIVE                    22f29
+000000229a28  000000000008 R_X86_64_RELATIVE                    22f40
+000000229a58  000000000008 R_X86_64_RELATIVE                    22f55
+000000229a60  000000000008 R_X86_64_RELATIVE                    22f65
+000000229a98  000000000008 R_X86_64_RELATIVE                    22f79
+000000229ad0  000000000008 R_X86_64_RELATIVE                    22f8e
+000000229b08  000000000008 R_X86_64_RELATIVE                    22fab
+000000229b38  000000000008 R_X86_64_RELATIVE                    22fc0
+000000229b40  000000000008 R_X86_64_RELATIVE                    22fd0
+000000229b70  000000000008 R_X86_64_RELATIVE                    22fe6
+000000229b78  000000000008 R_X86_64_RELATIVE                    255f0
+000000229bb0  000000000008 R_X86_64_RELATIVE                    25620
+000000229be8  000000000008 R_X86_64_RELATIVE                    25648
+000000229c20  000000000008 R_X86_64_RELATIVE                    25670
+000000229c58  000000000008 R_X86_64_RELATIVE                    25698
+000000229c90  000000000008 R_X86_64_RELATIVE                    22ff7
+000000229cc0  000000000008 R_X86_64_RELATIVE                    2300d
+000000229cc8  000000000008 R_X86_64_RELATIVE                    2301b
+000000229cf8  000000000008 R_X86_64_RELATIVE                    23032
+000000229d00  000000000008 R_X86_64_RELATIVE                    23043
+000000229d30  000000000008 R_X86_64_RELATIVE                    2305f
+000000229d38  000000000008 R_X86_64_RELATIVE                    23076
+000000229d70  000000000008 R_X86_64_RELATIVE                    23090
+000000229da0  000000000008 R_X86_64_RELATIVE                    230a8
+000000229da8  000000000008 R_X86_64_RELATIVE                    256c0
+000000229de0  000000000008 R_X86_64_RELATIVE                    230ba
+000000229e18  000000000008 R_X86_64_RELATIVE                    230d2
+000000229e48  000000000008 R_X86_64_RELATIVE                    230e5
+000000229fd8  000c00000006 R_X86_64_GLOB_DAT 000000000022b140 _r_debug@@GLIBC_2.2.5 + 0
+000000229fe0  000900000006 R_X86_64_GLOB_DAT 000000000001b800 free@@GLIBC_2.2.5 + 0
+
+Relocation section '.rela.plt' at offset 0xdd8 contains 7 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+00000022a018  000600000007 R_X86_64_JUMP_SLO 000000000001bdf0 _dl_catch_exception@@GLIBC_PRIVATE + 0
+00000022a020  001d00000007 R_X86_64_JUMP_SLO 000000000001b690 malloc@@GLIBC_2.2.5 + 0
+00000022a028  000200000007 R_X86_64_JUMP_SLO 000000000001bc40 _dl_signal_exception@@GLIBC_PRIVATE + 0
+00000022a030  001100000007 R_X86_64_JUMP_SLO 000000000001b7c0 calloc@@GLIBC_2.2.5 + 0
+00000022a038  000a00000007 R_X86_64_JUMP_SLO 000000000001b9c0 realloc@@GLIBC_2.2.5 + 0
+00000022a040  001700000007 R_X86_64_JUMP_SLO 000000000001bc90 _dl_signal_error@@GLIBC_PRIVATE + 0
+00000022a048  000800000007 R_X86_64_JUMP_SLO 000000000001bea0 _dl_catch_error@@GLIBC_PRIVATE + 0
+
+The decoding of unwind sections for machine type Advanced Micro Devices X86-64 is not currently supported.
+
+Symbol table '.dynsym' contains 34 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+     1: 0000000000019bb0     8 FUNC    GLOBAL DEFAULT   12 __get_cpu_features@@GLIBC_PRIVATE
+     2: 000000000001bc40    66 FUNC    GLOBAL DEFAULT   12 _dl_signal_exception@@GLIBC_PRIVATE
+     3: 0000000000013210    21 FUNC    GLOBAL DEFAULT   12 _dl_get_tls_static_info@@GLIBC_PRIVATE
+     4: 0000000000000000     0 OBJECT  GLOBAL DEFAULT  ABS GLIBC_PRIVATE
+     5: 0000000000000000     0 OBJECT  GLOBAL DEFAULT  ABS GLIBC_2.3
+     6: 000000000001bdf0   162 FUNC    GLOBAL DEFAULT   12 _dl_catch_exception@@GLIBC_PRIVATE
+     7: 0000000000000000     0 OBJECT  GLOBAL DEFAULT  ABS GLIBC_2.4
+     8: 000000000001bea0    65 FUNC    GLOBAL DEFAULT   12 _dl_catch_error@@GLIBC_PRIVATE
+     9: 000000000001b800    52 FUNC    WEAK   DEFAULT   12 free@@GLIBC_2.2.5
+    10: 000000000001b9c0   135 FUNC    WEAK   DEFAULT   12 realloc@@GLIBC_2.2.5
+    11: 0000000000013620   100 FUNC    GLOBAL DEFAULT   12 _dl_allocate_tls@@GLIBC_PRIVATE
+    12: 000000000022b140    40 OBJECT  GLOBAL DEFAULT   22 _r_debug@@GLIBC_2.2.5
+    13: 0000000000229e58     8 OBJECT  GLOBAL DEFAULT   17 __libc_stack_end@@GLIBC_2.2.5
+    14: 0000000000013690   119 FUNC    GLOBAL DEFAULT   12 _dl_deallocate_tls@@GLIBC_PRIVATE
+    15: 00000000000147e0   195 FUNC    GLOBAL DEFAULT   12 _dl_find_dso_for_object@@GLIBC_PRIVATE
+    16: 00000000000179e0   250 FUNC    GLOBAL DEFAULT   12 _dl_exception_create@@GLIBC_PRIVATE
+    17: 000000000001b7c0    56 FUNC    WEAK   DEFAULT   12 calloc@@GLIBC_2.2.5
+    18: 0000000000229740     8 OBJECT  GLOBAL DEFAULT   17 _dl_argv@@GLIBC_PRIVATE
+    19: 0000000000012a70   596 FUNC    GLOBAL DEFAULT   12 _dl_mcount@@GLIBC_2.2.5
+    20: 0000000000017ae0   771 FUNC    GLOBAL DEFAULT   12 _dl_exception_create_form@@GLIBC_PRIVATE
+    21: 00000000000193d0    90 FUNC    GLOBAL DEFAULT   12 __tunable_get_val@@GLIBC_PRIVATE
+    22: 0000000000017df0    38 FUNC    GLOBAL DEFAULT   12 _dl_exception_free@@GLIBC_PRIVATE
+    23: 000000000001bc90    70 FUNC    GLOBAL DEFAULT   12 _dl_signal_error@@GLIBC_PRIVATE
+    24: 0000000000010f40     2 FUNC    GLOBAL DEFAULT   12 _dl_debug_state@@GLIBC_PRIVATE
+    25: 000000000022a060  3960 OBJECT  GLOBAL DEFAULT   21 _rtld_global@@GLIBC_PRIVATE
+    26: 0000000000000000     0 OBJECT  GLOBAL DEFAULT  ABS GLIBC_2.2.5
+    27: 0000000000019b70    61 FUNC    GLOBAL DEFAULT   12 __tls_get_addr@@GLIBC_2.3
+    28: 0000000000013ea0   136 FUNC    GLOBAL DEFAULT   12 _dl_make_stack_executable@@GLIBC_PRIVATE
+    29: 000000000001b690   292 FUNC    WEAK   DEFAULT   12 malloc@@GLIBC_2.2.5
+    30: 0000000000013300   798 FUNC    GLOBAL DEFAULT   12 _dl_allocate_tls_init@@GLIBC_PRIVATE
+    31: 0000000000229760   440 OBJECT  GLOBAL DEFAULT   17 _rtld_global_ro@@GLIBC_PRIVATE
+    32: 0000000000229e60     4 OBJECT  GLOBAL DEFAULT   17 __libc_enable_secure@@GLIBC_PRIVATE
+    33: 0000000000009d40  1712 FUNC    GLOBAL DEFAULT   12 _dl_rtld_di_serinfo@@GLIBC_PRIVATE
+
+Histogram for bucket list length (total of 17 buckets):
+ Length  Number     % of total  Coverage
+      0  2          ( 11.8%)
+      1  5          ( 29.4%)     15.2%
+      2  3          ( 17.6%)     33.3%
+      3  6          ( 35.3%)     87.9%
+      4  1          (  5.9%)    100.0%
+
+Histogram for `.gnu.hash' bucket list length (total of 17 buckets):
+ Length  Number     % of total  Coverage
+      0  2          ( 11.8%)
+      1  5          ( 29.4%)     15.2%
+      2  5          ( 29.4%)     45.5%
+      3  2          ( 11.8%)     63.6%
+      4  3          ( 17.6%)    100.0%
+
+Version symbols section '.gnu.version' contains 34 entries:
+ Addr: 0000000000000914  Offset: 0x000914  Link: 4 (.dynsym)
+  000:   0 (*local*)       5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)
+  004:   5 (GLIBC_PRIVATE)   3 (GLIBC_2.3)     5 (GLIBC_PRIVATE)   4 (GLIBC_2.4)  
+  008:   5 (GLIBC_PRIVATE)   2 (GLIBC_2.2.5)   2 (GLIBC_2.2.5)   5 (GLIBC_PRIVATE)
+  00c:   2 (GLIBC_2.2.5)   2 (GLIBC_2.2.5)   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)
+  010:   5 (GLIBC_PRIVATE)   2 (GLIBC_2.2.5)   5 (GLIBC_PRIVATE)   2 (GLIBC_2.2.5)
+  014:   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)
+  018:   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)   2 (GLIBC_2.2.5)   3 (GLIBC_2.3)  
+  01c:   5 (GLIBC_PRIVATE)   2 (GLIBC_2.2.5)   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)
+  020:   5 (GLIBC_PRIVATE)   5 (GLIBC_PRIVATE)
+
+Version definition section '.gnu.version_d' contains 5 entries:
+  Addr: 0x0000000000000958  Offset: 0x000958  Link: 5 (.dynstr)
+  000000: Rev: 1  Flags: BASE  Index: 1  Cnt: 1  Name: ld-linux-x86-64.so.2
+  0x001c: Rev: 1  Flags: none  Index: 2  Cnt: 1  Name: GLIBC_2.2.5
+  0x0038: Rev: 1  Flags: none  Index: 3  Cnt: 2  Name: GLIBC_2.3
+  0x0054: Parent 1: GLIBC_2.2.5
+  0x005c: Rev: 1  Flags: none  Index: 4  Cnt: 2  Name: GLIBC_2.4
+  0x0078: Parent 1: GLIBC_2.3
+  0x0080: Rev: 1  Flags: none  Index: 5  Cnt: 2  Name: GLIBC_PRIVATE
+  0x009c: Parent 1: GLIBC_2.4
+
+Displaying notes found in: .note.gnu.build-id
+  Owner                 Data size	Description
+  GNU                  0x00000014	NT_GNU_BUILD_ID (unique build ID bitstring)
+    Build ID: 9ea8014cf02021a29e57aa3e0512e9bb6e30541d
+
+Displaying notes found in: .note.stapsdt
+  Owner                 Data size	Description
+  stapsdt              0x00000035	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: init_start
+    Location: 0x0000000000003e12, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -4@$0 8@%rbx
+  stapsdt              0x00000038	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: init_complete
+    Location: 0x00000000000044f1, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -4@$0 8@%rbx
+  stapsdt              0x0000003b	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: map_failed
+    Location: 0x0000000000005b96, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -8@72(%rsp) 8@%rbp
+  stapsdt              0x0000003a	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: map_start
+    Location: 0x0000000000006b9a, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -8@40(%rbp) 8@%rbx
+  stapsdt              0x00000044	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: map_complete
+    Location: 0x000000000001514a, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -8@40(%r14) 8@%rbx 8@%r12
+  stapsdt              0x00000041	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: reloc_start
+    Location: 0x000000000001521b, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -8@40(%r14) 8@-72(%rbp)
+  stapsdt              0x0000004b	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: reloc_complete
+    Location: 0x00000000000155bc, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -8@40(%r14) 8@-72(%rbp) 8@%r12
+  stapsdt              0x00000038	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: unmap_start
+    Location: 0x0000000000016257, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -8@%r14 8@%rbx
+  stapsdt              0x00000041	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: unmap_complete
+    Location: 0x00000000000164f4, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: -8@-120(%rbp) 8@%rbx
+  stapsdt              0x0000003a	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: setjmp
+    Location: 0x000000000001d2ad, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: 8@%rdi -4@%esi 8@%rax
+  stapsdt              0x0000003b	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: longjmp
+    Location: 0x000000000001d2ed, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: 8@%rdi -4@%esi 8@%rdx
+  stapsdt              0x00000042	NT_STAPSDT (SystemTap probe descriptors)
+    Provider: rtld
+    Name: longjmp_target
+    Location: 0x000000000001d309, Base: 0x0000000000025c00, Semaphore: 0x0000000000000000
+    Arguments: 8@%rdi -4@%eax 8@%rdx

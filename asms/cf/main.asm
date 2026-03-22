@@ -124,6 +124,7 @@ dct r11
 ent rlibcs libcs
 
 aqs libc-space
+aqs libc-space-0
 lq cs rdi
 mov 1efd50 rsi
 #mov 800 rsi
@@ -132,13 +133,24 @@ addc equations cr r11
 dct r11
 mq rax libc-space
 
+# anonomous-mmap
+nao rdi
+mov 2efd50 rsi
+mov 7 rdx
+mov 22 r10
+nao r9
+nao r8
+mov 9 rax
+sys
+mq rax libc-space-0
+
+#init
 mq libc-space rdi
 mov 3dfaa rcx
 mov aed rbx
 mq equations r11
 addc equations seed r11
 dct r11
-#init
 #com
 
 #init
@@ -155,29 +167,26 @@ s seed-init
 	cmp rsi rdi
 	#add 1 r8
 	#st je seed-com
-	sst je seed-com
-	#st jmp seed-init
-	sst jmp seed-init
-s seed-com
-#com
-#init
-# <--> | might be bizzarly to do with the mmaps for a bin.
-mq libc-space rsi
-nao r8
-s seed-init
-	mov aed r10
-	#nao r10
-	#mov rsi r8
-	mov r8 0 rsi
-	#mov r8 0 rsi
-	#mov r10 0 rsi
-	add 8 rsi
-	add 1 r8
-	#cmp r8 3dfaa
-	cmp r8 500
 	st je seed-com
+	#st jmp seed-init
 	st jmp seed-init
 s seed-com
+#com
+
+# <--> | might be bizzarly to do with the mmaps for a bin.
+mq libc-space rsi
+mov rsi rdi
+add 1efd50 rdi
+nao r8
+s seed1-init
+	mov r8 0 rsi
+	add 8 rsi
+	add 1 r8
+	cmp rsi rdi
+	st je seed1-com
+	st jmp seed1-init
+s seed1-com
+#init
 #com
 
 lent rlibcs rsi
@@ -199,7 +208,8 @@ mq equations rdx
 mq views r11
 addc views view-space r11
 dct r11
-
+#mq libc-space-0 r8
+#mq r8 libc-space
 ##########################################################################################################
 # cvec
 ##########################################################################################################
