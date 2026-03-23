@@ -63,6 +63,13 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	printf("map | %lu\n", map3);
 	syscall(unix_close, pf);
 
+	source proc_name4 = "secs/sc/sc.msh";
+	pf = syscall(unix_open, proc_name4, archive_read);
+	naof_procf_secs = syscall(unix_lseek, pf, 0, seek_completion);
+	source map4 = syscall(unix_mmap, non, naof_procf_secs, map_rws, clerk_descreet, pf, non);
+	printf("map | %lu\n", map4);
+	syscall(unix_close, pf);
+
 	//asm("push %rbp");
 	//asm("mov %rsp, %rbp");
 	asm("sub $0x1e8480, %rsp");
@@ -77,6 +84,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	stack[6] = nonce;
 	stack[7] = com_name;
 	stack[8] = com_name_site;
+	stack[9] = map4 + 0x607;
 	asm("mov 0x0(%rsp), %r8");
 	asm("add $0x607, %r8");
 	asm("mov 0x8(%rsp), %r9");
@@ -85,6 +93,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 	asm("add $0x607, %r10");
 	asm("mov 0x18(%rsp), %r11");
 	asm("add $0x607, %r11");
+	asm("mov 0x48(%rsp), %r15");
 	asm("mov 0x20(%rsp), %r12");
 	asm("mov 0x28(%rsp), %r13");
 	asm("mov 0x30(%rsp), %r14");

@@ -152,28 +152,30 @@ mov 2 rdx
 mov 8 rax
 sys
 
+# file-mmap
+nao rdi
+mq chartf-site rsi
+mov 7 rdx
+mov 2 r10
+mq chartf r8
+nao r9
+mov 9 rax
+sys
+mq snapci r8
+mov rax 0 r8
+
 aqs stack-site
 # anonomous-mmap
 nao rdi
-mov 100000 rsi
+mq chartf-site rsi
 mov 7 rdx
 mov 22 r10
 nao r9
 nao r8
 mov 9 rax
 sys
-mq rax stack-site
-
-# file-mmap
-naoify rdi
-set 100000 rsi
-set 7 rdx
-set 2 r10
-move-quad-to file r8
-naoify r9
-set 9 rax
-syscall
-move-quad rax proc-site
+mq snapci r8
+mov rax 0 r8
 
 # munmap
 move-quad-to meta rdi
@@ -200,10 +202,10 @@ sef 4f rax
 syscall
 
 # gettimeofday
-leeve-quad naof-seconds rdi
-leeve-quad zones-1 rsi
-set 60 rax
-syscall
+lq naof-seconds rdi
+lq zones-1 rsi
+mov 60 rax
+sys
 
 # clone
 #naoify rdi

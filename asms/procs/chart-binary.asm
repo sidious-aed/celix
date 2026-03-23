@@ -4,6 +4,7 @@
 % equations
 % views
 % cf
+% sc
 ##########################################################################################################
 # init
 ##########################################################################################################
@@ -14,6 +15,8 @@ aqs views
 mq r10 views
 aqs cf
 mq r11 cf
+aqs sc
+mq r15 sc
 aqs binary-name
 mq r12 binary-name
 aqs naof-binary-name-secs
@@ -1380,6 +1383,14 @@ s append-mode-et-com
 mq objdf rdi
 mov 3 rax
 sys
+
+mq cname rdi
+mq equations rdx
+mq cf rbx
+mq views r12
+mq sc r11
+addc sc ic r11
+dct r11
 
 mq equations r11
 addc equations task r11

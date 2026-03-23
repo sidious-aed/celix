@@ -4,6 +4,7 @@
 % equations
 % views
 % cf
+% sc
 ##########################################################################################################
 # init
 ##########################################################################################################
@@ -14,6 +15,8 @@ aqs views
 mq r10 views
 aqs cf
 mq r11 cf
+aqs sc
+mq r15 sc
 aqs binary-name
 mq r12 binary-name
 aqs naof-binary-name-secs
@@ -74,6 +77,11 @@ mov 1 rdi
 lent jsect rsi
 mov 1 rdx
 mov 1 rax
+sys
+
+# unlink
+mq elffn rdi
+mov 57 rax
 sys
 
 mov 1 rdi
@@ -4205,6 +4213,43 @@ s each-elf-section-init
 	mq r8 esite
 	st jmp each-elf-section-init
 s each-elf-section-com
+
+mov 1 rdi
+lent i-sim rsi
+mov 1b rdx
+mov 1 rax
+sys
+mov 1 rdi
+mq elffn rsi
+mov 10 rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+mq equations r11
+addc equations task r11
+#dct r11
+
+mov 1 rdi
+mq elffn rsi
+mov 10 rdx
+mov 1 rax
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+
+mq elffn rdi
+mq equations rdx
+mq cf rbx
+mq views r12
+mq sc r11
+addc sc ic r11
+dct r11
 
 ##########################################################################################################
 # com

@@ -588,56 +588,33 @@ dct r11
 ##########################################################################################################
 # gcharts
 ##########################################################################################################
-ent rnaof-records naof-records
-ent rgc gc
-ent rmode mode
-aqs gc
-aqs naof-records
-aqs cmode
 
-lent chart-name rdi
-mq equations rdx
-mq views rbx
+aqs chart-at
+mq chart rsi
+add 18 rsi
+mq rsi chart-at
+
+aqs ckey
+aqs ckey-site
+aqs cvalue
+aqs cvalue-site
+aqs is-com
+
+mq chart-at rdi
+mq equations r12
 mq cf r11
-addc cf gc r11
+addc cf jp r11
 dct r11
-mq rax gc
-mq rdx naof-records
+mq rsi ckey
+mq rcx ckey-site
+mq rdi cvalue
+mq rdx cvalue-site
+mq rax is-com
+mq rbx chart-at
 
-lent rgc rsi
-mq gc rdi
-mov 10 rbx
-mq equations rdx
-mq views r11
-addc views view-number r11
-dct r11
-
-lent rnaof-records rsi
-mq naof-records rdi
-mov 10 rbx
-mq equations rdx
-mq views r11
-addc views view-number r11
-dct r11
-
-mq str0 rdi
-nao r9
-mov r9 0 rdi
-
-mq gc rdi
-mov 2 rsi
-mq str0 r12
-lq cs rbx
-mq equations rdx
-mq views r13
-mq cf r14
-mq cf r11
-addc cf gcas r11
-dct r11
-mq rax cmode
-
-lent rmode rsi
-mq cmode rdi
+ent rckey-site ckey-site
+lent rckey-site rsi
+mq ckey-site rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
@@ -645,41 +622,447 @@ addc views view-number r11
 dct r11
 
 mov 1 rdi
-mq str0 rsi
-mov 0 rsi rdx
-add 18 rsi
+mq ckey rsi
+mq ckey-site rdx
 mov 1 rax
 sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#init
+#com
 
+ent rcvalue-site cvalue-site
+lent rcvalue-site rsi
+mq cvalue-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq cvalue rsi
+mq cvalue-site rdx
+mov 1 rax
+sys
 mov 1 rdi
 lent jsect rsi
 mov 1 rdx
 mov 1 rax
 sys
 
-mq str0 rdi
-nao r9
-mov r9 0 rdi
+ent ris-com is-com
+lent ris-com rsi
+mq is-com rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
 
-mq gc rdi
-lent kname r9
+mq chart-at rdi
+mq equations r12
+mq cf r11
+addc cf jp r11
+dct r11
+mq rsi ckey
+mq rcx ckey-site
+mq rdi cvalue
+mq rdx cvalue-site
+mq rax is-com
+mq rbx chart-at
+
+lent rckey-site rsi
+mq ckey-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq ckey rsi
+mq ckey-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#init
+#com
+
+lent rcvalue-site rsi
+mq cvalue-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq cvalue rsi
+mq cvalue-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+lent ris-com rsi
+mq is-com rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq chart-at rsi
+mov a rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+mq chart-at rdi
+mq equations r12
+mq cf r11
+addc cf jp r11
+dct r11
+mq rsi ckey
+mq rcx ckey-site
+mq rdi cvalue
+mq rdx cvalue-site
+mq rax is-com
+mq rbx chart-at
+
+lent rckey-site rsi
+mq ckey-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq ckey rsi
+mq ckey-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#init
+#com
+
+lent rcvalue-site rsi
+mq cvalue-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq cvalue rsi
+mq cvalue-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+lent ris-com rsi
+mq is-com rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq chart-at rsi
+mov a rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+mq chart-at rdi
+mq equations r12
+mq cf r11
+addc cf jp r11
+dct r11
+mq rsi ckey
+mq rcx ckey-site
+mq rdi cvalue
+mq rdx cvalue-site
+mq rax is-com
+mq rbx chart-at
+
+lent rckey-site rsi
+mq ckey-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq ckey rsi
+mq ckey-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#init
+#com
+
+lent rcvalue-site rsi
+mq cvalue-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq cvalue rsi
+mq cvalue-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+lent ris-com rsi
+mq is-com rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq chart-at rsi
+mov a rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+##########################################################################################################
+# charts2
+##########################################################################################################
+mov 1 rdi
+mov 200 rsi
+lq cs rbx
+mq equations rdx
+mq cf r11
+addc cf cvec r11
+dct r11
+mq rax chart
+
+lent rchart rsi
+mq chart rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+##############################
+#
+# shianeckarecky-0
+# ----------------
+# name | sirbashanick
+# age | 38
+#
+##############################
+ent sr2-name sir\nbashanick
+ent sr2-age 39
+
+##############################
+#
+# shianeckarecky-0
+# ----------------
+# name | sirbgladiminmarch
+# age | 75
+#
+##############################
+ent sr3-name sirbgladiminmarch
+ent sr3-age 75
+
+mq chart rdi
+lent kname rcx
 mov 4 r10
-#lent sr0-name rsi
-#mov c rcx
-lent sr1-name rsi
-mov 11 rcx
-mq str0 r12
+lent sr2-name rsi
+mov d r11
+nao r12
 lq cs rbx
 mq equations rdx
-mq views r13
+mq cf r13
 mq cf r14
-mq cf r11
-addc cf gcbk r11
-dct r11
-mq rax cmode
+addc cf atc r14
+dct r14
+mq rax chart
 
-lent rmode rsi
-mq cmode rdi
+mq chart rdi
+lent kage rcx
+mov 3 r10
+lent sr2-age rsi
+mov 2 r11
+mov 1 r12
+lq cs rbx
+mq equations rdx
+mq cf r13
+mq cf r14
+addc cf atc r14
+dct r14
+mq rax chart
+
+mq chart rdi
+lent kname rcx
+mov 4 r10
+lent sr3-name rsi
+mov 11 r11
+nao r12
+lq cs rbx
+mq equations rdx
+mq cf r13
+mq cf r14
+addc cf atc r14
+dct r14
+mq rax chart
+
+mq chart rdi
+lent kage rcx
+mov 3 r10
+lent sr3-age rsi
+mov 2 r11
+mov 1 r12
+lq cs rbx
+mq equations rdx
+mq cf r13
+mq cf r14
+addc cf atc r14
+dct r14
+mq rax chart
+
+lent rchart rsi
+mq chart rdi
+mov a rbx
+mov 30 rcx
+mq equations rdx
+mq views r11
+addc views view-space r11
+dct r11
+
+mov 1 rdi
+mq chart rsi
+mov 0 rsi rdx
+add 18 rsi
+mov 1 rax
+sys
+
+ent chart-name2 charts/shianeckareckeis-specialists.chart
+mq chart rdi
+lent chart-name rsi
+mq cf r11
+addc cf sc r11
+dct r11
+
+mq chart rsi
+nao r9
+mov r9 0 rsi
+
+mq chart rdi
+lent kname rcx
+mov 4 r10
+lent sr2-name rsi
+mov c r11
+nao r12
+lq cs rbx
+mq equations rdx
+mq cf r13
+mq cf r14
+addc cf atc r14
+dct r14
+mq rax chart
+
+mq chart rdi
+lent kage rcx
+mov 3 r10
+lent sr2-age rsi
+mov 2 r11
+mov 1 r12
+lq cs rbx
+mq equations rdx
+mq cf r13
+mq cf r14
+addc cf atc r14
+dct r14
+mq rax chart
+
+mov 1 rdi
+mq chart rsi
+mov 0 rsi rdx
+add 18 rsi
+mov 1 rax
+sys
+
+mq chart rdi
+lent chart-name2 rsi
+mq cf r11
+addc cf ac r11
+dct r11
+
+##########################################################################################################
+# gcharts2
+##########################################################################################################
+mq chart rsi
+add 18 rsi
+mq rsi chart-at
+
+mq chart-at rdi
+mq equations r12
+mq cf r11
+addc cf jp r11
+dct r11
+mq rsi ckey
+mq rcx ckey-site
+mq rdi cvalue
+mq rdx cvalue-site
+mq rax is-com
+mq rbx chart-at
+
+lent rckey-site rsi
+mq ckey-site rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
@@ -687,23 +1070,103 @@ addc views view-number r11
 dct r11
 
 mov 1 rdi
-mq str0 rsi
-mov 0 rsi rdx
-add 18 rsi
+mq ckey rsi
+mq ckey-site rdx
 mov 1 rax
 sys
-
 mov 1 rdi
 lent jsect rsi
 mov 1 rdx
 mov 1 rax
 sys
 
-# close
-mq cf rdi
-mov 3 rax
+lent rcvalue-site rsi
+mq cvalue-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq cvalue rsi
+mq cvalue-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
 sys
 
+lent ris-com rsi
+mq is-com rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mq chart-at rdi
+mq equations r12
+mq cf r11
+addc cf jp r11
+dct r11
+mq rsi ckey
+mq rcx ckey-site
+mq rdi cvalue
+mq rdx cvalue-site
+mq rax is-com
+mq rbx chart-at
+
+lent rckey-site rsi
+mq ckey-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq ckey rsi
+mq ckey-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+lent rcvalue-site rsi
+mq cvalue-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mov 1 rdi
+mq cvalue rsi
+mq cvalue-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+lent ris-com rsi
+mq is-com rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+#init
+#com
 ##########################################################################################################
 # com
 ##########################################################################################################

@@ -22,6 +22,26 @@ aqs name
 mq rsi name
 aqs file
 
+#init
+ent jsect \n
+ent i-sim i sim.\n
+mov 1 rdi
+lent i-sim rsi
+mov 7 rdx
+mov 1 rax
+sys
+mov 1 rdi
+mq name rsi
+mov 10 rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#com
+
 # open-append
 mov 1ff rdx
 mov 441 rsi
