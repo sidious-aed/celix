@@ -21,6 +21,20 @@ nao r8
 mq r8 is-equal
 #st jmp compair-spaces-com
 
+#init
+ent jsecs \n
+mov 1 rdi
+mq entree rsi
+mq naof-entree-secs rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#com
+
 ##########################################################################################################
 # not-if-not-equal-naof-secs
 ##########################################################################################################

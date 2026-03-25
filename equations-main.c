@@ -26,20 +26,19 @@ quadrant main(quadrant naof_params, source_vecter params) {
 
 	//asm("push %rbp");
 	//asm("mov %rsp, %rbp");
-	asm("sub $0x1000, %rsp");
+	ip_file randf = syscall(unix_read, "/dev/random", archive_read);
+	asm("sub $0x4c4b40, %rsp");
 	register quadrant_reference rsp asm("rsp");
 	quadrant_reference stack = rsp;
-	stack[0] = map0;
-	stack[1] = map1;
-	stack[2] = map2;
+	syscall(unix_read, randf, stack, 0x4c4b40);
+	sseed(stack, 0x4c4b40);
+	stack[0] = map0 + 0x607;
+	stack[1] = map1 + 0x607;
+	stack[2] = map2 + 0x607;
 	asm("mov 0x0(%rsp), %r8");
-	asm("add $0x607, %r8");
-	asm("mov 0x8(%rsp), %r9");
-	asm("add $0x607, %r9");
-	asm("mov 0x10(%rsp), %r10");
-	asm("add $0x607, %r10");
 	asm("callq *%r8");
-	asm("add $0x1000, %rsp");
+	asm("add $0x4c4b40, %rsp");
 	//asm("pop %rbp");
+	syscall(unix_close, randf);
 	return 0;
 }

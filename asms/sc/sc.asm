@@ -39,13 +39,6 @@ aqs tseek
 isr 400
 aqs tseek-site
 
-ent i-sim i sim.\n
-mov 1 rdi
-lent i-sim rsi
-mov 7 rdx
-mov 1 rax
-sys
-
 mq seek-name rsi
 mq seek-value rdi
 lq tseek rbx
@@ -55,17 +48,6 @@ mq cf r11
 addc cf tsdsl r11
 dct r11
 mq rax tseek-site
-
-mov 1 rdi
-lq tseek rsi
-mq tseek-site rdx
-mov 1 rax
-sys
-mov 1 rdi
-lent jsect rsi
-mov 1 rdx
-mov 1 rax
-sys
 
 ##########################################################################################################
 # index-chart
@@ -100,14 +82,6 @@ sys
 mq rax chartf
 
 s index-chart-init
-	lent rfsite rsi
-	mq fsite rdi
-	mov 10 rbx
-	mq equations rdx
-	mq views r11
-	addc views view-number r11
-	#dct r11
-
 	# lseek
 	mq chartf rdi
 	mq fsite rsi
@@ -123,14 +97,6 @@ s index-chart-init
 	sys
 	mq rax nrs
 
-	lent rnrs rsi
-	mq nrs rdi
-	mov 10 rbx
-	mq equations rdx
-	mq views r11
-	addc views view-number r11
-	#dct r11
-
 	lq cs rsi
 	mq rsi record
 	mq rsi chart-at
@@ -142,27 +108,6 @@ s index-chart-init
 	nao r8
 	mq r8 chart-site
 	s seek-each-record-init
-		mov 1 rdi
-		lq tseek rsi
-		mq tseek-site rdx
-		mov 1 rax
-		#sys
-		mov 1 rdi
-		lent jsect rsi
-		mov 1 rdx
-		mov 1 rax
-		#sys
-		mov 1 rdi
-		mq chart-at rsi
-		mq tseek-site rdx
-		mov 1 rax
-		#sys
-		mov 1 rdi
-		lent jsect rsi
-		mov 1 rdx
-		mov 1 rax
-		#sys
-
 		lq tseek rdi
 		mq tseek-site rdx
 		mq chart-at rsi
@@ -171,14 +116,6 @@ s index-chart-init
 		addc equations compair-spaces r11
 		dct r11
 		mq rax compr
-
-		lent rcompr rsi
-		mq compr rdi
-		mov 10 rbx
-		mq equations rdx
-		mq views r11
-		addc views view-number r11
-		#dct r11
 
 		mq compr rax
 		cmp 0 rax
@@ -240,20 +177,6 @@ s index-chart-init
 	st jne exit-at-find-com
 		st jmp com-is-seek-com
 	s exit-at-find-com
-
-	lent rfsite rsi
-	mq fsite rdi
-	mov 10 rbx
-	mq equations rdx
-	mq views r11
-	addc views view-number r11
-	#dct r11
-
-	mov 1 rdi
-	lent jsect rsi
-	mov 1 rdx
-	mov 1 rax
-	#sys
 
 	st jmp index-chart-init
 s index-chart-com
@@ -319,4 +242,56 @@ mq equations rdx
 mq views r11
 addc views view-number r11
 dct r11
+#com
+#init
+	lent rnrs rsi
+	mq nrs rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
+		mov 1 rdi
+		lent jsect rsi
+		mov 1 rdx
+		mov 1 rax
+		#sys
+		lent rcompr rsi
+		mq compr rdi
+		mov 10 rbx
+		mq equations rdx
+		mq views r11
+		addc views view-number r11
+		#dct r11
+		mov 1 rdi
+		lent jsect rsi
+		mov 1 rdx
+		mov 1 rax
+		#sys
+	mov 1 rdi
+	lent jsect rsi
+	mov 1 rdx
+	mov 1 rax
+	sys
+ent i-sim i sim.\n
+mov 1 rdi
+lent i-sim rsi
+mov 7 rdx
+mov 1 rax
+sys
+	lent rfsite rsi
+	mq fsite rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	#dct r11
+
+	lent rfsite rsi
+	mq fsite rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
 #com

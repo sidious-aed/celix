@@ -39,6 +39,30 @@ ent record-come \n
 aqs b16s
 isr 200
 aqs key-com-site
+ent jsect \n
+
+#init
+mov 1 rdi
+mq key rsi
+mq naof-key-secs rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+mov 1 rdi
+mq value rsi
+mq naof-value-secs rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#com
 
 ##########################################################################################################
 # write-collumn-keyage
@@ -186,8 +210,8 @@ sys
 mq rax file
 # write
 mq file rdi
-mov 8 rdx
-lq naof-key-secs rsi
+mov 100 rdx
+mq cs rsi
 mov 1 rax
 sys
 # close

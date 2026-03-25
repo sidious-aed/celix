@@ -1,7 +1,7 @@
 2|bs|3|528|4|secs|b|48 83 ec 08|9|naof-secs|1|4|7|alu-mod|3|sub|6|params|9|$0x8,%rsp|7|segment|5|.init|7|section|5|_init
 2|bs|3|52c|4|secs|k|48 8b 05 b5 0a 20 00|9|naof-secs|1|7|7|alu-mod|3|mov|6|params|j|0x200ab5(%rip),%rax|b|destination|6|200fe8|5|dname|e|__gmon_start__|7|segment|5|.init|7|section|5|_init
 2|bs|3|533|4|secs|8|48 85 c0|9|naof-secs|1|3|7|alu-mod|4|test|6|params|9|%rax,%rax|7|segment|5|.init|7|section|5|_init
-2|bs|3|536|4|secs|5|74 02|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|53a|5|dname|a|_init+0x12|7|segment|5|.init|7|section|5|_init
+2|bs|3|536|4|secs|5|74 02|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|53a|b|destination|3|53a|5|dname|a|_init+0x12|7|segment|5|.init|7|section|5|_init
 2|bs|3|538|4|secs|5|ff d0|9|naof-secs|1|2|7|alu-mod|5|callq|6|params|5|*%rax|7|segment|5|.init|7|section|5|_init
 2|bs|3|53a|4|secs|b|48 83 c4 08|9|naof-secs|1|4|7|alu-mod|3|add|6|params|9|$0x8,%rsp|7|segment|5|.init|7|section|5|_init
 2|bs|3|53e|4|secs|2|c3|9|naof-secs|1|1|7|alu-mod|4|retq|7|segment|5|.init|7|section|5|_init
@@ -10,10 +10,10 @@
 2|bs|3|54c|4|secs|b|0f 1f 40 00|9|naof-secs|1|4|7|alu-mod|4|nopl|6|params|9|0x0(%rax)|7|segment|4|.plt|7|section|4|.plt
 2|bs|3|550|4|secs|h|ff 25 72 0a 20 00|9|naof-secs|1|6|7|alu-mod|4|jmpq|6|params|f|*0x200a72(%rip)|b|destination|6|200fc8|5|dname|g|puts@GLIBC_2.2.5|7|segment|4|.plt|7|section|8|puts@plt
 2|bs|3|556|4|secs|e|68 00 00 00 00|9|naof-secs|1|5|7|alu-mod|5|pushq|6|params|4|$0x0|7|segment|4|.plt|7|section|8|puts@plt
-2|bs|3|55b|4|secs|e|e9 e0 ff ff ff|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|540|5|dname|4|.plt|7|segment|4|.plt|7|section|8|puts@plt
+2|bs|3|55b|4|secs|e|e9 e0 ff ff ff|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|540|b|destination|3|540|5|dname|4|.plt|7|segment|4|.plt|7|section|8|puts@plt
 2|bs|3|560|4|secs|h|ff 25 6a 0a 20 00|9|naof-secs|1|6|7|alu-mod|4|jmpq|6|params|f|*0x200a6a(%rip)|b|destination|6|200fd0|5|dname|j|syscall@GLIBC_2.2.5|7|segment|4|.plt|7|section|b|syscall@plt
 2|bs|3|566|4|secs|e|68 01 00 00 00|9|naof-secs|1|5|7|alu-mod|5|pushq|6|params|4|$0x1|7|segment|4|.plt|7|section|b|syscall@plt
-2|bs|3|56b|4|secs|e|e9 d0 ff ff ff|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|540|5|dname|4|.plt|7|segment|4|.plt|7|section|b|syscall@plt
+2|bs|3|56b|4|secs|e|e9 d0 ff ff ff|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|540|b|destination|3|540|5|dname|4|.plt|7|segment|4|.plt|7|section|b|syscall@plt
 2|bs|3|570|4|secs|h|ff 25 82 0a 20 00|9|naof-secs|1|6|7|alu-mod|4|jmpq|6|params|f|*0x200a82(%rip)|b|destination|6|200ff8|5|dname|q|__cxa_finalize@GLIBC_2.2.5|7|segment|8|.plt.got|7|section|i|__cxa_finalize@plt
 2|bs|3|576|4|secs|5|66 90|9|naof-secs|1|2|7|alu-mod|4|xchg|6|params|7|%ax,%ax|7|segment|8|.plt.got|7|section|i|__cxa_finalize@plt
 2|bs|3|580|4|secs|5|31 ed|9|naof-secs|1|2|7|alu-mod|3|xor|6|params|9|%ebp,%ebp|7|segment|5|.text|7|section|6|_start
@@ -34,12 +34,12 @@
 2|bs|3|5b8|4|secs|k|48 8d 05 51 0a 20 00|9|naof-secs|1|7|7|alu-mod|3|lea|6|params|j|0x200a51(%rip),%rax|b|destination|6|201010|5|dname|b|__TMC_END__|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5bf|4|secs|8|48 39 f8|9|naof-secs|1|3|7|alu-mod|3|cmp|6|params|9|%rdi,%rax|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5c2|4|secs|8|48 89 e5|9|naof-secs|1|3|7|alu-mod|3|mov|6|params|9|%rsp,%rbp|7|segment|5|.text|7|section|k|deregister_tm_clones
-2|bs|3|5c5|4|secs|5|74 19|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|5e0|5|dname|p|deregister_tm_clones+0x30|7|segment|5|.text|7|section|k|deregister_tm_clones
+2|bs|3|5c5|4|secs|5|74 19|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|5e0|b|destination|3|5e0|5|dname|p|deregister_tm_clones+0x30|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5c7|4|secs|k|48 8b 05 0a 0a 20 00|9|naof-secs|1|7|7|alu-mod|3|mov|6|params|j|0x200a0a(%rip),%rax|b|destination|6|200fd8|5|dname|r|_ITM_deregisterTMCloneTable|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5ce|4|secs|8|48 85 c0|9|naof-secs|1|3|7|alu-mod|4|test|6|params|9|%rax,%rax|7|segment|5|.text|7|section|k|deregister_tm_clones
-2|bs|3|5d1|4|secs|5|74 0d|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|5e0|5|dname|p|deregister_tm_clones+0x30|7|segment|5|.text|7|section|k|deregister_tm_clones
+2|bs|3|5d1|4|secs|5|74 0d|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|5e0|b|destination|3|5e0|5|dname|p|deregister_tm_clones+0x30|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5d3|4|secs|2|5d|9|naof-secs|1|1|7|alu-mod|3|pop|6|params|4|%rbp|7|segment|5|.text|7|section|k|deregister_tm_clones
-2|bs|3|5d4|4|secs|5|ff e0|9|naof-secs|1|2|7|alu-mod|4|jmpq|6|params|5|*%rax|7|segment|5|.text|7|section|k|deregister_tm_clones
+2|bs|3|5d4|4|secs|5|ff e0|9|naof-secs|1|2|7|alu-mod|4|jmpq|6|params|5|*%rax|b|destination|5|*%rax|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5d6|4|secs|t|66 2e 0f 1f 84 00 00 00 00 00|9|naof-secs|1|a|7|alu-mod|4|nopw|6|params|k|%cs:0x0(%rax,%rax,1)|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5e0|4|secs|2|5d|9|naof-secs|1|1|7|alu-mod|3|pop|6|params|4|%rbp|7|segment|5|.text|7|section|k|deregister_tm_clones
 2|bs|3|5e1|4|secs|2|c3|9|naof-secs|1|1|7|alu-mod|4|retq|7|segment|5|.text|7|section|k|deregister_tm_clones
@@ -55,23 +55,23 @@
 2|bs|3|60c|4|secs|b|48 c1 e8 3f|9|naof-secs|1|4|7|alu-mod|3|shr|6|params|a|$0x3f,%rax|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|610|4|secs|8|48 01 c6|9|naof-secs|1|3|7|alu-mod|3|add|6|params|9|%rax,%rsi|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|613|4|secs|8|48 d1 fe|9|naof-secs|1|3|7|alu-mod|3|sar|6|params|4|%rsi|7|segment|5|.text|7|section|i|register_tm_clones
-2|bs|3|616|4|secs|5|74 18|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|630|5|dname|n|register_tm_clones+0x40|7|segment|5|.text|7|section|i|register_tm_clones
+2|bs|3|616|4|secs|5|74 18|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|630|b|destination|3|630|5|dname|n|register_tm_clones+0x40|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|618|4|secs|k|48 8b 05 d1 09 20 00|9|naof-secs|1|7|7|alu-mod|3|mov|6|params|j|0x2009d1(%rip),%rax|b|destination|6|200ff0|5|dname|p|_ITM_registerTMCloneTable|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|61f|4|secs|8|48 85 c0|9|naof-secs|1|3|7|alu-mod|4|test|6|params|9|%rax,%rax|7|segment|5|.text|7|section|i|register_tm_clones
-2|bs|3|622|4|secs|5|74 0c|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|630|5|dname|n|register_tm_clones+0x40|7|segment|5|.text|7|section|i|register_tm_clones
+2|bs|3|622|4|secs|5|74 0c|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|630|b|destination|3|630|5|dname|n|register_tm_clones+0x40|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|624|4|secs|2|5d|9|naof-secs|1|1|7|alu-mod|3|pop|6|params|4|%rbp|7|segment|5|.text|7|section|i|register_tm_clones
-2|bs|3|625|4|secs|5|ff e0|9|naof-secs|1|2|7|alu-mod|4|jmpq|6|params|5|*%rax|7|segment|5|.text|7|section|i|register_tm_clones
+2|bs|3|625|4|secs|5|ff e0|9|naof-secs|1|2|7|alu-mod|4|jmpq|6|params|5|*%rax|b|destination|5|*%rax|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|627|4|secs|q|66 0f 1f 84 00 00 00 00 00|9|naof-secs|1|9|7|alu-mod|4|nopw|6|params|g|0x0(%rax,%rax,1)|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|630|4|secs|2|5d|9|naof-secs|1|1|7|alu-mod|3|pop|6|params|4|%rbp|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|631|4|secs|2|c3|9|naof-secs|1|1|7|alu-mod|4|retq|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|632|4|secs|b|0f 1f 40 00|9|naof-secs|1|4|7|alu-mod|4|nopl|6|params|9|0x0(%rax)|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|636|4|secs|t|66 2e 0f 1f 84 00 00 00 00 00|9|naof-secs|1|a|7|alu-mod|4|nopw|6|params|k|%cs:0x0(%rax,%rax,1)|7|segment|5|.text|7|section|i|register_tm_clones
 2|bs|3|640|4|secs|k|80 3d c9 09 20 00 00|9|naof-secs|1|7|7|alu-mod|4|cmpb|6|params|j|$0x0,0x2009c9(%rip)|b|destination|6|201010|5|dname|b|__TMC_END__|7|segment|5|.text|7|section|l|__do_global_dtors_aux
-2|bs|3|647|4|secs|5|75 2f|9|naof-secs|1|2|7|alu-mod|3|jne|6|params|3|678|5|dname|q|__do_global_dtors_aux+0x38|7|segment|5|.text|7|section|l|__do_global_dtors_aux
+2|bs|3|647|4|secs|5|75 2f|9|naof-secs|1|2|7|alu-mod|3|jne|6|params|3|678|b|destination|3|678|5|dname|q|__do_global_dtors_aux+0x38|7|segment|5|.text|7|section|l|__do_global_dtors_aux
 2|bs|3|649|4|secs|n|48 83 3d a7 09 20 00 00|9|naof-secs|1|8|7|alu-mod|4|cmpq|6|params|j|$0x0,0x2009a7(%rip)|b|destination|6|200ff8|5|dname|q|__cxa_finalize@GLIBC_2.2.5|7|segment|5|.text|7|section|l|__do_global_dtors_aux
 2|bs|3|651|4|secs|2|55|9|naof-secs|1|1|7|alu-mod|4|push|6|params|4|%rbp|7|segment|5|.text|7|section|l|__do_global_dtors_aux
 2|bs|3|652|4|secs|8|48 89 e5|9|naof-secs|1|3|7|alu-mod|3|mov|6|params|9|%rsp,%rbp|7|segment|5|.text|7|section|l|__do_global_dtors_aux
-2|bs|3|655|4|secs|5|74 0c|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|663|5|dname|q|__do_global_dtors_aux+0x23|7|segment|5|.text|7|section|l|__do_global_dtors_aux
+2|bs|3|655|4|secs|5|74 0c|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|663|b|destination|3|663|5|dname|q|__do_global_dtors_aux+0x23|7|segment|5|.text|7|section|l|__do_global_dtors_aux
 2|bs|3|657|4|secs|k|48 8b 3d aa 09 20 00|9|naof-secs|1|7|7|alu-mod|3|mov|6|params|j|0x2009aa(%rip),%rdi|b|destination|6|201008|5|dname|c|__dso_handle|7|segment|5|.text|7|section|l|__do_global_dtors_aux
 2|bs|3|65e|4|secs|e|e8 0d ff ff ff|9|naof-secs|1|5|7|alu-mod|5|callq|6|params|3|570|5|dname|i|__cxa_finalize@plt|7|segment|5|.text|7|section|l|__do_global_dtors_aux
 2|bs|3|663|4|secs|e|e8 48 ff ff ff|9|naof-secs|1|5|7|alu-mod|5|callq|6|params|3|5b0|5|dname|k|deregister_tm_clones|7|segment|5|.text|7|section|l|__do_global_dtors_aux
@@ -84,14 +84,14 @@
 2|bs|3|680|4|secs|2|55|9|naof-secs|1|1|7|alu-mod|4|push|6|params|4|%rbp|7|segment|5|.text|7|section|b|frame_dummy
 2|bs|3|681|4|secs|8|48 89 e5|9|naof-secs|1|3|7|alu-mod|3|mov|6|params|9|%rsp,%rbp|7|segment|5|.text|7|section|b|frame_dummy
 2|bs|3|684|4|secs|2|5d|9|naof-secs|1|1|7|alu-mod|3|pop|6|params|4|%rbp|7|segment|5|.text|7|section|b|frame_dummy
-2|bs|3|685|4|secs|e|e9 66 ff ff ff|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|5f0|5|dname|i|register_tm_clones|7|segment|5|.text|7|section|b|frame_dummy
+2|bs|3|685|4|secs|e|e9 66 ff ff ff|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|5f0|b|destination|3|5f0|5|dname|i|register_tm_clones|7|segment|5|.text|7|section|b|frame_dummy
 2|bs|3|68a|4|secs|2|55|9|naof-secs|1|1|7|alu-mod|4|push|6|params|4|%rbp|7|segment|5|.text|7|section|4|main
 2|bs|3|68b|4|secs|8|48 89 e5|9|naof-secs|1|3|7|alu-mod|3|mov|6|params|9|%rsp,%rbp|7|segment|5|.text|7|section|4|main
 2|bs|3|68e|4|secs|b|48 83 ec 30|9|naof-secs|1|4|7|alu-mod|3|sub|6|params|a|$0x30,%rsp|7|segment|5|.text|7|section|4|main
 2|bs|3|692|4|secs|b|48 89 7d d8|9|naof-secs|1|4|7|alu-mod|3|mov|6|params|g|%rdi,-0x28(%rbp)|7|segment|5|.text|7|section|4|main
 2|bs|3|696|4|secs|b|48 89 75 d0|9|naof-secs|1|4|7|alu-mod|3|mov|6|params|g|%rsi,-0x30(%rbp)|7|segment|5|.text|7|section|4|main
 2|bs|3|69a|4|secs|e|48 83 7d d8 03|9|naof-secs|1|5|7|alu-mod|4|cmpq|6|params|g|$0x3,-0x28(%rbp)|7|segment|5|.text|7|section|4|main
-2|bs|3|69f|4|secs|5|74 2a|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|6cb|5|dname|9|main+0x41|7|segment|5|.text|7|section|4|main
+2|bs|3|69f|4|secs|5|74 2a|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|6cb|b|destination|3|6cb|5|dname|9|main+0x41|7|segment|5|.text|7|section|4|main
 2|bs|3|6a1|4|secs|k|48 8d 3d cc 01 00 00|9|naof-secs|1|7|7|alu-mod|3|lea|6|params|g|0x1cc(%rip),%rdi|b|destination|3|874|5|dname|i|_IO_stdin_used+0x4|7|segment|5|.text|7|section|4|main
 2|bs|3|6a8|4|secs|e|e8 a3 fe ff ff|9|naof-secs|1|5|7|alu-mod|5|callq|6|params|3|550|5|dname|8|puts@plt|7|segment|5|.text|7|section|4|main
 2|bs|3|6ad|4|secs|k|48 8d 3d cb 01 00 00|9|naof-secs|1|7|7|alu-mod|3|lea|6|params|g|0x1cb(%rip),%rdi|b|destination|3|87f|5|dname|i|_IO_stdin_used+0xf|7|segment|5|.text|7|section|4|main
@@ -99,7 +99,7 @@
 2|bs|3|6b9|4|secs|k|48 8d 3d cf 01 00 00|9|naof-secs|1|7|7|alu-mod|3|lea|6|params|g|0x1cf(%rip),%rdi|b|destination|3|88f|5|dname|j|_IO_stdin_used+0x1f|7|segment|5|.text|7|section|4|main
 2|bs|3|6c0|4|secs|e|e8 8b fe ff ff|9|naof-secs|1|5|7|alu-mod|5|callq|6|params|3|550|5|dname|8|puts@plt|7|segment|5|.text|7|section|4|main
 2|bs|3|6c5|4|secs|2|90|9|naof-secs|1|1|7|alu-mod|3|nop|7|segment|5|.text|7|section|4|main
-2|bs|3|6c6|4|secs|e|e9 1c 01 00 00|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|7e7|5|dname|a|main+0x15d|7|segment|5|.text|7|section|4|main
+2|bs|3|6c6|4|secs|e|e9 1c 01 00 00|9|naof-secs|1|5|7|alu-mod|4|jmpq|6|params|3|7e7|b|destination|3|7e7|5|dname|a|main+0x15d|7|segment|5|.text|7|section|4|main
 2|bs|3|6cb|4|secs|b|48 8b 45 d0|9|naof-secs|1|4|7|alu-mod|3|mov|6|params|g|-0x30(%rbp),%rax|7|segment|5|.text|7|section|4|main
 2|bs|3|6cf|4|secs|b|48 83 c0 08|9|naof-secs|1|4|7|alu-mod|3|add|6|params|9|$0x8,%rax|7|segment|5|.text|7|section|4|main
 2|bs|3|6d3|4|secs|8|48 8b 00|9|naof-secs|1|3|7|alu-mod|3|mov|6|params|b|(%rax),%rax|7|segment|5|.text|7|section|4|main
@@ -185,7 +185,7 @@
 2|bs|3|818|4|secs|b|48 c1 fd 03|9|naof-secs|1|4|7|alu-mod|3|sar|6|params|9|$0x3,%rbp|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|81c|4|secs|e|e8 07 fd ff ff|9|naof-secs|1|5|7|alu-mod|5|callq|6|params|3|528|5|dname|5|_init|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|821|4|secs|8|48 85 ed|9|naof-secs|1|3|7|alu-mod|4|test|6|params|9|%rbp,%rbp|7|segment|5|.text|7|section|f|__libc_csu_init
-2|bs|3|824|4|secs|5|74 20|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|846|5|dname|k|__libc_csu_init+0x56|7|segment|5|.text|7|section|f|__libc_csu_init
+2|bs|3|824|4|secs|5|74 20|9|naof-secs|1|2|7|alu-mod|2|je|6|params|3|846|b|destination|3|846|5|dname|k|__libc_csu_init+0x56|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|826|4|secs|5|31 db|9|naof-secs|1|2|7|alu-mod|3|xor|6|params|9|%ebx,%ebx|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|828|4|secs|n|0f 1f 84 00 00 00 00 00|9|naof-secs|1|8|7|alu-mod|4|nopl|6|params|g|0x0(%rax,%rax,1)|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|830|4|secs|8|4c 89 fa|9|naof-secs|1|3|7|alu-mod|3|mov|6|params|9|%r15,%rdx|7|segment|5|.text|7|section|f|__libc_csu_init
@@ -194,7 +194,7 @@
 2|bs|3|839|4|secs|b|41 ff 14 dc|9|naof-secs|1|4|7|alu-mod|5|callq|6|params|e|*(%r12,%rbx,8)|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|83d|4|secs|b|48 83 c3 01|9|naof-secs|1|4|7|alu-mod|3|add|6|params|9|$0x1,%rbx|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|841|4|secs|8|48 39 dd|9|naof-secs|1|3|7|alu-mod|3|cmp|6|params|9|%rbx,%rbp|7|segment|5|.text|7|section|f|__libc_csu_init
-2|bs|3|844|4|secs|5|75 ea|9|naof-secs|1|2|7|alu-mod|3|jne|6|params|3|830|5|dname|k|__libc_csu_init+0x40|7|segment|5|.text|7|section|f|__libc_csu_init
+2|bs|3|844|4|secs|5|75 ea|9|naof-secs|1|2|7|alu-mod|3|jne|6|params|3|830|b|destination|3|830|5|dname|k|__libc_csu_init+0x40|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|846|4|secs|b|48 83 c4 08|9|naof-secs|1|4|7|alu-mod|3|add|6|params|9|$0x8,%rsp|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|84a|4|secs|2|5b|9|naof-secs|1|1|7|alu-mod|3|pop|6|params|4|%rbx|7|segment|5|.text|7|section|f|__libc_csu_init
 2|bs|3|84b|4|secs|2|5d|9|naof-secs|1|1|7|alu-mod|3|pop|6|params|4|%rbp|7|segment|5|.text|7|section|f|__libc_csu_init

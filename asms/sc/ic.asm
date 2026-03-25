@@ -113,14 +113,6 @@ mq rax chartf
 
 aqs chart-site
 s index-chart-init
-	lent rfsite rsi
-	mq fsite rdi
-	mov 10 rbx
-	mq equations rdx
-	mq views r11
-	addc views view-number r11
-	#dct r11
-
 	# lseek
 	mq chartf rdi
 	mq fsite rsi
@@ -135,6 +127,14 @@ s index-chart-init
 	mov 0 rax
 	sys
 	mq rax nrs
+
+	lent rnrs rsi
+	mq nrs rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
 
 	lent rnrs rsi
 	mq nrs rdi
@@ -173,9 +173,16 @@ s index-chart-init
 		st jmp seek-each-record-init
 	s seek-each-record-com
 
+	aqs chart-site0
+	mq chart-site r8
+	mq fsite r9
+	add r9 r8
+	mq r8 chart-site0
+
 	mq chart-site r8
 	mq fsite r9
 	add r8 r9
+	#mov r9 r10
 	mq r9 fsite
 
 	lent rfsite rsi
@@ -184,12 +191,12 @@ s index-chart-init
 	mq equations rdx
 	mq views r11
 	addc views view-number r11
-	#dct r11
+	dct r11
 
 	# write
 	mq indexf rdi
 	mov 8 rdx
-	lq fsite rsi
+	lq chart-site0 rsi
 	mov 1 rax
 	sys
 

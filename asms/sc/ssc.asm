@@ -4,6 +4,7 @@
 # rdi | ci
 # rcx | seek-name
 # rsi | seek-value
+# r13 | csite
 # r15 | wrecord
 % equations
 % cf
@@ -32,6 +33,8 @@ aqs seek-name
 mq rcx seek-name
 aqs seek-value
 mq rsi seek-value
+aqs csite
+mq r13 csite
 aqs wrecord
 mq r15 wrecord
 aqs equations
@@ -57,7 +60,7 @@ mov 1 rdi
 lent i-sim rsi
 mov 7 rdx
 mov 1 rax
-sys
+#sys
 
 mq seek-name rsi
 mq seek-value rdi
@@ -73,26 +76,34 @@ mov 1 rdi
 lq tseek rsi
 mq tseek-site rdx
 mov 1 rax
-sys
+#sys
 mov 1 rdi
 lent jsect rsi
 mov 1 rdx
 mov 1 rax
-sys
+#sys
 
 aqs seek-site
 lq tseek rsi
 mq chart rdi
+mq csite r8
+add r8 rdi
 mq strstr r11
 dct r11
 mq rax seek-site
 cmp 0 rax
 st je ssc-com
+aqs sfo
+mq rax sfo
+aqs ics
+mq chart rdi
+sub rdi rax
+mq rax ics
 
 #init
 mov 1 rdi
-mov rax rsi
-mov aa rdx
+mq sfo rsi
+mov c rdx
 mov 1 rax
 sys
 mov 1 rdi
@@ -102,24 +113,50 @@ mov 1 rax
 sys
 #com
 
-aqs rcs
-aqs rcs-site
-mov rax rdi
-mq chart rsi
-sub rsi rdi
+mq ics rdi
 mq chart-index rsi
 nao r10
 s seek-record-from-orecle-site-init
 	mov 0 rsi r11
 	cmp r11 rdi
-	st jbe seek-record-from-orecle-site-com
+	st jb seek-record-from-orecle-site-com
 	mov r11 r10
 	add 8 rsi
 	st jmp seek-record-from-orecle-site-init
 s seek-record-from-orecle-site-com
-mq r10 rcs
 sub r10 r11
-mq r11 rcs-site
+mq r11 record-site
+mq chart r11
+add r11 r10
+mq r10 sfo
+
+#init
+mov 1 rdi
+mq chart rsi
+mq chart-index r8
+mov 10 r8 r8
+add r8 rsi
+mov a rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+#com
+
+#init
+mov 1 rdi
+mq sfo rsi
+mq record-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
 
 ent rrcs rcs
 lent rrcs rsi
@@ -139,22 +176,34 @@ mq views r11
 addc views view-number r11
 dct r11
 
-mq chart rsi
-mq rcs r8
-add r8 rsi
+ent rcsite csite
+lent rcsite rsi
+mq csite rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+#com
+
+mq sfo rsi
 mq wrecord rdi
-mq rcs-site rcx
-sub 1 rcx
-mq rcx record-site
+mq record-site rcx
 mq equations r11
 addc equations com r11
 dct r11
+
+mq sfo rsi
+mq chart rdi
+sub rdi rsi
+mq rsi csite
 
 s ssc-com
 ##########################################################################################################
 # com
 ##########################################################################################################
 mq record-site rax
+mq csite rbx
 add 10000 rsp
 ret
 

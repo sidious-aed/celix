@@ -95,4 +95,33 @@ add 1000 rsp
 ret
 
 #init
+ent fn droid/clerk-com.secs
+aqs file
+# unlink
+lent fn rdi
+mov 57 rax
+sys
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+lent fn rdi
+mov 2 rax
+sys
+mq rax file
+# write
+mq file rdi
+mov 8 rdx
+lq vect rsi
+mov 1 rax
+sys
+# write
+mq file rdi
+mov 18 rdx
+mq vect rsi
+mov 1 rax
+sys
+# close
+mq file rdi
+mov 3 rax
+sys
 #com

@@ -80,6 +80,54 @@ mov 1 rdx
 mov 1 rax
 sys
 
+ent motions-chart-com .mc
+aqs motions-name
+isr 400
+aqs motions-name-site
+
+mq binary-name rsi
+lq motions-name rdi
+mq naof-binary-name-secs rcx
+mq equations r11
+addc equations com r11
+dct r11
+
+lent motions-chart-com rsi
+lq motions-name rdi
+mq naof-binary-name-secs r8
+add r8 rdi
+mov 3 rcx
+add rcx r8
+mq r8 motions-name-site
+mq equations r11
+addc equations com r11
+dct r11
+lq motions-name rsi
+mq motions-name-site r8
+add r8 rsi
+nao r9
+movs r9 0 rsi
+
+mov 1 rdi
+lq motions-name rsi
+mq motions-name-site rdx
+mov 1 rax
+sys
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+# unlink
+lq motions-name rdi
+mov 57 rax
+sys
+
+mq equations r11
+addc equations task r11
+#dct r11
+
 aqs cfcs
 isr 3d0908
 lq cfcs rdi
@@ -204,6 +252,16 @@ mq cf r11
 addc cf cvec r11
 dct r11
 mq rax combbinc
+
+aqs motionsc
+mov 1 rdi
+mov 10000 rsi
+lq cfcs rbx
+mq equations rdx
+mq cf r11
+addc cf cvec r11
+dct r11
+mq rax motionsc
 
 aqs key-space-site
 aqs value-space-site
@@ -1012,6 +1070,40 @@ s sections-init
 				mq rax binc0
 			s add-params-to-record-com
 
+			mq naof-destination-secs rsi
+			cmp 0 rsi
+			st jne cset-destination-for-stay-tos-com
+				mq at-alu-module rsi
+				nao r9
+				movs 0 rsi r9
+				cmp 6a r9
+				st jne set-destination-for-stay-tos-com
+					ent is-set-destination-for-stay-to is set destination for stay to.\n
+					mov 1 rdi
+					lent is-set-destination-for-stay-to rsi
+					mov 20 rdx
+					mov 1 rax
+					#sys
+					mq binc0 rdi
+					lent kdestination rcx
+					mq kdestination-site r10
+					mq params-init rsi
+					mq naof-params-secs r11
+					nao r12
+					lq cs rbx
+					mq equations rdx
+					mq cf r13
+					mq cf r14
+					addc cf atc r14
+					dct r14
+					mq rax binc0
+					mq params-init rsi
+					mq naof-params-secs r8
+					mq rsi destination-init
+					mq r8 naof-destination-secs
+					st jmp add-destination-to-record-com
+				s set-destination-for-stay-tos-com
+			s cset-destination-for-stay-tos-com
 			mq naof-destination-secs r8
 			cmp 0 r8
 			st je add-destination-to-record-com
@@ -1030,6 +1122,46 @@ s sections-init
 				dct r14
 				mq rax binc0
 			s add-destination-to-record-com
+
+			mq naof-destination-secs r8
+			cmp 0 r8
+			st je write-motionsc-com
+				mq motionsc rdi
+				lent kbin-site rcx
+				mq kbin-site-site r10
+				mq destination-init rsi
+				mq naof-destination-secs r11
+				mov 1 r12
+				lq cs rbx
+				mq equations rdx
+				mq cf r13
+				mq cf r14
+				addc cf atc r14
+				dct r14
+				mq rax motionsc
+
+				mov 1 rdi
+				mq motionsc rsi
+				mov 0 rsi rdx
+				mov a rdx
+				add 18 rsi
+				mov 1 rax
+				#sys
+				mov 1 rdi
+				lent jsect rsi
+				mov 1 rdx
+				mov 1 rax
+				#sys
+
+				mq motionsc rdi
+				lq motions-name rsi
+				mq cf r11
+				addc cf ac r11
+				dct r11
+				mq motionsc rdi
+				nao r9
+				mov r9 0 rdi
+			s write-motionsc-com
 
 			mq naof-dname-secs r8
 			cmp 0 r8
@@ -1354,6 +1486,11 @@ s sections-init
 	s calc-in-regards-to-section-com
 
 	mov 1 rdi
+	lent jsect rsi
+	mov 1 rdx
+	mov 1 rax
+	#sys
+	mov 1 rdi
 	lent rcom rsi
 	mov 6 rdx
 	mov 1 rax
@@ -1383,6 +1520,14 @@ s append-mode-et-com
 mq objdf rdi
 mov 3 rax
 sys
+
+lq motions-name rdi
+mq equations rdx
+mq cf rbx
+mq views r12
+mq sc r11
+addc sc ic r11
+dct r11
 
 mq cname rdi
 mq equations rdx

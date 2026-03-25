@@ -6,11 +6,35 @@
 ##########################################################################################################
 # init
 ##########################################################################################################
-sub 4c4b40 rsp
+#sub 4c4b40 rsp
+aqs bdom
+aqs this
 aqs equations
-mq r9 equations
 aqs views
-mq r10 views
+
+ent fn droid/clerk-com.secs
+aqs file
+# unlink
+lent fn rdi
+mov 57 rax
+sys
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+lent fn rdi
+mov 2 rax
+sys
+mq rax file
+# write
+mq file rdi
+mov 20 rdx
+lq bdom rsi
+mov 1 rax
+sys
+# close
+mq file rdi
+mov 3 rax
+sys
 
 ent sectioner \n
 ent jsect \n
@@ -612,35 +636,94 @@ addc views view-space r11
 dct r11
 
 ##########################################################################################################
+# cs
+##########################################################################################################
+ent str0 aed
+ent str1 aedaed
+
+ent rliw liw
+aqs liw
+lent str0 rdi
+mov 3 rdx
+lent str1 rsi
+mov 6 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+ent str2 7edaed
+lent str1 rdi
+mov 6 rdx
+lent str2 rsi
+mov 6 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+lent str1 rdi
+mov 6 rdx
+lent str1 rsi
+mov 6 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+ent str3 sg sg1
+ent str4 sg sg2
+ent str5 sg vg2
+lent str5 rdi
+mov 6 rdx
+lent str4 rsi
+mov 6 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+#init
+#com
+
+##########################################################################################################
 # com
 ##########################################################################################################
-add 4c4b40 rsp
+#add 4c4b40 rsp
 ret
 
 #init
-ent fn droid/clerk-com.secs
-aqs file
-# unlink
-lentb fn rdi
-mov 57 rax
-sys
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lentb fn rdi
-mov 2 rax
-sys
-mqb rax file
-# write
-mqb file rdi
-mov 8 rdx
-lq b16-number rsi
-mov 1 rax
-sys
-# close
-mqb file rdi
-mov 3 rax
-sys
 #com
 
 #init

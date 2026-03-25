@@ -173,6 +173,51 @@ vast place(reader space, writer destination, quadrant distance) {
 }
 
 // numerology
+vast sseed(source seed, quad seed_site) {
+	quadrant_reference qseed = seed;
+	quad naof_quads = seed_site / 8;
+	quad naof_quad_secs = (naof_quads * 8);
+	quad naof_secs = seed_site - (naof_quad_secs);
+	source seed_at_secs = seed + naof_quad_secs;
+	quad site = 0;
+	quad sum = 0;
+	while(true) {
+		if(site == naof_quads) {
+			break;
+		}
+		sum += qseed[site];
+		site += 1;
+	}
+	site = 0;
+	while(true) {
+		if(site == naof_secs) {
+			break;
+		}
+		sum += seed_at_secs[site];
+		site += 1;
+	}
+	site = 0;
+	while(true) {
+		if(site == naof_quads) {
+			break;
+		}
+		qseed[site] ^= sum;
+		sum += qseed[site];
+		site += 1;
+	}
+	sec ssum = sum;
+	site = 0;
+	while(true) {
+		if(site == naof_secs) {
+			break;
+		}
+		seed_at_secs[site] ^= ssum;
+		ssum += seed_at_secs[site];
+		site += 1;
+	}
+	return;
+}
+
 quadrant number_to_entree(quadrant number, source entree, quadrant base) {
 	//printf("number | %lu\n", number);
 	//printf("entree | %lu\n", entree);

@@ -193,7 +193,7 @@ s index-chart-init
 		mq chart-at r8
 		mq record r9
 		sub r9 r8
-		sub 1 r8
+		#sub 1 r8
 		mq r8 record-site
 
 		mq record rsi

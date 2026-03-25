@@ -34,7 +34,7 @@ quadrant main() {
 	// archives-ware
 	system("gcc standard.lib view-space.c -o view-space");
 	system("gcc standard.lib view-space-file.c -o view-space-file");
-	//system("gcc standard.lib clerk.lib clear-desk.c -o clear-desk");
+	system("gcc standard.lib clerk.lib clear-desk.c -o clear-desk");
 	system("gcc standard.lib clerk.lib list-files.c -o list-files");
 	//system("gcc standard.lib clerk.lib ngrep.c -o ngrep");
 	//system("gcc standard.lib seek-file-site.c -o seek-file-site");
