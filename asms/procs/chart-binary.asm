@@ -64,12 +64,6 @@ isr 200
 aqs base-space-site
 
 mov 1 rdi
-lent i-sim rsi
-mov 1b rdx
-mov 1 rax
-sys
-
-mov 1 rdi
 mq binary-name rsi
 mq naof-binary-name-secs rdx
 mov 1 rax
@@ -155,6 +149,12 @@ sys
 mq equations r11
 addc equations task r11
 #dct r11
+
+mov 1 rdi
+lent i-sim rsi
+mov 1b rdx
+mov 1 rax
+sys
 
 ##########################################################################################################
 # rack-record-keys <--> * maybe meant warm even.

@@ -903,6 +903,41 @@ mov 0 rsi rsi
 mov 1 rax
 sys
 
+ent rwci wci
+lent rwci rsi
+lq wci rdi
+mov 20 rcx
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+dct r11
+
+ent rwcidx wcidn
+lent rwcidx rsi
+lq wci r8
+mov 10 r8 rdi
+mov 18 r8 rcx
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+dct r11
+
+ent rwci-chart wci-chart
+lent rwci-chart rsi
+lq wci rdi
+mov 8 rdi rcx
+mov 0 rdi rdi
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+dct r11
+
 lq cquad rdi
 mq getc r11
 #dct r11
@@ -910,20 +945,143 @@ mq getc r11
 lq ci rdi
 mq sc r11
 addc sc libc r11
-dct r11
+#dct r11
+
+lq wci rdi
+mq sc r11
+addc sc libc r11
+#dct r11
 
 lq cquad rdi
 mq getc r11
 #dct r11
+
 mov 1 rdi
 lent jsect rsi
 mov 1 rdx
 mov 1 rax
 sys
+
+##########################################################################################################
+# view-chart
+##########################################################################################################
+ent rshianeckeireckeis shianeckeireckeis
+ent rview-chart view-chart\n
+mov 1 rdi
+lent rview-chart rsi
+mov b rdx
+mov 1 rax
+sys
+mov 1 rdi
+lq wci r8
+mov 0 r8 rsi
+mov 8 r8 rdx
+mov 1 rax
+sys
+
+# scv | scopes-vecter
+aqs scv
+mov 18 rdi
+mov 200 rsi
+lq cs rbx
+mq equations rdx
+mq cf r11
+addc cf cvec r11
+dct r11
+mq rax scv
+
+mov 1 rdi
+lq wci rsi
+mov 8 rsi rdx
+mov 0 rsi rsi
+mov 1 rax
+sys
+
+lq wci rdi
+lent rshianeckeireckeis rsi
+mq scv r14
+lq cs r15
+mq equations rdx
+mq views rbx
+mq cf r12
+mq sc r11
+addc sc vc r11
+dct r11
+
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+##########################################################################################################
+# view wider chart
+##########################################################################################################
+aqs mf-binci
+isr 18
+ent mf-binn bin/mf.bc
+aqs mf-sbinci
+isr 18
+
+lent mf-binn rdi
+lq mf-binci rsi
+mq equations rdx
+mq sc r11
+addc sc snap r11
+dct r11
+
+ent rmf-binci mf-binci
+lent rmf-binci rsi
+lq mf-binci rdi
+mov 20 rcx
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+dct r11
+
+ent rmf-bin mf-bin
+lq mf-binci rdi
+lent rmf-bin rsi
+mq scv r14
+lq cs r15
+mq equations rdx
+mq views rbx
+mq cf r12
+mq sc r11
+addc sc vc r11
+dct r11
+
+ent kalu-mod alu-mod
+lq mf-binci rdi
+lent kalu-mod rsi
+lq mf-sbinci r13
+mq sv r14
+lq cs r15
+mq equations rdx
+mq views rbx
+mq cf r12
+mq sc r11
+addc sc sortc r11
+dct r11
+
+ent rmf-sbin mf-sbin
+lq mf-sbinci rdi
+lent rmf-sbin rsi
+mq scv r14
+lq cs r15
+mq equations rdx
+mq views rbx
+mq cf r12
+mq sc r11
+addc sc vc r11
+dct r11
+
+#init
 ##########################################################################################################
 # filters
 ##########################################################################################################
-
 ent rfilters filters\n
 mov 1 rdi
 lent rfilters rsi
@@ -942,6 +1100,7 @@ lent jsect rsi
 mov 1 rdx
 mov 1 rax
 sys
+#com
 ##########################################################################################################
 # com
 ##########################################################################################################

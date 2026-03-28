@@ -21,9 +21,16 @@ mq r12 equations
 ent jsect \n
 
 #init
+ent i-sim i sim.\n
+mov 1 rdi
+lent i-sim rsi
+mov 7 rdx
+mov 1 rax
+sys
+
 mov 1 rdi
 mq chart-at rsi
-mov a rdx
+mov 1a rdx
 mov 1 rax
 sys
 mov 1 rdi
@@ -132,27 +139,33 @@ add 1000 rsp
 ret
 
 #init
-entb fn droid/clerk-com.secs
+ent fn droid/clerk-com.secs
 aqs file
 # unlink
-lentb fn rdi
+lent fn rdi
 mov 57 rax
 sys
 # open-write
 mov 1f8 rdx
 mov 41 rsi
-lentb fn rdi
+lent fn rdi
 mov 2 rax
 sys
-mqb rax file
+mq rax file
 # write
-mqb file rdi
+mq file rdi
 mov 8 rdx
-lqb naof-entree-secs rsi
+lq chart-at rsi
+mov 1 rax
+sys
+# write
+mq file rdi
+mov 100 rdx
+mq chart-at rsi
 mov 1 rax
 sys
 # close
-mqb file rdi
+mq file rdi
 mov 3 rax
 sys
 #com

@@ -83,8 +83,18 @@ sys
 mq rax wchart
 mq wci r8
 mov rax 0 r8
-mq chart-site r9
+#mq chart-site r9
+nao r9
 mov r9 8 r8
+
+ent rindex-site index-site
+lent rindex-site rsi
+mq index-site rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
 
 aqs windex
 # anonomous-mmap
@@ -99,7 +109,8 @@ mov 9 rax
 sys
 mq wci r8
 mov rax 10 r8
-mq index-site r9
+#mq index-site r9
+nao r9
 mov r9 18 r8
 #init
 #com
@@ -156,6 +167,9 @@ aqs current-record-site
 aqs ochart-at
 aqs ochart-at-site
 aqs record-is-current
+aqs cindex-site
+nao r8
+mq r8 cindex-site
 s seek-next-lw-init
 	mq chart rsi
 	mq rsi chart-at
@@ -402,10 +416,6 @@ s seek-next-lw-init
 		mq rsite r8
 		mq r8 naof-records
 	s set-naof-records-com
-	mq site r8
-	add 1 r8
-	mq r8 site
-
 	mov 1 rdi
 	mq current-record rsi
 	mq current-record-site rdx
@@ -426,6 +436,17 @@ s seek-next-lw-init
 	mq current-record-site r9
 	add r9 r8
 	mov r8 8 rsi
+
+	mq wci r8
+	mov 10 r8 rsi
+	mq site r10
+	factq sv-naof-esecs r10
+	add r10 rsi
+	mq current-record-site r11
+	mq cindex-site r12
+	add r11 r12
+	mq r12 cindex-site
+	mov r12 0 rsi
 
 	mq sv rdi
 	lq current-rsite rsi
@@ -456,6 +477,9 @@ s seek-next-lw-init
 	addc views view-number r11
 	#dct r11
 
+	mq site r8
+	add 1 r8
+	mq r8 site
 	mq site r8
 	mq naof-records r9
 	cmp r8 r9
