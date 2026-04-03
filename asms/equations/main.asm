@@ -3,6 +3,7 @@
 ##########################################################################################################
 % equations
 % views
+% vecters
 ##########################################################################################################
 # init
 ##########################################################################################################
@@ -11,31 +12,7 @@ aqs bdom
 aqs this
 aqs equations
 aqs views
-
-ent fn droid/clerk-com.secs
-aqs file
-# unlink
-lent fn rdi
-mov 57 rax
-sys
-# open-write
-mov 1f8 rdx
-mov 41 rsi
-lent fn rdi
-mov 2 rax
-sys
-mq rax file
-# write
-mq file rdi
-mov 20 rdx
-lq bdom rsi
-mov 1 rax
-sys
-# close
-mq file rdi
-mov 3 rax
-sys
-
+aqs vecters
 ent sectioner \n
 ent jsect \n
 aqs naof-sectioner-secs
@@ -46,24 +23,27 @@ aqs naof-i-sim-secs
 mov 2a r8
 mq r8 naof-i-sim-secs
 
-mov 1 rdi
 lent i-sim rsi
-mq naof-i-sim-secs rdx
-mov 1 rax
-sys
+mq naof-i-sim-secs rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
 
 ent libc-name /home/tyrel/celix-dst/libc.so.6
-mov 1 rdi
 lent libc-name rsi
-mov 1f rdx
-mov 1 rax
-sys
+mov 1f rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
 
-mov 1 rdi
 lent jsect rsi
-mov 1 rdx
-mov 1 rax
-sys
+mov 1 rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+#dct r11
 
 ##########################################################################################################
 # com
@@ -77,11 +57,12 @@ mq equations r11
 addc equations com r11
 dct r11
 
-mov 1 rdi
 lq i-sim-2 rsi
-mov 2a rdx
-mov 1 rax
-sys
+mov 2a rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
 
 ##########################################################################################################
 # number-to-entree
@@ -102,17 +83,20 @@ addc equations number-to-entree r8
 dct r8
 mq rax naof-secs
 
-mov 1 rdi
+lq i-sim-2 rsi
 lq b16-entree rsi
-mq naof-secs rdx
-mov 1 rax
-sys
+mq naof-secs rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
 
-mov 1 rdi
-lent sectioner rsi
-mq naof-sectioner-secs rdx
-mov 1 rax
-sys
+lent jsect rsi
+mov 1 rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+#dct r11
 
 ##########################################################################################################
 # entre-to-number
@@ -159,11 +143,12 @@ mov r9 0 rsi
 add 1 r8
 mq r8 clerical-space-site
 
-mov 1 rdi
 lq clerical-space rsi
-mq clerical-space-site rdx
-mov 1 rax
-sys
+mq clerical-space-site rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
 
 ##########################################################################################################
 # get-naof-secs
@@ -200,11 +185,19 @@ add 1 rsi
 movs r8 0 rsi
 add 1 rax
 
-mov 1 rdi
 lq clerical-space rsi
-mov rax rdx
-mov 1 rax
-sys
+mq clerical-space-site rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
+
+lent jsect rsi
+mov 1 rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+#dct r11
 
 mq naof-russian-breadth-secs rdi
 mq views rdi
@@ -223,11 +216,19 @@ add 1 rsi
 movs r8 0 rsi
 add 1 rax
 
-mov 1 rdi
 lq clerical-space rsi
-mov rax rdx
-mov 1 rax
-sys
+mq clerical-space-site rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
+
+lent jsect rsi
+mov 1 rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+#dct r11
 
 ##########################################################################################################
 # view-number
@@ -238,7 +239,7 @@ mov aedaed rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 ##########################################################################################################
@@ -246,11 +247,13 @@ dct r11
 ##########################################################################################################
 ent rview-space view-space\n
 ent rspace space
-mov 1 rdi
+
 lent rview-space rsi
-mov b rdx
-mov 1 rax
-sys
+mov b rcx
+mq equations r12
+mq views r11
+addc views wtlr r11
+dct r11
 
 aqs space0
 isr 18
@@ -268,8 +271,9 @@ mov 20 rcx
 mov 10 rbx
 nao r10
 mq equations rdx
-mq views r11
-addc views view-space r11
+mq views r12
+mq vecters r11
+addc vecters view-space r11
 dct r11
 
 lent rspace rsi
@@ -278,8 +282,9 @@ mov 20 rcx
 mov a rbx
 nao r10
 mq equations rdx
-mq views r11
-addc views view-space r11
+mq views r12
+mq vecters r11
+addc vecters view-space r11
 dct r11
 
 lent rspace rsi
@@ -288,8 +293,9 @@ mov 20 rcx
 mov 24 rbx
 nao r10
 mq equations rdx
-mq views r11
-addc views view-space r11
+mq views r12
+mq vecters r11
+addc vecters view-space r11
 dct r11
 
 ##########################################################################################################
@@ -311,7 +317,7 @@ mov rax rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 ent cent10 x sim.\n
@@ -329,7 +335,7 @@ mov rax rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 lent cent00 rdi
@@ -345,7 +351,7 @@ mov rax rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 ent cent20 talkei talkei. airgo vah nah goo trim brader.\n
@@ -363,7 +369,7 @@ mov rax rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 ##########################################################################################################
@@ -373,12 +379,6 @@ ent space1 talkei talkei. airgo vah nah goo trim brader.\n
 aqs naof-space1-secs
 mov 2e r8
 mq r8 naof-space1-secs
-#init
-ent seek1 airgo
-aqs naof-seek1-secs
-mov 5 r8
-mq r8 naof-seek1-secs
-#com
 ent seek1 ah goo trim br
 aqs naof-seek1-secs
 mov e r8
@@ -406,7 +406,7 @@ mq seek-site rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 ent libc-name0 /home/tyrel/celix-dst/libc.so.6
@@ -429,226 +429,23 @@ mq seek-site rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
-dct r11
-#init
-#com
-
-ent cname charts/shianeckareckeis.chart
-aqs crs
-isr 100
-aqs cf
-# open-read
-nao rsi
-lent cname rdi
-mov 2 rax
-sys
-mq rax cf
-# read
-mq cf rdi
-mov 100 rdx
-lqcrsrsi
-mov 0 rax
-sys
-lq crs rdi
-mov rax rdx
-lent jsect rsi
-mov 1 rcx
-mq equations r11
-addc equations seek-space r11
-dct r11
-lent rseek-site rsi
-mov rax rdi
-mov 10 rbx
-mq equations rdx
-mq views r11
-addc views view-number r11
-dct r11
-# close
-mq cf rdi
-mov 3 rax
-sys
-
-##########################################################################################################
-# cr
-##########################################################################################################
-ent rstack-site stack-site
-ent rcodea codea
-ent rcs cs
-aqs cs
-isr 3d0908
-lq cs rdi
-nao r8
-#mov f4220 r8
-mov r8 0 rdi
-mov 3d0900 r8
-mov r8 8 rdi
-aqs codea
-mov aedaed r8
-mq r8 codea
-lq cs rsi
-mov aed r8
-mov r8 f4240 rsi
-
-lent rcodea rsi
-mq codea rdi
-mov 10 rbx
-mq equations rdx
-mq views r11
-addc views view-number r11
-dct r11
-
-lent rcs rsi
-lq cs rdi
-mov 20 rcx
-mov a rbx
-nao r10
-mq equations rdx
-mq views r11
-addc views view-space r11
-dct r11
-
-aqs memo0
-lq cs rdi
-mov 100 rsi
-mq equations r11
-addc equations cr r11
-dct r11
-mq rax memo0
-
-lent rstack-site rsi
-mq memo0 rdi
-mov 10 rbx
-mq equations rdx
-mq views r11
-addc views view-number r11
-dct r11
-
-aqs memo1
-lq cs rdi
-mov 100 rsi
-mq equations r11
-addc equations cr r11
-dct r11
-mq rax memo1
-
-lent rstack-site rsi
-mq memo1 rdi
-mov 10 rbx
-mq equations rdx
-mq views r11
-addc views view-number r11
-dct r11
-
-lent space1 rsi
-mq memo0 rdi
-mov 2e rcx
-mq equations r11
-addc equations com r11
-dct r11
-
-lent space1 rsi
-mq memo1 rdi
-mov 2e rcx
-mq equations r11
-addc equations com r11
-dct r11
-
-lent rcs rsi
-lq cs rdi
-mov 210 rcx
-mov a rbx
-nao r10
-mq equations rdx
-mq views r11
-addc views view-space r11
+addc views wtlrfvn r11
 dct r11
 
 ##########################################################################################################
-# view-wide-space
+# cs-aa
 ##########################################################################################################
-ent rlibcs libcs
-
-aqs libc-space
-lq cs rdi
-mov 1efd50 rsi
-#mov 800 rsi
-mq equations r11
-addc equations cr r11
-dct r11
-mq rax libc-space
-
-#init
-mq libc-space rdi
-mov 3dfaa rcx
-mov aed rbx
-mq equations r11
-addc equations seed r11
-dct r11
-
-#init
-# <--> | seems to do with memory module.
-mq libc-space rsi
-mov rsi rdi
-add 1efd50 rdi
-mov aedaed r9
-nao r8
-s seed-init
-	mov r9 0 rsi
-	#mov r8 0 rsi
-	add 8 rsi
-	cmp rsi rdi
-	#add 1 r8
-	#st je seed-com
-	sst je seed-com
-	#st jmp seed-init
-	sst jmp seed-init
-s seed-com
-#com
-#init
-# <--> | might be bizzarly to do with the mmaps for a bin.
-mq libc-space rsi
-nao r8
-s seed-init
-	mov aed r10
-	#nao r10
-	#mov rsi r8
-	mov r8 0 rsi
-	#mov r8 0 rsi
-	#mov r10 0 rsi
-	add 8 rsi
-	add 1 r8
-	#cmp r8 3dfaa
-	cmp r8 500
-	st je seed-com
-	st jmp seed-init
-s seed-com
-#com
-
-lent rlibcs rsi
-mq libc-space rdi
-mov 24 rbx
-mov 1efd50 rcx
-mov 300 rcx
-mq equations rdx
-mq views r11
-addc views view-space r11
-dct r11
-
-##########################################################################################################
-# cs
-##########################################################################################################
+aqs liw
+ent rliw liw
 ent str0 aed
 ent str1 aedaed
 
-ent rliw liw
-aqs liw
 lent str0 rdi
 mov 3 rdx
 lent str1 rsi
 mov 6 rcx
 mq equations r11
-addc equations cs r11
+addc equations cs-aa r11
 dct r11
 mq rax liw
 
@@ -657,7 +454,7 @@ mq liw rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 ent str2 7edaed
@@ -666,7 +463,7 @@ mov 6 rdx
 lent str2 rsi
 mov 6 rcx
 mq equations r11
-addc equations cs r11
+addc equations cs-aa r11
 dct r11
 mq rax liw
 
@@ -675,7 +472,7 @@ mq liw rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 lent str1 rdi
@@ -683,7 +480,7 @@ mov 6 rdx
 lent str1 rsi
 mov 6 rcx
 mq equations r11
-addc equations cs r11
+addc equations cs-aa r11
 dct r11
 mq rax liw
 
@@ -692,7 +489,7 @@ mq liw rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
 dct r11
 
 ent str3 sg sg1
@@ -703,6 +500,29 @@ mov 6 rdx
 lent str4 rsi
 mov 6 rcx
 mq equations r11
+addc equations cs-aa r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views wtlrfvn r11
+dct r11
+
+##########################################################################################################
+# cs
+##########################################################################################################
+ent aastr0 add
+ent aastr1 je
+
+lent aastr0 rdi
+mov 3 rdx
+lent aastr1 rsi
+mov 2 rcx
+mq equations r11
 addc equations cs r11
 dct r11
 mq rax liw
@@ -712,11 +532,84 @@ mq liw rdi
 mov 10 rbx
 mq equations rdx
 mq views r11
-addc views view-number r11
+addc views wtlrfvn r11
+dct r11
+
+ent aastr4 cmpb
+ent aastr5 cmp
+
+lent aastr4 rdi
+mov 4 rdx
+lent aastr5 rsi
+mov 3 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views wtlrfvn r11
+dct r11
+
+lent aastr2 rdi
+mov 3 rdx
+lent aastr3 rsi
+mov 2 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views wtlrfvn r11
+dct r11
+
+ent aastr6 cmpb
+ent aastr7 cmpq
+
+lent aastr6 rdi
+mov 4 rdx
+lent aastr7 rsi
+mov 4 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views wtlrfvn r11
+dct r11
+
+lent aastr2 rdi
+mov 3 rdx
+lent aastr3 rsi
+mov 2 rcx
+mq equations r11
+addc equations cs r11
+dct r11
+mq rax liw
+
+lent rliw rsi
+mq liw rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views wtlrfvn r11
 dct r11
 #init
 #com
-
 ##########################################################################################################
 # com
 ##########################################################################################################
@@ -724,6 +617,29 @@ dct r11
 ret
 
 #init
+ent fn droid/clerk-com.secs
+aqs file
+# unlink
+lent fn rdi
+mov 57 rax
+sys
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+lent fn rdi
+mov 2 rax
+sys
+mq rax file
+# write
+mq file rdi
+mov 20 rdx
+lq bdom rsi
+mov 1 rax
+sys
+# close
+mq file rdi
+mov 3 rax
+sys
 #com
 
 #init

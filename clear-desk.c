@@ -1,5 +1,5 @@
 #include "./standard.h"
-#define naof_extensions 5
+#define naof_extensions 6
 
 quadrant main(quadrant naof_params, source_vecter params) {
   if(naof_params != 2) {
@@ -18,8 +18,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		syscall(unix_exit_group, 0);
 	}
 	writer grid = 0;
-	source_vecter extensions[naof_extensions] = {"swp", "stay", "alert", "nonce", "objd"};
-	quadrant extension_distances[naof_extensions] = {3, 4, 5, 5, 4};
+	source_vecter extensions[naof_extensions] = {"swp", "stay", "alert", "nonce", "objd", "elfd"};
+	quadrant extension_distances[naof_extensions] = {3, 4, 5, 5, 4, 4};
 	sec comand[1000];
 	quadrant comand_site = 0;
 	quadrant_reference nm;

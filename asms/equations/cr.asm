@@ -1,5 +1,6 @@
 ##########################################################################################################
-# cr
+# cr | clerk-memory-ruler
+# alias | stack-based-memory-clerkess
 ##########################################################################################################
 # cr
 # --
@@ -7,6 +8,7 @@
 # --
 # rdi | clerk-space
 # rsi | naof-secs
+% views
 ##########################################################################################################
 # com
 ##########################################################################################################
@@ -23,6 +25,21 @@ mqb r8 cs-site
 aqs cs-breadth
 mov 8 rdi r8
 mqb r8 cs-breadth
+aqs equations
+mq r11 equations
+aqs views
+mq rbx views
+
+#init
+ent rnaof-secs naof-secs
+lent rnaof-secs rsi
+mq naof-secs rdi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+#com
 
 ##########################################################################################################
 # insure-grid-allowances
@@ -60,6 +77,7 @@ mov 0 rdi r8
 mq naof-secs r9
 add r9 r8
 mov r8 0 rdi
+# <--> i dont want to be paranoid. but is almost seems their sparse alters instead of our ziz-ziz. some things.
 
 ##########################################################################################################
 # com
@@ -103,6 +121,32 @@ s see-task-init
 	sys
 	st jmp see-task-init
 s see-task-com
+#com
+
+#init
+ent fn droid/clerk-com.secs
+aqs file
+# unlink
+lent fn rdi
+mov 57 rax
+sys
+# open-write
+mov 1f8 rdx
+mov 41 rsi
+lent fn rdi
+mov 2 rax
+sys
+mq rax file
+# write
+mq file rdi
+mov 8 rdx
+lq naof-secs rsi
+mov 1 rax
+sys
+# close
+mq file rdi
+mov 3 rax
+sys
 #com
 
 #init

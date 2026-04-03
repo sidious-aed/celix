@@ -5,6 +5,7 @@
 # rsi | key
 # r13 | wci
 # r14 | sv
+# rcx | nv
 # r15 | cs
 % equations
 % views
@@ -34,6 +35,8 @@ mq r13 wci
 aqs sv
 mq r14 sv
 aqs cs
+aqs nv
+mq rcx nv
 mq r15 cs
 aqs equations
 mq rdx equations
@@ -70,6 +73,10 @@ mq sv r8
 nao r9
 mov r9 0 r8
 
+mq nv r8
+nao r9
+mov r9 0 r8
+
 aqs wchart
 # anonomous-mmap
 nao rdi
@@ -84,7 +91,7 @@ mq rax wchart
 mq wci r8
 mov rax 0 r8
 #mq chart-site r9
-nao r9
+mq chart-site r9
 mov r9 8 r8
 
 ent rindex-site index-site
@@ -94,7 +101,7 @@ mov 10 rbx
 mq equations rdx
 mq views r11
 addc views view-number r11
-dct r11
+#dct r11
 
 aqs windex
 # anonomous-mmap
@@ -107,6 +114,7 @@ nao r9
 nao r8
 mov 9 rax
 sys
+mq rax windex
 mq wci r8
 mov rax 10 r8
 #mq index-site r9
@@ -131,6 +139,9 @@ mq views r11
 addc views view-number r11
 #dct r11
 
+ent rnv nv
+ent rrecord-is-current record-is-current
+ent rnaof-scope-records naof-scope-records
 ent rcurrent-rsite current-rsite
 ent rnaof-records naof-records
 ent ris-com is-com
@@ -167,9 +178,169 @@ aqs current-record-site
 aqs ochart-at
 aqs ochart-at-site
 aqs record-is-current
-aqs cindex-site
+aqs naof-non-records
+aqs naof-scope-records
 nao r8
+mq r8 naof-non-records
+mq r8 naof-scope-records
+aqs cindex-site
 mq r8 cindex-site
+mq chart rsi
+mq rsi chart-at
+s discover-non-keys-init
+	nao r8
+	mq r8 record-is-current
+	mq chart-at rsi
+	mq rsi ochart-at
+	s seek-key-for-non-discovery-init
+		mq chart-at rdi
+		mq equations r12
+		mq cf r11
+		addc cf jp r11
+		dct r11
+		mq rax is-com
+		mq rbx chart-at
+		mq rsi ckey
+		mq rcx ckey-site
+		mq rdi cvalue
+		mq rdx cvalue-site
+
+		mov 1 rdi
+		mq ckey rsi
+		mq ckey-site rdx
+		mov 1 rax
+		#sys
+		mov 1 rdi
+		lent jsect rsi
+		mov 1 rdx
+		mov 1 rax
+		#sys
+		mov 1 rdi
+		mq cvalue rsi
+		mq cvalue-site rdx
+		mov 1 rax
+		#sys
+		mov 1 rdi
+		lent jsect rsi
+		mov 1 rdx
+		mov 1 rax
+		#sys
+
+		lent ris-com rsi
+		mq is-com rdi
+		mov 10 rbx
+		mq equations rdx
+		mq views r11
+		addc views view-number r11
+		#dct r11
+
+		mq ckey rdi
+		mq ckey-site rdx
+		mq key rsi
+		mq key-site rcx
+		mq equations r11
+		addc equations compair-spaces r11
+		dct r11
+		mq rax cmpv
+		cmp 1 rax
+		st jne set-for-non-discovery-that-record-is-current-com
+			mov 1 r8
+			mq r8 record-is-current
+		s set-for-non-discovery-that-record-is-current-com
+
+		mq is-com r8
+		cmp 1 r8
+		st je seek-key-for-non-discovery-com
+		st jmp seek-key-for-non-discovery-init
+	s seek-key-for-non-discovery-com
+
+	lent rrecord-is-current rsi
+	mq record-is-current rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
+
+	mq record-is-current r8
+	cmp 1 r8
+	st je incr-naof-scope-records-init
+		lent rnv rsi
+		mq nv rdi
+		mov 0 rdi rdi
+		mov 10 rbx
+		mq equations rdx
+		mq views r11
+		addc views view-number r11
+		dct r11
+
+		ent rnv nv
+		lent rnv rsi
+		mq nv rdi
+		mov 18 rcx
+		mov a rbx
+		nao r10
+		mq equations rdx
+		mq views r11
+		addc views view-space r11
+		#dct r11
+
+		mq nv rdi
+		mq ochart-at rsi
+		mq chart-at rcx
+		sub rsi rcx
+		mq cs rbx
+		mq equations rdx
+		mq cf r11
+		addc cf astr r11
+		dct r11
+		mq rax nv
+		mq naof-non-records r8
+		add 1 r8
+		mq r8 naof-non-records
+	s add-record-to-key-nons-com
+	st jmp incr-naof-scope-records-com
+	s incr-naof-scope-records-init
+		mq naof-scope-records r8
+		add 1 r8
+		mq r8 naof-scope-records
+	s incr-naof-scope-records-com
+
+	mq chart-at rsi
+	mq chart rdi
+	sub rdi rsi
+	mq rsi csite
+
+	mq csite rsi
+	mq chart-site r8
+	cmp rsi r8
+	st je discover-non-keys-com
+	st jmp discover-non-keys-init
+s discover-non-keys-com
+
+ent rnon-records-site non-records-site
+aqs non-records-site
+mq nv r8
+mov 0 r8 rdi
+mq rdi non-records-site
+lent rnon-records-site rsi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mq naof-scope-records rdi
+lent rnaof-scope-records rsi
+mov 10 rbx
+mq equations rdx
+mq views r11
+addc views view-number r11
+dct r11
+
+mq naof-scope-records r9
+cmp 0 r9
+st je seek-next-lw-com
 s seek-next-lw-init
 	mq chart rsi
 	mq rsi chart-at
@@ -179,7 +350,7 @@ s seek-next-lw-init
 	mq equations rdx
 	mq views r11
 	addc views view-number r11
-	#dct r11
+	dct r11
 #init
 #com
 	nao r8
@@ -272,6 +443,27 @@ s seek-next-lw-init
 			cmp 1 r8
 			st jne wc-for-key-com
 			s wc-for-key-init
+				mov 1 rdi
+				mq cvalue rsi
+				mq cvalue-site rdx
+				mov 1 rax
+				#sys
+				mov 1 rdi
+				lent jsect rsi
+				mov 1 rdx
+				mov 1 rax
+				#sys
+				mov 1 rdi
+				mq current rsi
+				mq current-site rdx
+				mov 1 rax
+				#sys
+				mov 1 rdi
+				lent jsect rsi
+				mov 1 rdx
+				mov 1 rax
+				#sys
+
 				nao r10
 				mq sv rdi
 				mov 0 rdi r8
@@ -306,6 +498,7 @@ s seek-next-lw-init
 				st je wc-for-initial-init
 
 				s wc-for-through-init
+
 					mq cvalue rdi
 					mq cvalue-site rdx
 					mq current rsi
@@ -322,6 +515,11 @@ s seek-next-lw-init
 					mq views r11
 					addc views view-number r11
 					#dct r11
+					mov 1 rdi
+					lent jsect rsi
+					mov 1 rdx
+					mov 1 rax
+					#sys
 
 					mq liw r8
 					mq non-code r9
@@ -394,11 +592,6 @@ s seek-next-lw-init
 #init
 #com
 
-		lent jsect rsi
-		mov 1 rdx
-		mov 1 rax
-		#sys
-
 		mq rsite r8
 		add 1 r8
 		mq r8 rsite
@@ -414,11 +607,19 @@ s seek-next-lw-init
 	cmp r8 r9
 	st jne set-naof-records-com
 		mq rsite r8
+		mq naof-non-records r9
+		sub r9 r8
 		mq r8 naof-records
 	s set-naof-records-com
+
 	mov 1 rdi
 	mq current-record rsi
 	mq current-record-site rdx
+	mov 1 rax
+	#sys
+	mov 1 rdi
+	lent jsect rsi
+	mov 1 rdx
 	mov 1 rax
 	#sys
 
@@ -489,9 +690,31 @@ s seek-next-lw-com
 #init
 #com
 
+mq naof-non-records r8
+cmp 0 r8
+st je com-non-records-com
+	mq wci rdi
+	mov 8 rdi r8
+	mov 0 rdi rdi
+	add r8 rdi
+	mq nv rsi
+	mov 0 rsi rcx
+	add 18 rsi
+	mq equations r11
+	addc equations com r11
+	dct r11
+	mq wci rsi
+	mov 8 rsi r8
+	mq non-records-site r9
+	add r9 r8
+	mov r8 8 rsi
+s com-non-records-com
+
 ##########################################################################################################
 # com
 ##########################################################################################################
+mq sv rax
+mq nv rbx
 add 1000 rsp
 ret
 

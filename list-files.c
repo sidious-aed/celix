@@ -54,8 +54,8 @@ quadrant main(quadrant naof_params, source_vecter params) {
 				extension = binary_type;
 				naof_extension_secs = naof_binary_type_secs;
 			}
-			//syscall(unix_write, 1, extension, naof_extension_secs);
-			//syscall(unix_write, 1, "\n", 1);
+			syscall(unix_write, 1, extension, naof_extension_secs);
+			syscall(unix_write, 1, "\n", 1);
 			//printf("naof-file-types | %lu\n", file_types[2]);
 			quadrant tsite = 0;
 			while(true) {
@@ -70,6 +70,7 @@ quadrant main(quadrant naof_params, source_vecter params) {
 					writer file_for_type[0x2];
 					file_for_type[0] = name;
 					file_for_type[1] = record[2];
+					//printf("i sim.\n");
 					add_to_vecter(&grid, file_for_type, &files_for_type);
 					break;
 				}

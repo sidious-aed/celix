@@ -61,13 +61,6 @@ aqs view-nao
 nao r8
 mq r8 view-nao
 
-ent i-sim i sim.\n
-mov 1 rdi
-lent i-sim rsi
-mov 7 rdx
-mov 1 rax
-#sys
-
 mov 1 rdi
 mq chart rsi
 mq chart-site rdx
@@ -95,7 +88,7 @@ nao r10
 mq equations rdx
 mq views r11
 addc views view-space r11
-#dct r11
+dct r11
 
 aqs relay-site
 mq relay rdi
@@ -203,6 +196,8 @@ aqs ckey
 aqs ckey-site
 aqs cvalue
 aqs cvalue-site
+nao r8
+mq r8 cvalue-site
 aqs chart-com
 mq chart r8
 mq r8 chart-at
@@ -226,14 +221,15 @@ mov 10 rbx
 mq equations rdx
 mq views r11
 addc views view-number r11
-#dct r11
+dct r11
 
 mov 1 rdi
 mq chart-at rsi
 mq chart-site rdx
 mov 1 rax
-#sys
+sys
 
+ent ris-already is-already
 s calc-scopes-init
 	mq chart-at rdi
 	mq equations r12
@@ -250,22 +246,22 @@ s calc-scopes-init
 	mq ckey rsi
 	mq ckey-site rdx
 	mov 1 rax
-	#sys
+	sys
 	mov 1 rdi
 	lent jsect rsi
 	mov 1 rdx
 	mov 1 rax
-	#sys
+	sys
 	mov 1 rdi
 	mq cvalue rsi
 	mq cvalue-site rdx
 	mov 1 rax
-	#sys
+	sys
 	mov 1 rdi
 	lent jsect rsi
 	mov 1 rdx
 	mov 1 rax
-	#sys
+	sys
 
 	aqs is-already
 	nao r8
@@ -336,6 +332,7 @@ s calc-scopes-init
 		mq r8 scvr-key
 		mq ckey-site r8
 		mq r8 scvr-key-site
+
 		mq ckey-site r8
 		mq r8 scvr-naof-secs
 		mq cvalue-site r9
@@ -343,6 +340,7 @@ s calc-scopes-init
 		st jbe set-cvalue-site-for-anew-naof-secs-com
 			mq r9 scvr-naof-secs
 		s set-cvalue-site-for-anew-naof-secs-com
+
 		mq scv rdi
 		lq scvr-key rsi
 		mq cs rbx
@@ -360,6 +358,13 @@ s calc-scopes-init
 	st jmp calc-scopes-init
 s calc-scopes-com
 
+ent i-sim i sim.\n
+mov 1 rdi
+lent i-sim rsi
+mov 7 rdx
+mov 1 rax
+sys
+
 aqs naof-scv-records
 mq scv r8
 mov 0 r8 r9
@@ -372,7 +377,7 @@ mov 10 rbx
 mq equations rdx
 mq views r11
 addc views view-number r11
-#dct r11
+dct r11
 
 aqs bscope-site
 mov 1 r8
@@ -433,7 +438,6 @@ sys
 
 #init
 #com
-ent rscv scv
 lent rscv rsi
 mq scv rdi
 mov 18 rcx
@@ -445,7 +449,7 @@ nao r10
 mq equations rdx
 mq views r11
 addc views view-space r11
-#dct r11
+dct r11
 
 aqs scv-value
 aqs scv-naof-secs
@@ -622,28 +626,28 @@ s view-records-init
 	mq rcn rsi
 	mq rcn-site rdx
 	mov 1 rax
-	#sys
+	sys
 	mov 1 rdi
 	lent jsect rsi
 	mov 1 rdx
 	mov 1 rax
-	#sys
+	sys
 	mov 1 rdi
 	lent horizbar rsi
 	mov 18 rdx
 	mov 1 rax
-	#sys
+	sys
 
 	mov 1 rdi
 	mq chart-at rsi
 	mov a rdx
 	mov 1 rax
-	#sys
+	sys
 	mov 1 rdi
 	lent jsect rsi
 	mov 1 rdx
 	mov 1 rax
-	#sys
+	sys
 
 	mq ochart-at rsi
 	mq rsi chart-at
@@ -666,22 +670,22 @@ s view-records-init
 		mq ckey rsi
 		mq ckey-site rdx
 		mov 1 rax
-		#sys
+		sys
 		mov 1 rdi
 		lent jsect rsi
 		mov 1 rdx
 		mov 1 rax
-		#sys
+		sys
 		mov 1 rdi
 		mq cvalue rsi
 		mq cvalue-site rdx
 		mov 1 rax
-		#sys
+		sys
 		mov 1 rdi
 		lent jsect rsi
 		mov 1 rdx
 		mov 1 rax
-		#sys
+		sys
 	
 		mq rcn rdi
 		mq rcn-site rdx
@@ -813,16 +817,16 @@ s view-records-init
 	addc views view-number r11
 	#dct r11
 
-	lent rrs-site rsi
-	mq rs-site rdi
+	lent rcvalue-site rsi
+	mq cvalue-site rdi
 	mov 10 rbx
 	mq equations rdx
 	mq views r11
 	addc views view-number r11
 	#dct r11
 
-	lent rcvalue-site rsi
-	mq cvalue-site rdi
+	lent rrs-site rsi
+	mq rs-site rdi
 	mov 10 rbx
 	mq equations rdx
 	mq views r11
@@ -966,6 +970,7 @@ sys
 ##########################################################################################################
 # com
 ##########################################################################################################
+mq scv rax
 add 1e8480 rsp
 ret
 

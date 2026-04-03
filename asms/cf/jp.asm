@@ -24,6 +24,7 @@ ent jsect \n
 ent i-sim i sim.\n
 mov 1 rdi
 lent i-sim rsi
+mq chart-at rsi
 mov 7 rdx
 mov 1 rax
 sys
@@ -155,7 +156,7 @@ mq rax file
 # write
 mq file rdi
 mov 8 rdx
-lq chart-at rsi
+lq key-site rsi
 mov 1 rax
 sys
 # write

@@ -4,6 +4,7 @@
 # rsi | entree
 # rdi | destination
 # rcx | naof-secs
+% views
 ##########################################################################################################
 # init
 ##########################################################################################################
@@ -57,8 +58,6 @@ st je com-secs-com
 	add r8 rdi
 	mzs
 s com-secs-com
-#init
-#com
 
 ##########################################################################################################
 # com
@@ -67,27 +66,108 @@ add 1000 rsp
 ret
 
 #init
-entb fn droid/clerk-com.secs
+ent fn droid/clerk-com.secs
 aqs file
-# unlink
-lentb fn rdi
-mov 57 rax
-sys
 # open-write
 mov 1f8 rdx
-mov 41 rsi
-lentb fn rdi
+mov 441 rsi
+lent fn rdi
 mov 2 rax
 sys
-mqb rax file
+mq rax file
 # write
-mqb file rdi
+mq file rdi
 mov 8 rdx
-lqb naof-entree-secs rsi
+lq naof-quads rsi
+mov 1 rax
+sys
+# write
+mq file rdi
+mov 8 rdx
+lq naof-secs rsi
 mov 1 rax
 sys
 # close
-mqb file rdi
+mq file rdi
 mov 3 rax
 sys
+#com
+#init
+mq entree rsi
+mq destination rdi
+mov rdi r8
+mq naof-quad-secs r9
+add r9 r8
+s com-quads-init
+	mov 0 rsi r10
+	mov r10 0 rdi
+	add 8 rsi
+	add 8 rdi
+	cmp rdi r8
+	st je com-quads-com
+	st jmp com-quads-init
+s com-quads-com
+#com
+#init
+aqs scv-code
+mq r10 scv-code
+aqs views
+mq r12 views
+aqs scv
+mq r13 scv
+aqs equations
+mq r14 equations
+ent rscv scv
+ent rnaof-quads naof-quads
+ent rnaof-secs naof-secs
+mq scv-code r10
+mov aed123123 r11
+cmp r10 r11
+st jne see-scope-com
+	lent rscv rsi
+	mq scv rdi
+	mov 18 rcx
+	mov 10 rbx
+	nao r10
+	mq equations rdx
+	mq views r11
+	addc views view-space r11
+	dct r11
+
+	ent rdestination destination
+	lent rdestination rsi
+	mq destination rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
+
+	ent rdestination-com destination-com
+	lent rdestination-com rsi
+	mq destination rdi
+	mq naof-quad-secs r8
+	add r8 rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
+
+	lent rnaof-quads rsi
+	mq naof-quads rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
+
+	lent rnaof-secs rsi
+	mq naof-secs rdi
+	mov 10 rbx
+	mq equations rdx
+	mq views r11
+	addc views view-number r11
+	dct r11
+s see-scope-com
 #com

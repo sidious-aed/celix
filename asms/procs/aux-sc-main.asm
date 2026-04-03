@@ -65,8 +65,8 @@ dct r11
 
 lent rcs rsi
 lq cs rdi
-mov 20 rcx
-mov a rbx
+mov 10 rcx
+mov 10 rbx
 nao r10
 mq equations rdx
 mq views r11
@@ -141,8 +141,8 @@ mov 1efd50 rsi
 #mov 800 rsi
 mq equations r11
 addc equations cr r11
-dct r11
-mq rax libc-space
+#dct r11
+#mq rax libc-space
 
 # anonomous-mmap
 nao rdi
@@ -156,7 +156,7 @@ sys
 mq rax libc-space-0
 
 # <--> | might be bizzarly to do with the mmaps for a bin.
-mq libc-space rsi
+mq libc-space-0 rsi
 mov rsi rdi
 add 1efd50 rdi
 nao r8
@@ -170,7 +170,7 @@ s seed1-init
 s seed1-com
 
 lent rlibcs rsi
-mq libc-space rdi
+mq libc-space-0 rdi
 mov 24 rbx
 #mov 1efd50 rcx
 mov 300 rcx
@@ -190,6 +190,7 @@ addc views view-space r11
 dct r11
 #mq libc-space-0 r8
 #mq r8 libc-space
+
 ##########################################################################################################
 # cvec
 ##########################################################################################################
@@ -432,7 +433,7 @@ ent sr01-age 3c
 
 ##############################
 #
-# shianeckarecky-0
+# shianeckarecky-1
 # ----------------
 # name | sirbgladiminmarch
 # age | 75
@@ -440,6 +441,7 @@ ent sr01-age 3c
 ##############################
 ent sr1-name sirbgladiminmarch
 ent sr1-age 75
+ent sr10-name sirbgladiminoom
 
 mq chart rdi
 lent kname rcx
@@ -488,6 +490,20 @@ lent kage rcx
 mov 3 r10
 lent sr01-age rsi
 mov 2 r11
+mov 1 r12
+lq cs rbx
+mq equations rdx
+mq cf r13
+mq cf r14
+addc cf atc r14
+dct r14
+mq rax chart
+
+mq chart rdi
+lent kname rcx
+mov 4 r10
+lent sr10-name rsi
+mov f r11
 mov 1 r12
 lq cs rbx
 mq equations rdx
@@ -820,8 +836,6 @@ lq record rsi
 mq record-site rdx
 mov 1 rax
 sys
-#init
-#com
 mov 1 rdi
 lent jsect rsi
 mov 1 rdx
@@ -862,6 +876,16 @@ addc cf cvec r11
 dct r11
 mq rax sv
 
+aqs nv
+mov 1 rdi
+mov 2000 rsi
+lq cs rbx
+mq equations rdx
+mq cf r11
+addc cf cvec r11
+dct r11
+mq rax nv
+
 ent rsv sv
 lent rsv rsi
 mq sv rdi
@@ -888,6 +912,8 @@ lent kage rsi
 #lent kname rsi
 lq wci r13
 mq sv r14
+mq nv rcx
+lq cs r9
 lq cs r15
 mq equations rdx
 mq views rbx
@@ -895,6 +921,8 @@ mq cf r12
 mq sc r11
 addc sc sortc r11
 dct r11
+mq rax sv
+mq rbx nv
 
 mov 1 rdi
 lq wci rsi
@@ -912,7 +940,7 @@ nao r10
 mq equations rdx
 mq views r11
 addc views view-space r11
-dct r11
+#dct r11
 
 ent rwcidx wcidn
 lent rwcidx rsi
@@ -924,7 +952,7 @@ nao r10
 mq equations rdx
 mq views r11
 addc views view-space r11
-dct r11
+#dct r11
 
 ent rwci-chart wci-chart
 lent rwci-chart rsi
@@ -936,7 +964,7 @@ nao r10
 mq equations rdx
 mq views r11
 addc views view-space r11
-dct r11
+#dct r11
 
 lq cquad rdi
 mq getc r11
@@ -965,7 +993,8 @@ sys
 ##########################################################################################################
 # view-chart
 ##########################################################################################################
-ent rshianeckeireckeis shianeckeireckeis
+#ent rshianeckeireckeis shianeckeireckeis
+ent rshianeckeireckeis shianeckareckies
 ent rview-chart view-chart\n
 mov 1 rdi
 lent rview-chart rsi
@@ -977,7 +1006,7 @@ lq wci r8
 mov 0 r8 rsi
 mov 8 r8 rdx
 mov 1 rax
-sys
+#sys
 
 # scv | scopes-vecter
 aqs scv
@@ -990,12 +1019,26 @@ addc cf cvec r11
 dct r11
 mq rax scv
 
+ent rscv scv
+lent rscv rsi
+mq scv rdi
+mov 18 rcx
+mov 0 rdi r8
+factq scv-naof-esecs r8
+add r8 rcx
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+dct r11
+
 mov 1 rdi
 lq wci rsi
 mov 8 rsi rdx
 mov 0 rsi rsi
 mov 1 rax
-sys
+#sys
 
 lq wci rdi
 lent rshianeckeireckeis rsi
@@ -1007,6 +1050,7 @@ mq cf r12
 mq sc r11
 addc sc vc r11
 dct r11
+mq rax scv
 
 mov 1 rdi
 lent jsect rsi
@@ -1014,9 +1058,17 @@ mov 1 rdx
 mov 1 rax
 sys
 
+#init
 ##########################################################################################################
-# view wider chart
+# view wider chart sort by arith-alph
 ##########################################################################################################
+ent rview-wider-charts-with-sc-aa view wider charts with sc arith-alpha\n
+mov 1 rdi
+lent rview-wider-charts-with-sc-aa rsi
+mov 26 rdx
+mov 1 rax
+sys
+
 aqs mf-binci
 isr 18
 ent mf-binn bin/mf.bc
@@ -1039,10 +1091,40 @@ nao r10
 mq equations rdx
 mq views r11
 addc views view-space r11
+#dct r11
+
+ent kalu-mod alu-mod
+ent kdestination destination
+lq mf-binci rdi
+lent kdestination rsi
+lq mf-sbinci r13
+mq sv r14
+mq nv rcx
+lq cs r15
+mq equations rdx
+mq views rbx
+mq cf r12
+mq sc r11
+addc sc sortc-aa r11
 dct r11
+mq rax sv
+mq rbx nv
+
+ent rwindex windex
+lent rwindex rsi
+lq mf-binci rdi
+mov 18 rdi rcx
+mov 10 rdi rdi
+mov 0 rdi r8
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+#dct r11
 
 ent rmf-bin mf-bin
-lq mf-binci rdi
+lq mf-sbinci rdi
 lent rmf-bin rsi
 mq scv r14
 lq cs r15
@@ -1052,12 +1134,32 @@ mq cf r12
 mq sc r11
 addc sc vc r11
 dct r11
+mq rax scv
 
-ent kalu-mod alu-mod
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+##########################################################################################################
+# view wider chart sort by alpha
+##########################################################################################################
+ent rview-wider-charts-with-sc view wider charts with sc alpha\n
+mov 1 rdi
+lent rview-wider-charts-with-sc rsi
+mov 20 rdx
+mov 1 rax
+sys
+
+ent kdname dname
 lq mf-binci rdi
-lent kalu-mod rsi
+#lent kalu-mod rsi
+lent kdname rsi
 lq mf-sbinci r13
 mq sv r14
+mq nv rcx
+mq scv r9
 lq cs r15
 mq equations rdx
 mq views rbx
@@ -1065,6 +1167,37 @@ mq cf r12
 mq sc r11
 addc sc sortc r11
 dct r11
+mq rax sv
+mq rbx nv
+
+lent rwindex rsi
+lq mf-binci rdi
+mov 18 rdi rcx
+mov 10 rdi rdi
+mov 0 rdi r8
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+#dct r11
+
+lent rcs rsi
+lq cs rdi
+mov 10 rcx
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+#dct r11
+
+mov 1 rdi
+lq mf-sbinci rsi
+mov 8 rsi rdx
+mov 0 rsi rsi
+mov 1 rax
+#sys
 
 ent rmf-sbin mf-sbin
 lq mf-sbinci rdi
@@ -1077,8 +1210,24 @@ mq cf r12
 mq sc r11
 addc sc vc r11
 dct r11
+mq rax scv
 
-#init
+mov 1 rdi
+lent jsect rsi
+mov 1 rdx
+mov 1 rax
+sys
+
+lent rcs rsi
+lq cs rdi
+mov 10 rcx
+mov 10 rbx
+nao r10
+mq equations rdx
+mq views r11
+addc views view-space r11
+#dct r11
+
 ##########################################################################################################
 # filters
 ##########################################################################################################
@@ -1176,4 +1325,20 @@ mov 23 rax
 sys
 st jmp task0-init
 s task0-com
+#com
+
+#mov 18 rdi
+#mov 200 rsi
+#lq cs rbx
+#mq equations rdx
+#mq cf r11
+#addc cf cvec r11
+#dct r11
+#mq rax scv
+#init
+mq scv r8
+mov 18 r9
+mov r9 8 r8
+mov 200 r9
+mov r9 10 r8
 #com

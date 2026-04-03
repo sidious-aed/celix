@@ -164,9 +164,14 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		site += 1;
 	}
 
+
 	//printf("at | %s\n", (shell_map + source_site));
 	squad in_main_site = seek_space("\tstack[0] = map;\n", 11, (shell_map + source_site), (naof_shell_map_secs - source_site));
 	add_string_to_sec_vecter(&grid, (shell_map + source_site), (in_main_site), &shell_com);
+	add_string_to_sec_vecter(&grid, ("\tip_file rf = syscall(unix_open, \"/dev/random\", archive_read);\n"), (0x3f), &shell_com);
+	add_string_to_sec_vecter(&grid, ("\tsyscall(unix_read, rf, stack, 0x3d0900);\n"), (42), &shell_com);
+	add_string_to_sec_vecter(&grid, ("\tsyscall(unix_close, rf);\n"), (26), &shell_com);
+	//	<--> * awesomes are awesome. always meant.
 
 	site = 0;
 	while(true) {
@@ -183,9 +188,12 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		add_string_to_sec_vecter(&grid, (base), (base_site), &shell_com);
 		add_string_to_sec_vecter(&grid, ("] = map"), 7, &shell_com);
 		add_string_to_sec_vecter(&grid, (base), (base_site), &shell_com);
-		add_string_to_sec_vecter(&grid, ";\n", (2), &shell_com);
+		add_string_to_sec_vecter(&grid, " + 0x607;\n", (0xa), &shell_com);
 		site += 1;
 	}
+	add_string_to_sec_vecter(&grid, "\tasm(\"mov 0x0(%rsp), %r8\");\n", (0x1c), &shell_com);
+
+	/*
 	source gnu_registers[16] = {"r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15", "rax", "rbx", "rcx", "rdx", "rdi", "rsi", "rsp", "rbp", "rip"};
 	quadrant gnu_registers_naof_secs[16] = {2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
 	//add_string_to_sec_vecter(&grid, ("\tasm(\"mov -0x1000(%rbp), %r8\");\n"), (32), &shell_com);
@@ -210,13 +218,14 @@ quadrant main(quadrant naof_params, source_vecter params) {
 		add_string_to_sec_vecter(&grid, ("\");\n"), 4, &shell_com);
 		site += 1;
 	}
+	*/
 
+	/*
+	*/
 	squad in_main_com_site = seek_space("\tasm(\"add $0x607, %r8\");\n", 0x19, shell_map, naof_shell_map_secs);
 	printf("in-main-com-site | %lu\n", in_main_com_site);
 	add_string_to_sec_vecter(&grid, (shell_map + in_main_com_site + 0x19), (naof_shell_map_secs - (in_main_com_site + 0x19)), &shell_com);
 	syscall(unix_write, 1, (shell_com + 3), shell_com[2]);
-	/*
-	*/
 
 	source shell_name = params[2];
 	syscall(unix_unlink, shell_name);

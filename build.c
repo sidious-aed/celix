@@ -3,7 +3,7 @@
 quadrant main() {
 	// libs
 	system("gcc -c standard.c -o standard.lib");
-	//system("gcc -c standard.lib clerk.c -o clerk.lib");
+	system("gcc -c standard.lib clerk.c -o clerk.lib");
 	//system("gcc -c standard.lib objects.c -o objects.lib");
 	system("gcc -c standard.lib machine.c -o machine.lib");
 
@@ -55,6 +55,7 @@ quadrant main() {
 	system("gcc standard.lib build-shell.c -o build-shell");
 	system("gcc standard.lib build-mshell.c -o build-mshell");
 	system("gcc standard.lib build-msh.c -o build-msh");
+	system("gcc standard.lib clerk.lib log-terminal.c -o log-terminal");
 	//system("gcc standard.lib view-assembly.c -o view-assembly");
 	// all respects to the awesome spec fulfilling dinasaurs.
 	// be to the spec demanders the non (in a prose of trends) of their docket issuances goes to.

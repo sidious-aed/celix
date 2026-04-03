@@ -144,13 +144,15 @@ quadrant node_meta(writer grid, source node_name, writer rnode_meta) {
 	archive_grid node = syscall(unix_open, node_name, archive_read);
 	//see_space("grid", grid, 0x100);
 	//printf("node | %lu\n", node);
+	quad naof_secs;
 	quadrant naof_getdents = 0;
 	while(true) {
 		//naoify(nm, 1000);
-		quadrant naof_secs = syscall(unix_getdents, node, nm, 1000);
+		naof_secs = syscall(unix_getdents, node, nm, 1000);
 		if(naof_secs == 0) {
 			break;
 		}
+		//printf("naof-secs | %lu\n", naof_secs);
 		naof_getdents += 1;
 		//perror("getdents");
 		//printf("naof-secs | %lu\n", naof_secs);
@@ -208,7 +210,8 @@ quadrant node_meta(writer grid, source node_name, writer rnode_meta) {
 	//printf("node-meta | %lu\n", node_meta);
 	//see_space("record-0", (node_meta + 3), 0x18);
 	rnode_meta[0] = node_meta;
-	return 0;
+	syscall(unix_close, node);
+	return naof_secs;
 }
 
 vast node_meta_completion(quadrant_reference nm) {
